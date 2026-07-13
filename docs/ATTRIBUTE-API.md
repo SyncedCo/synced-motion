@@ -41,6 +41,19 @@ Use `lines`, `words`, `chars`, or a comma-separated combination. Line splits aut
 </figure>
 ```
 
+## Marquee
+
+```html
+<div data-sf-marquee data-sf-marquee-duration="24">
+  <div data-sf-marquee-track>
+    <div>Semantic motion · Fluid systems ·</div>
+    <div aria-hidden="true">Semantic motion · Fluid systems ·</div>
+  </div>
+</div>
+```
+
+The track contains two identical groups so its transform can loop seamlessly. `data-sf-marquee-duration` sets the loop duration in seconds; add `data-sf-marquee-direction="right"` to reverse it. Marquees pause while off-screen, restore their authored state during cleanup, and remain static when reduced motion is requested.
+
 ## Scroll steps
 
 ```html

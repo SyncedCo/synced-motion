@@ -16,7 +16,7 @@ export interface SyncedMotionInstance {
 
 export declare function createSyncedMotion(options?: SyncedMotionOptions): SyncedMotionInstance
 export declare function createLenisAdapter(options: Record<string, unknown>): unknown
+export declare function createMarquees(options: Record<string, unknown>): Array<() => void>
 export declare function clampIndex(progress: number, length: number): number
 export declare function setActiveState(elements: Element[], activeIndex: number, options?: Record<string, unknown>): void
 export declare const defaults: Readonly<Record<string, unknown>>
-

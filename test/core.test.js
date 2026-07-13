@@ -1,7 +1,8 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { booleanAttribute, clampIndex, mergeOptions, numberAttribute } from '../src/core/options.js'
 import { setActiveState } from '../src/core/state.js'
 import { createExpandPanels } from '../src/patterns/expand-panels.js'
+import { createMarquees } from '../src/patterns/marquee.js'
 
 describe('option helpers', () => {
   it('clamps scroll progress to a valid step', () => {
@@ -56,6 +57,34 @@ describe('semantic active state', () => {
   })
 })
 
+describe('marquee motion', () => {
+  it('creates a seamless transform loop and restores it during cleanup', () => {
+    document.body.innerHTML = `
+      <div data-sf-marquee data-sf-marquee-duration="16">
+        <div data-sf-marquee-track><span>One</span><span aria-hidden="true">One</span></div>
+      </div>
+    `
+    const tween = { paused: vi.fn(), revert: vi.fn() }
+    const gsap = { fromTo: vi.fn(() => tween) }
+    const [destroy] = createMarquees({ gsap, root: document, reduced: false })
+
+    expect(gsap.fromTo).toHaveBeenCalledWith(
+      expect.any(Element),
+      { xPercent: 0 },
+      expect.objectContaining({ xPercent: -50, duration: 16, ease: 'none', repeat: -1 }),
+    )
+
+    destroy()
+    expect(tween.revert).toHaveBeenCalledOnce()
+  })
+
+  it('does not animate when reduced motion is requested', () => {
+    const gsap = { fromTo: vi.fn() }
+    expect(createMarquees({ gsap, root: document, reduced: true })).toEqual([])
+    expect(gsap.fromTo).not.toHaveBeenCalled()
+  })
+})
+
 describe('public pattern API', () => {
   it('exports every showcase motion pattern from the package entry point', async () => {
     window.matchMedia = window.matchMedia || (() => ({
@@ -72,6 +101,7 @@ describe('public pattern API', () => {
       'createHoverMedia',
       'createMenus',
       'createMediaExpansions',
+      'createMarquees',
       'createParallax',
       'createReveals',
       'createScrollDrifts',

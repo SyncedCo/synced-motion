@@ -7,6 +7,7 @@ import { createFounderScenes } from './patterns/founder-scene.js'
 import { createExpandPanels } from './patterns/expand-panels.js'
 import { createMenus } from './patterns/menu.js'
 import { createMediaExpansions } from './patterns/media-expand.js'
+import { createMarquees } from './patterns/marquee.js'
 import { createParallax } from './patterns/parallax.js'
 import { createReveals } from './patterns/reveal.js'
 import { createScrollSteps } from './patterns/scroll-steps.js'
@@ -55,7 +56,12 @@ export function createSyncedMotion(options = {}) {
     createScrollDrifts(shared)
     createScrollStatements(shared)
     createScrollSteps(shared)
-    cleanups.push(...createHoverMedia(shared), ...createExpandPanels(shared), ...createMenus(shared))
+    cleanups.push(
+      ...createHoverMedia(shared),
+      ...createExpandPanels(shared),
+      ...createMarquees(shared),
+      ...createMenus(shared),
+    )
 
     root.documentElement?.toggleAttribute('data-sf-reduced-motion', reduced)
     return () => cleanups.splice(0).forEach((cleanup) => cleanup?.())
