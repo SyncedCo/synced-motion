@@ -1,0 +1,67 @@
+@layer synced-motion {
+  :root {
+    --sf-motion-duration-fast: 180ms;
+    --sf-motion-duration-base: 480ms;
+    --sf-motion-duration-slow: 800ms;
+    --sf-motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html[data-sf-scroll-locked] {
+    overflow: hidden;
+  }
+
+  [data-sf-hover-media],
+  [data-sf-step-panel] {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  [data-sf-hover-media][data-active],
+  [data-sf-step-panel][data-active] {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  [data-sf-step-link] {
+    color: var(--sf-colour-muted, currentColor);
+    transition: color var(--sf-motion-duration-base) var(--sf-motion-ease-out);
+  }
+
+  [data-sf-step-link][data-active] {
+    color: var(--sf-colour-primary, currentColor);
+  }
+
+  [data-sf-expand-panel] {
+    transition:
+      flex var(--sf-motion-duration-slow) var(--sf-motion-ease-out),
+      color var(--sf-motion-duration-base) var(--sf-motion-ease-out);
+  }
+
+  [data-sf-menu][data-state='closed'] [data-sf-menu-panel] {
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  [data-sf-menu][data-state='open'] [data-sf-menu-panel] {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+    }
+
+    [data-sf-reveal],
+    [data-sf-stagger] > *,
+    [data-sf-parallax] {
+      opacity: 1 !important;
+      transform: none !important;
+      visibility: visible !important;
+    }
+  }
+}

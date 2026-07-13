@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A cinematic showcase built with Synced Motion" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%2350998f%22/></svg>" />
+    <title>Synced Motion — Build sites that move</title>
+  </head>
+  <body>
+    <header class="site-nav" data-sf-menu>
+      <a class="wordmark" href="#top" aria-label="Synced Motion home">
+        <span>SYNCED</span><span>MOTION</span>
+      </a>
+      <span class="site-nav__status"><i></i> Runtime active</span>
+      <button class="menu-toggle" type="button" data-sf-menu-trigger aria-controls="main-menu">
+        <span>Explore</span><b aria-hidden="true">＋</b>
+      </button>
+      <div id="main-menu" class="menu-panel" data-sf-menu-panel>
+        <div class="menu-panel__inner" data-sf-hover-group>
+          <nav class="menu-links" aria-label="Primary navigation">
+            <a data-sf-menu-item data-sf-hover-key="motion" href="#motion-language">Motion language</a>
+            <a data-sf-menu-item data-sf-hover-key="stories" href="#stories">Scroll stories</a>
+            <a data-sf-menu-item data-sf-hover-key="systems" href="#systems">Systems</a>
+            <a data-sf-menu-item data-sf-hover-key="start" href="#start">Start building</a>
+          </nav>
+          <div class="menu-visual" aria-hidden="true">
+            <div class="menu-visual__item tone-teal" data-sf-hover-media="motion"><span>01</span></div>
+            <div class="menu-visual__item tone-gold" data-sf-hover-media="stories"><span>02</span></div>
+            <div class="menu-visual__item tone-coral" data-sf-hover-media="systems"><span>03</span></div>
+            <div class="menu-visual__item tone-paper" data-sf-hover-media="start"><span>04</span></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" data-sf-scroll-exit-scene>
+        <div class="hero__ambient" aria-hidden="true">
+          <div class="orb orb--one" data-sf-parallax="-7"></div>
+          <div class="orb orb--two" data-sf-parallax="11"></div>
+          <div class="hero__grid"></div>
+        </div>
+        <div class="sf-container sf-stack hero__content" data-sf-scroll-exit="down" data-sf-exit-distance="9rem">
+          <p class="eyebrow" data-sf-reveal="fade">Synced Flow × GSAP × Lenis</p>
+          <h1 class="hero__title" data-sf-split="lines" data-sf-stagger="0.11" data-sf-split-mask="false">
+            Build sites<br />that move people.
+          </h1>
+          <div class="hero__footer" data-sf-reveal="up" data-sf-delay="0.25">
+            <p>Semantic motion patterns for cinematic, engaging websites—without opaque runtime debt.</p>
+            <a class="round-link" href="#motion-language">Scroll to explore <span>↓</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="founder-statement" data-sf-founder-scene>
+        <div class="founder-statement__sticky">
+          <img class="founder-statement__background founder-statement__background--metrics" data-sf-founder-metrics-bg src="/assets/founder-metrics-bg.avif" alt="" aria-hidden="true" />
+          <img class="founder-statement__background founder-statement__background--statement" data-sf-founder-statement-bg src="/assets/founder-statement-bg.avif" alt="" aria-hidden="true" />
+          <div class="sf-container founder-statement__inner" data-sf-founder-content>
+            <h2 data-sf-founder-heading>Giving ambitious teams the motion system to build boldly, scale fluidly, and move people.</h2>
+          </div>
+          <div class="founder-metrics" data-sf-founder-metrics>
+            <div class="founder-metrics__top">
+              <i aria-hidden="true"></i>
+              <div class="founder-metrics__value" data-sf-founder-stat><span>120</span>+</div>
+              <p data-sf-founder-stat-label>Motion states</p>
+            </div>
+            <div class="founder-metrics__details">
+              <div data-sf-founder-detail><h3>Fluid by default</h3><p>Design foundation</p></div>
+              <div data-sf-founder-detail><h3>Semantic controls</h3><p>Readable attributes</p></div>
+              <div data-sf-founder-detail><h3>Zero lock-in</h3><p>Portable runtime</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="motion-language" class="manifesto sf-section sf-section--spacious" data-sf-scroll-drift>
+        <div class="manifesto__wordmark" data-sf-drift-layer aria-hidden="true">
+          <span>SYNCED</span><i>/</i><span>MOTION</span>
+        </div>
+        <div class="sf-container manifesto__inner">
+          <div class="manifesto__copy">
+            <p class="manifesto__label" data-sf-reveal="fade">Our motion language</p>
+            <h2 data-sf-split="lines" data-sf-stagger="0.075" data-sf-split-mask="false">
+              Design establishes meaning. Motion creates momentum.
+            </h2>
+            <p class="manifesto__support" data-sf-reveal="up">
+              Synced Motion connects the two without taking ownership away from your design system.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="principles sf-section sf-section--spacious">
+        <div class="sf-container">
+          <div class="section-heading">
+            <p class="eyebrow">Built differently</p>
+          <h2 data-sf-split="lines" data-sf-split-mask="false">A toolkit, not a black box.</h2>
+          </div>
+          <div class="principle-grid" data-sf-stagger="0.1" data-sf-stagger-target=".principle-card">
+            <article class="principle-card">
+              <span>01</span><h3>Semantic state</h3><p>Readable attributes replace generated IDs and mystery inline colors.</p>
+            </article>
+            <article class="principle-card">
+              <span>02</span><h3>Fluid by nature</h3><p>Every composition inherits Synced Flow tokens, spacing, and container logic.</p>
+            </article>
+            <article class="principle-card">
+              <span>03</span><h3>Motion with restraint</h3><p>Transforms, opacity, cleanup, and reduced-motion paths are foundational.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="statement-band" aria-label="Core promise">
+        <div class="statement-band__track" data-sf-parallax="18">
+          <span>EVERY PIXEL</span><i></i><span>HAS PURPOSE</span><i></i><span>EVERY PIXEL</span>
+        </div>
+      </section>
+
+      <section id="stories" class="story" data-sf-scroll-steps data-sf-end="bottom bottom">
+        <div class="story__sticky" data-sf-pin-target>
+          <div class="sf-container story__layout">
+            <div class="story__intro">
+              <p class="eyebrow">Five movements</p>
+              <h2>From static page<br />to living system.</h2>
+              <p>One continuous scroll. Five distinct ideas. Every state remains visible in the source.</p>
+            </div>
+            <div class="story__chapters">
+              <nav class="chapter-list" aria-label="Motion chapters">
+                <button data-sf-step-link><span>01</span>Reveal</button>
+                <button data-sf-step-link><span>02</span>Sequence</button>
+                <button data-sf-step-link><span>03</span>Respond</button>
+                <button data-sf-step-link><span>04</span>Transform</button>
+                <button data-sf-step-link><span>05</span>Resolve</button>
+              </nav>
+              <div class="chapter-panels">
+                <article data-sf-step-panel><b>01</b><h3>Reveal what matters.</h3><p>Entrances follow hierarchy—not decoration.</p></article>
+                <article data-sf-step-panel><b>02</b><h3>Sequence the story.</h3><p>Timelines turn separate moments into one coherent rhythm.</p></article>
+                <article data-sf-step-panel><b>03</b><h3>Respond to intent.</h3><p>Pointer, keyboard, and scroll share semantic state.</p></article>
+                <article data-sf-step-panel><b>04</b><h3>Transform the space.</h3><p>Pinning and scrub create depth without losing control.</p></article>
+                <article data-sf-step-panel><b>05</b><h3>Resolve with clarity.</h3><p>Every animation returns control to the design system.</p></article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="systems" class="systems sf-section sf-section--spacious">
+        <div class="sf-container">
+          <div class="section-heading section-heading--split">
+            <p class="eyebrow">Motion-ready systems</p>
+            <h2 data-sf-split="lines" data-sf-split-mask="false">One vocabulary.<br />Endless expression.</h2>
+            <p>Focus or hover each pattern to shift the visual field.</p>
+          </div>
+          <div class="system-browser" data-sf-hover-group>
+            <div class="system-list">
+              <a href="#start" data-sf-hover-key="reveal"><span>01</span><strong>Editorial reveals</strong></a>
+              <a href="#start" data-sf-hover-key="scroll"><span>02</span><strong>Scroll narratives</strong></a>
+              <a href="#start" data-sf-hover-key="pointer"><span>03</span><strong>Pointer response</strong></a>
+              <a href="#start" data-sf-hover-key="layout"><span>04</span><strong>Layout transitions</strong></a>
+            </div>
+            <div class="system-media" aria-hidden="true">
+              <div class="system-media__item visual-reveal" data-sf-hover-media="reveal"><i></i><i></i><i></i></div>
+              <div class="system-media__item visual-scroll" data-sf-hover-media="scroll"><i></i><i></i><i></i></div>
+              <div class="system-media__item visual-pointer" data-sf-hover-media="pointer"><i></i></div>
+              <div class="system-media__item visual-layout" data-sf-hover-media="layout"><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="history sf-section sf-section--spacious">
+        <div class="sf-container">
+          <div class="section-heading section-heading--split">
+            <p class="eyebrow">The stack</p>
+            <h2 data-sf-split="lines" data-sf-split-mask="false">Made from proven parts.</h2>
+          </div>
+          <div class="history-grid" data-sf-expand-group data-sf-expand-default="3">
+            <article class="history-card history-card--flow" tabindex="0" data-sf-expand-panel>
+              <span>FOUNDATION</span><b>01</b><div><h3>Synced Flow</h3><p>Fluid tokens, semantic layout, accessible components.</p><small>Design remains the source of truth.</small></div>
+            </article>
+            <article class="history-card history-card--gsap" tabindex="0" data-sf-expand-panel>
+              <span>ENGINE</span><b>02</b><div><h3>GSAP</h3><p>Precise timelines, plugins, and deterministic control.</p><small>Every sequence can pause, reverse, seek, and clean up.</small></div>
+            </article>
+            <article class="history-card history-card--trigger" tabindex="0" data-sf-expand-panel>
+              <span>TRIGGER</span><b>03</b><div><h3>ScrollTrigger</h3><p>Pinning, progress, scrub, and viewport choreography.</p><small>Scroll position becomes a readable narrative state.</small></div>
+            </article>
+            <article class="history-card history-card--lenis" tabindex="0" data-sf-expand-panel>
+              <span>SCROLL</span><b>04</b><div><h3>Lenis</h3><p>Smooth input that remains synchronized with animation.</p><small>Natural movement without competing render loops.</small></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="quote" data-sf-scroll-statement>
+        <div class="quote__sticky" data-sf-statement-pin>
+          <div class="sf-container quote__inner">
+            <div class="quote__label" data-sf-statement-label>
+              <p class="eyebrow">Our mission</p>
+            </div>
+            <div class="quote__main">
+              <div class="quote__heading-wrap">
+                <h2 class="quote__heading" data-sf-statement-heading>
+                  <span data-sf-statement-lead>Synced Motion is building the future of the&nbsp;</span><span class="quote__accent quote__accent--inline" data-sf-statement-inline-accent>web</span>
+                </h2>
+                <div class="quote__accent quote__accent--hero" data-sf-statement-hero-accent aria-hidden="true">web</div>
+              </div>
+              <div class="quote__details" data-sf-statement-details>
+                <div class="quote__metrics" data-sf-statement-detail>
+                  <div><strong>10+</strong><span>Motion patterns</span></div>
+                  <div><strong>3</strong><span>Integrated systems</span></div>
+                  <div><strong>0</strong><span>jQuery dependencies</span></div>
+                </div>
+                <p class="quote__support" data-sf-statement-detail>
+                  Fluid layout, deterministic animation, and smooth scrolling work as one readable system.
+                </p>
+                <a class="quote__link" href="#start" data-sf-statement-detail>Explore the toolkit <span>↗</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="start" class="closing">
+        <div class="closing__orb" data-sf-parallax="-10" aria-hidden="true"></div>
+        <div class="sf-container closing__inner">
+          <p class="eyebrow" data-sf-reveal="fade">Ready when you are</p>
+          <h2 data-sf-split="lines" data-sf-stagger="0.1" data-sf-split-mask="false">Make the next page<br />feel unforgettable.</h2>
+          <a class="closing__link" href="https://github.com/SyncedCo" data-sf-reveal="up">Explore the toolkit <span>↗</span></a>
+        </div>
+      </section>
+
+      <section class="media-expand" data-sf-media-expand>
+        <div class="media-expand__sticky">
+          <p class="media-expand__prompt" data-sf-media-expand-prompt>Keep scrolling</p>
+          <div class="media-expand__labels" aria-hidden="true">
+            <span data-sf-media-expand-label="start">©2026</span>
+            <span data-sf-media-expand-label="end">Field Notes</span>
+          </div>
+          <figure class="media-expand__frame" data-sf-media-expand-frame>
+            <img src="/assets/founder-metrics-bg.avif" alt="Abstract textured map used as sample project artwork" />
+            <figcaption data-sf-media-expand-caption>Explore the system <span>↗</span></figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>SYNCED MOTION / 0.1.0</span><span>No jQuery. No opaque runtime.</span>
+    </footer>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
