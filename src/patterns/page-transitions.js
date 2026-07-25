@@ -39,9 +39,9 @@ export function createRouteFades({ gsap, root, reduced }) {
       if (incoming) timeline.fromTo(incoming, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 })
       animations.push(timeline)
     }
-    scene.addEventListener('sf:motion:route', transition)
+    scene.addEventListener('motion:route', transition)
     return () => {
-      scene.removeEventListener('sf:motion:route', transition)
+      scene.removeEventListener('motion:route', transition)
       disposeAll(animations)
     }
   })
@@ -57,9 +57,9 @@ export function createRouteSharedMedia({ Flip, root, reduced }) {
       event.detail.mutate(scene, media)
       if (!reduced) animations.push(Flip.from(state, { duration: 0.65, ease: 'power2.inOut', absolute: true }))
     }
-    scene.addEventListener('sf:motion:route-shared', transition)
+    scene.addEventListener('motion:route-shared', transition)
     return () => {
-      scene.removeEventListener('sf:motion:route-shared', transition)
+      scene.removeEventListener('motion:route-shared', transition)
       disposeAll(animations)
     }
   })
@@ -73,7 +73,7 @@ export function createRouteScrollRestores({ ScrollTrigger, root }) {
       view?.scrollTo?.({ top, left: 0, behavior: 'auto' })
       ScrollTrigger.refresh()
     }
-    scene.addEventListener('sf:motion:route-complete', restore)
-    return () => scene.removeEventListener('sf:motion:route-complete', restore)
+    scene.addEventListener('motion:route-complete', restore)
+    return () => scene.removeEventListener('motion:route-complete', restore)
   })
 }

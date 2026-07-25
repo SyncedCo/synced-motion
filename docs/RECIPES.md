@@ -21,6 +21,46 @@ The validator rejects document-global roots such as `body`, incomplete numeric
 parameters, missing fallbacks, and declarative layout animation that has not
 explicitly opted into the high-cost path.
 
+## Runtime specs and authoring metadata
+
+A recipe manifest serves two audiences with very different needs. The browser
+reads the root selector, slots, parameters, triggers, reduced-motion strategy,
+performance class, dependencies and `setup`. Humans and agents read the title,
+description, intent, family, tags, accessibility notes, no-JavaScript
+behaviour, preview settings and fixture markup.
+
+The second group is roughly sixty percent of the payload and none of it is used
+while animating, so the two are stored separately:
+
+| Module | Contents | Imported by |
+| --- | --- | --- |
+| `src/recipes/specs.js` | Lean runtime specs, one named export per recipe | The browser runtime |
+| `src/recipes/authoring.js` | Prose, preview data, fixture markup | CLI, MCP server, gallery, inspector, docs |
+| `src/recipes/builtins.js` | The two merged into complete manifests | Tooling |
+| `src/recipes/runtime-registry.js` | A registry over the lean specs | `createSyncedMotion` |
+
+This is why the registry has a mode:
+
+```js
+createMotionRegistry(recipes)                      // 'complete' -- the default
+createMotionRegistry(specs, { mode: 'runtime' })   // lean specs
+```
+
+`complete` requires the full manifest and is what `defineMotionRecipe` uses by
+default, so a recipe you write yourself must still declare its fallbacks and
+fixtures. `runtime` validates only what the browser reads.
+
+Because each spec is a separate named export annotated `/* @__PURE__ */`, a page
+that imports three recipes bundles three recipes. When adding a recipe, annotate
+both the `spec(...)` call and the nested `setupFactory(...)` call, or bundlers
+will retain all sixty; `npm run size:check` will fail if you forget.
+
+After changing any recipe, regenerate the reference:
+
+```bash
+npm run docs:build
+```
+
 ## Registry and service seam
 
 `createMotionRegistry(recipes)` owns registration, id resolution, validation,

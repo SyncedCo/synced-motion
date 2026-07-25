@@ -17,6 +17,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed — breaking
+
+- **The `data-sf-*` attribute vocabulary is gone.** Every authoring attribute
+  is now `data-motion-*`, with no alias layer and no compatibility shim.
+  Runtime state attributes are `data-motion-runtime`, `data-motion-reduced`,
+  `data-motion-scroll-locked` and `data-motion-recipe`; custom events are
+  `motion:*`; the package's own custom properties are `--motion-*`. Synced
+  Flow's `--sf-colour-*`, `--sf-space-*` and `data-sf-theme` are untouched.
+
+  To migrate, rename `data-sf-` to `data-motion-` in your markup. There is no
+  deprecation period because the package has not been published.
+
+- `normalizeMotionAliases`, `canonicalSelector`, `CANONICAL_ATTRIBUTE_PREFIX`
+  and `LEGACY_ATTRIBUTE_PREFIX` are removed, along with the CLI's
+  `--legacy-prefix` flag. Dropping the alias pass also removes a full-tree
+  attribute walk from every mount.
+
 ### Added
 
 - `@syncedco/motion/recipes` exports all sixty recipes individually, so a page
@@ -36,6 +53,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `npm run size:check` enforces per-scenario gzip budgets against the built
   package as a consumer installs it.
 - `docs/RECIPE-REFERENCE.md`, generated from the registry and verified in CI.
+- `docs/API.md` documenting the JavaScript surface: options, the runtime,
+  registries, `inspect()` diagnostics, the `setup` context and exported types.
+- `docs/PERFORMANCE.md` covering entry points, per-recipe imports, optional
+  plugins, budgets and runtime cost.
+- `CONTRIBUTING.md` and a `docs/README.md` index.
 - Continuous integration across Node 20, 22 and 24, a browser-test job, a
   tag-driven publish workflow and a GitHub Pages build for the gallery.
 

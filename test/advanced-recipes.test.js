@@ -55,11 +55,11 @@ describe('advanced production recipe behavior', () => {
     const list = document.querySelector('[data-motion-flip-list]')
     const [destroy] = createFlipListReorders({ Flip, root: document, reduced: false })
     const mutate = vi.fn((_list, items) => _list.append(...items.reverse()))
-    list.dispatchEvent(new CustomEvent('sf:motion:reorder', { detail: { mutate } }))
+    list.dispatchEvent(new CustomEvent('motion:reorder', { detail: { mutate } }))
     expect(mutate).toHaveBeenCalledOnce()
     expect(Flip.from).toHaveBeenCalledOnce()
     destroy()
-    list.dispatchEvent(new CustomEvent('sf:motion:reorder', { detail: { mutate } }))
+    list.dispatchEvent(new CustomEvent('motion:reorder', { detail: { mutate } }))
     expect(mutate).toHaveBeenCalledOnce()
   })
 
@@ -110,7 +110,7 @@ describe('advanced production recipe behavior', () => {
     const gsap = { from: vi.fn(() => animation), timeline: vi.fn(() => timeline) }
     expect(createPageLoadHeroes({ gsap, root: document, reduced: false })).toHaveLength(1)
     const [destroy] = createRouteFades({ gsap, root: document, reduced: false })
-    document.querySelector('[data-motion-route-fade]').dispatchEvent(new CustomEvent('sf:motion:route', { detail: {} }))
+    document.querySelector('[data-motion-route-fade]').dispatchEvent(new CustomEvent('motion:route', { detail: {} }))
     expect(gsap.timeline).toHaveBeenCalledOnce()
     destroy()
     expect(timeline.kill).toHaveBeenCalledOnce()

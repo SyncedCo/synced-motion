@@ -212,8 +212,12 @@ type. If you use both, keep brand tokens in `synced-flow.config.mjs`.
 
 ## Documentation
 
+[Full index](docs/README.md).
+
 - [Recipe reference](docs/RECIPE-REFERENCE.md) — all sixty, generated
 - [Declarative attribute API](docs/ATTRIBUTE-API.md)
+- [JavaScript API](docs/API.md)
+- [Bundle size and performance](docs/PERFORMANCE.md)
 - [Motion recipe system](docs/RECIPES.md)
 - [CLI and MCP tools](docs/TOOLING.md)
 - [Framework and CMS integrations](docs/INTEGRATIONS.md)
@@ -229,7 +233,7 @@ npm run check          # design system, units, tests, build, types, budgets, doc
 npm run test:browser   # Playwright; run npx playwright install chromium first
 ```
 
-`npm run check` is the same gate CI runs. See [AGENTS.md](AGENTS.md).
+`npm run check` is the same gate CI runs. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Scope
 

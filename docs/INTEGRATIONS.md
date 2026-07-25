@@ -80,12 +80,12 @@ import { createWordPressMotion } from '@syncedco/motion/wordpress'
 const motion = createWordPressMotion({ root: '#page' })
 
 // After replacing a dynamic block or page fragment:
-document.dispatchEvent(new CustomEvent('sf:motion:mount', {
+document.dispatchEvent(new CustomEvent('motion:mount', {
   detail: { root: document.querySelector('#updated-region') },
 }))
 
 // After layout-only changes:
-document.dispatchEvent(new Event('sf:motion:refresh'))
+document.dispatchEvent(new Event('motion:refresh'))
 ```
 
 Calling `motion.destroy()` removes these event listeners and destroys the

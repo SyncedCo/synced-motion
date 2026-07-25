@@ -15,8 +15,8 @@ export function createWordPressMotion(options = {}) {
   }
   const onMount = (event) => mount(event.detail?.root)
   const onRefresh = () => controller.refresh()
-  ownerDocument.addEventListener('sf:motion:mount', onMount)
-  ownerDocument.addEventListener('sf:motion:refresh', onRefresh)
+  ownerDocument.addEventListener('motion:mount', onMount)
+  ownerDocument.addEventListener('motion:refresh', onRefresh)
   if (ownerDocument.readyState === 'loading') ownerDocument.addEventListener('DOMContentLoaded', mount, { once: true })
   else mount()
 
@@ -27,8 +27,8 @@ export function createWordPressMotion(options = {}) {
     destroy() {
       destroyed = true
       ownerDocument.removeEventListener('DOMContentLoaded', mount)
-      ownerDocument.removeEventListener('sf:motion:mount', onMount)
-      ownerDocument.removeEventListener('sf:motion:refresh', onRefresh)
+      ownerDocument.removeEventListener('motion:mount', onMount)
+      ownerDocument.removeEventListener('motion:refresh', onRefresh)
       controller.destroy()
     },
   }

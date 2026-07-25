@@ -19,9 +19,9 @@ export function createFlipListReorders({ Flip, root, reduced }) {
       event.detail.mutate(list, items)
       flipFrom(Flip, state, reduced, animations, { stagger: 0.03 })
     }
-    list.addEventListener('sf:motion:reorder', onReorder)
+    list.addEventListener('motion:reorder', onReorder)
     return () => {
-      list.removeEventListener('sf:motion:reorder', onReorder)
+      list.removeEventListener('motion:reorder', onReorder)
       animationCleanup(animations)()
     }
   })

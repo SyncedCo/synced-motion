@@ -1,6 +1,6 @@
 # Synced Motion capability blueprint
 
-Synced Motion reproduces the published-page capabilities that make Webflow useful for animated marketing sites, while keeping layout and visual identity inside Synced Flow.
+Synced Motion reproduces the published-page capabilities that make Webflow useful for animated marketing sites, while keeping layout and visual identity in whatever design system the project already uses.
 
 It is not intended to recreate Webflow's hosted visual Designer, billing platform, hosting, or collaborative SaaS interface.
 
@@ -8,7 +8,7 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 
 | Concern | Owner |
 |---|---|
-| Fluid layout, typography, spacing, colors | Synced Flow |
+| Fluid layout, typography, spacing, colors | The consuming design system (Synced Flow is one option) |
 | Semantic application state | Consuming application |
 | Timed animation and sequencing | GSAP through Synced Motion |
 | Scroll progress, pinning, scrub and triggers | ScrollTrigger |

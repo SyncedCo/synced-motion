@@ -318,7 +318,7 @@ Application-owned list reorder logic remains outside Motion. Dispatch a scoped
 event after declaring the mutation callback:
 
 ```js
-list.dispatchEvent(new CustomEvent('sf:motion:reorder', {
+list.dispatchEvent(new CustomEvent('motion:reorder', {
   detail: { mutate(list, items) { list.append(...items.reverse()) } },
 }))
 ```
@@ -349,10 +349,10 @@ Page entrances use `data-motion-page-load-hero` with repeated
 `data-motion-brand-mark`.
 
 Routers keep ownership of navigation and DOM replacement. A route fade listens
-for `sf:motion:route` on `data-motion-route-fade`; pass optional `outgoing`,
+for `motion:route` on `data-motion-route-fade`; pass optional `outgoing`,
 `incoming`, and `complete` values in `event.detail`. A shared-media root listens
-for `sf:motion:route-shared` and requires a synchronous `detail.mutate`
+for `motion:route-shared` and requires a synchronous `detail.mutate`
 callback. `data-motion-route-scroll-restore` listens for
-`sf:motion:route-complete` with `detail.top`, then refreshes ScrollTrigger.
+`motion:route-complete` with `detail.top`, then refreshes ScrollTrigger.
 
 Every route listener is root-scoped and removed by runtime cleanup.
