@@ -1,16 +1,27 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SplitText } from 'gsap/SplitText'
-import { Flip } from 'gsap/Flip'
-import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
-import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { compileMotionRecipe } from './recipes/compiler.js'
 import { createMotionRegistry } from './recipes/registry.js'
 
-gsap.registerPlugin(ScrollTrigger, SplitText, Flip, DrawSVGPlugin, MorphSVGPlugin, MotionPathPlugin)
+gsap.registerPlugin(ScrollTrigger)
 
 const DEFAULT_REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'
+
+/**
+ * Plugins the core never imports.
+ *
+ * Seventeen of the sixty built-in recipes need one of these; the other
+ * forty-three do not. Importing them here would put every plugin in every
+ * consumer's bundle, so they are supplied through `options.dependencies`
+ * instead. `@syncedco/motion/full` wires all of them up in one import.
+ */
+export const OPTIONAL_MOTION_PLUGINS = Object.freeze([
+  'SplitText',
+  'Flip',
+  'DrawSVGPlugin',
+  'MorphSVGPlugin',
+  'MotionPathPlugin',
+])
 
 function parameterValues(recipe, overrides = {}) {
   for (const name of Object.keys(overrides)) {
@@ -47,12 +58,17 @@ export function createMotionRuntime(options = {}) {
   const dependencies = {
     gsap: options.dependencies?.gsap ?? gsap,
     ScrollTrigger: options.dependencies?.ScrollTrigger ?? ScrollTrigger,
-    SplitText: options.dependencies?.SplitText ?? SplitText,
-    Flip: options.dependencies?.Flip ?? Flip,
-    DrawSVGPlugin: options.dependencies?.DrawSVGPlugin ?? DrawSVGPlugin,
-    MorphSVGPlugin: options.dependencies?.MorphSVGPlugin ?? MorphSVGPlugin,
-    MotionPathPlugin: options.dependencies?.MotionPathPlugin ?? MotionPathPlugin,
   }
+  for (const name of OPTIONAL_MOTION_PLUGINS) {
+    const plugin = options.dependencies?.[name]
+    if (plugin) dependencies[name] = plugin
+  }
+  const supplied = dependencies.gsap.registerPlugin
+    ? OPTIONAL_MOTION_PLUGINS.map((name) => dependencies[name]).filter(Boolean)
+    : []
+  if (supplied.length) dependencies.gsap.registerPlugin(...supplied)
+
+  const missingDependencies = (recipe) => recipe.dependencies.filter((name) => !dependencies[name])
   const reducedMotionQuery = options.reducedMotionQuery ?? DEFAULT_REDUCED_MOTION_QUERY
   const view = root.nodeType === 9 ? root.defaultView : root.ownerDocument?.defaultView
   const media = dependencies.gsap.matchMedia()
@@ -77,6 +93,19 @@ export function createMotionRuntime(options = {}) {
 
   function mountCompiled(compiled, mountRoot, overrides = {}) {
     const recipe = compiled.recipe
+    // Reported per matched root, so a page only hears about a missing plugin
+    // when it actually contains markup for a recipe that needs one.
+    const absent = missingDependencies(recipe)
+    if (absent.length) {
+      skipped.push({
+        id: recipe.id,
+        root: rootDescription(mountRoot, recipe.root.selector),
+        reason: 'missing-dependency',
+        dependencies: absent,
+        fix: `Pass { dependencies: { ${absent.join(', ')} } } or import from "@syncedco/motion/full".`,
+      })
+      return undefined
+    }
     const { slots, missing } = compiled.selectSlots(mountRoot)
     if (missing.length) {
       skipped.push({ id: recipe.id, root: rootDescription(mountRoot, recipe.root.selector), reason: 'missing-slots', slots: missing })

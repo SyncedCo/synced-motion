@@ -35,7 +35,13 @@ export function createSyncedMotion(options = {}) {
     })
     : undefined
 
-  const refresh = () => runtime.refresh()
+  let destroyed = false
+  // Guarded so a font-loading or load event that resolves after teardown
+  // cannot refresh a destroyed runtime.
+  const refresh = () => {
+    if (destroyed) return
+    runtime.refresh()
+  }
   if (ownerDocument.fonts?.ready) ownerDocument.fonts.ready.then(refresh)
   view?.addEventListener('load', refresh, { once: true })
 
@@ -48,6 +54,7 @@ export function createSyncedMotion(options = {}) {
     mountRecipe: runtime.mountRecipe,
     refresh,
     destroy() {
+      destroyed = true
       view?.removeEventListener('load', refresh)
       smoothScroll?.destroy()
       runtime.destroy()

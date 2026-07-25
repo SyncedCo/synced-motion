@@ -8,11 +8,18 @@ function publicRecipe(recipe) {
   }
 }
 
-export function createMotionRegistry(initialRecipes = []) {
+/**
+ * @param {object[]} initialRecipes
+ * @param {{ mode?: 'complete' | 'runtime' }} [options]
+ *   `runtime` accepts lean specs that omit prose and fixture metadata. The
+ *   browser runtime uses it; documentation tooling uses the default.
+ */
+export function createMotionRegistry(initialRecipes = [], options = {}) {
+  const mode = options.mode ?? 'complete'
   const recipes = new Map()
 
   const register = (input) => {
-    const recipe = defineMotionRecipe(input)
+    const recipe = defineMotionRecipe(input, { mode })
     if (recipes.has(recipe.id)) throw new Error(`Motion recipe "${recipe.id}" is already registered.`)
     recipes.set(recipe.id, recipe)
     return recipe
@@ -39,6 +46,7 @@ export function createMotionRegistry(initialRecipes = []) {
         return recipe
       })
     },
+    mode,
     catalog() {
       return {
         schemaVersion: '1',
@@ -49,7 +57,7 @@ export function createMotionRegistry(initialRecipes = []) {
     validate() {
       const issues = []
       for (const recipe of recipes.values()) {
-        const result = validateMotionRecipe(recipe)
+        const result = validateMotionRecipe(recipe, { mode })
         if (!result.ok) issues.push({ id: recipe.id, issues: result.issues })
       }
       return { ok: issues.length === 0, issues }

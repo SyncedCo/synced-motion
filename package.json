@@ -1,8 +1,20 @@
 {
   "name": "@syncedco/motion",
   "version": "1.0.0",
-  "description": "A semantic GSAP and Lenis motion toolkit designed to complement Synced Flow.",
+  "description": "Accessible, framework-neutral scroll and interaction animation for the web. Sixty validated GSAP recipes with reduced-motion, no-JS and cleanup behaviour built into the contract.",
   "type": "module",
+  "author": "Scott Mackey",
+  "homepage": "https://github.com/syncedco/synced-motion#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syncedco/synced-motion.git"
+  },
+  "bugs": {
+    "url": "https://github.com/syncedco/synced-motion/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": [
     "./dist/styles.css"
   ],
@@ -11,6 +23,7 @@
     "dist",
     "docs",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "main": "./dist/index.js",
@@ -23,6 +36,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./full": {
+      "types": "./dist/full.d.ts",
+      "import": "./dist/full.js"
+    },
+    "./plugins": {
+      "types": "./dist/plugins.d.ts",
+      "import": "./dist/plugins.js"
+    },
+    "./recipes": {
+      "types": "./dist/recipes.d.ts",
+      "import": "./dist/recipes.js"
     },
     "./styles.css": "./dist/styles.css",
     "./lenis": {
@@ -73,7 +98,8 @@
     "test:watch": "vitest",
     "units:check": "node scripts/check-units.mjs",
     "types:check": "node scripts/check-declarations.mjs",
-    "check": "npm run flow:check && npm run flow:lint && npm run flow:doctor && npm run units:check && npm run test && npm run build && npm run types:check && npm run motion:validate && npm run motion:doctor && npm run mcp:check",
+    "size:check": "node scripts/check-size.mjs",
+    "check": "npm run flow:check && npm run flow:lint && npm run flow:doctor && npm run units:check && npm run test && npm run build && npm run types:check && npm run size:check && npm run motion:validate && npm run motion:doctor && npm run mcp:check",
     "pack:check": "npm pack --dry-run"
   },
   "keywords": [

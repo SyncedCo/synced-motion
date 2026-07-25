@@ -20,11 +20,12 @@ export interface MotionRecipeParameter {
 export interface MotionRecipeContext {
   gsap: unknown
   ScrollTrigger: unknown
-  SplitText: unknown
-  Flip: unknown
-  DrawSVGPlugin: unknown
-  MorphSVGPlugin: unknown
-  MotionPathPlugin: unknown
+  /** Present only when supplied through `dependencies`. */
+  SplitText?: unknown
+  Flip?: unknown
+  DrawSVGPlugin?: unknown
+  MorphSVGPlugin?: unknown
+  MotionPathPlugin?: unknown
   root: Element
   scope: Element
   slots: Record<string, Element[]>
@@ -72,8 +73,24 @@ export interface MotionRecipeFixture {
   parameters?: Record<string, unknown>
 }
 
+/**
+ * A recipe with only the fields the browser runtime reads. Authoring metadata
+ * (title, description, intent, family, tags, accessibility, noJs, preview,
+ * fixtures) is omitted so it never reaches a page bundle.
+ */
+export type MotionRuntimeRecipe =
+  Omit<MotionRecipe, 'title' | 'description' | 'intent' | 'family' | 'tags' | 'accessibility' | 'noJs' | 'preview' | 'fixtures'>
+
+export type MotionRegistryMode = 'complete' | 'runtime'
+
+export interface MotionRegistryOptions {
+  /** `runtime` accepts lean specs; `complete` (default) requires full manifests. */
+  mode?: MotionRegistryMode
+}
+
 export interface MotionRegistry {
-  register(recipe: MotionRecipe): MotionRecipe
+  mode: MotionRegistryMode
+  register(recipe: MotionRecipe | MotionRuntimeRecipe): MotionRecipe
   has(id: string): boolean
   get(id: string): MotionRecipe | undefined
   list(): MotionRecipe[]
@@ -135,12 +152,19 @@ export declare class MotionRecipeValidationError extends TypeError {
   issues: string[]
   recipeId: string
 }
-export declare function defineMotionRecipe(recipe: MotionRecipe): Readonly<MotionRecipe>
-export declare function validateMotionRecipe(recipe: unknown): { ok: boolean; issues: string[] }
-export declare function createMotionRegistry(recipes?: MotionRecipe[]): MotionRegistry
+export declare function defineMotionRecipe(recipe: MotionRecipe, options?: MotionRegistryOptions): Readonly<MotionRecipe>
+export declare function validateMotionRecipe(recipe: unknown, options?: MotionRegistryOptions): { ok: boolean; issues: string[] }
+export declare function createMotionRegistry(
+  recipes?: Array<MotionRecipe | MotionRuntimeRecipe>,
+  options?: MotionRegistryOptions,
+): MotionRegistry
 export declare function resolveMotionRecipes(registry: MotionRegistry, ids?: string[]): MotionRecipe[]
 export declare const builtinMotionRecipes: readonly MotionRecipe[]
 export declare function createBuiltinMotionRegistry(): MotionRegistry
+export declare const builtinMotionSpecs: readonly MotionRuntimeRecipe[]
+export declare function createRuntimeMotionRegistry(specs?: readonly MotionRuntimeRecipe[]): MotionRegistry
+/** Plugin names the core does not import; supply them via `dependencies`. */
+export declare const OPTIONAL_MOTION_PLUGINS: readonly string[]
 export declare function compileMotionRecipe(recipe: MotionRecipe): Record<string, unknown>
 export declare function createMotionRuntime(options?: MotionRuntimeOptions): MotionRuntime
 export declare function createDefaultMotionRuntime(options?: MotionRuntimeOptions): MotionRuntime

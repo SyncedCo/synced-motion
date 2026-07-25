@@ -10,7 +10,15 @@ export function createMenus({ gsap, root, reduced }) {
     const closeControls = [...menu.querySelectorAll('[data-sf-menu-close]')]
     if (!trigger || !panel) return () => {}
 
+    const authored = {
+      hidden: panel.hidden,
+      ariaHidden: panel.getAttribute('aria-hidden'),
+      ariaExpanded: trigger.getAttribute('aria-expanded'),
+      state: menu.dataset.state,
+    }
+
     let open = false
+    let focusTimer
     const timeline = gsap.timeline({ paused: true })
       .fromTo(panel, { autoAlpha: 0, yPercent: -4 }, {
         autoAlpha: 1,
@@ -26,9 +34,10 @@ export function createMenus({ gsap, root, reduced }) {
         ease: 'power3.out',
       }, reduced ? 0 : '-=0.2')
 
-    const setOpen = (next) => {
+    const setOpen = (next, options = {}) => {
+      if (next === open) return
+      const { restoreFocus = true } = options
       open = next
-      menu.dataset.state = open ? 'open' : 'closed'
       trigger.setAttribute('aria-expanded', String(open))
       panel.setAttribute('aria-hidden', String(!open))
       ownerDocument.documentElement.toggleAttribute('data-sf-scroll-locked', open)
@@ -37,20 +46,30 @@ export function createMenus({ gsap, root, reduced }) {
         panel.hidden = false
         menu.dataset.state = 'open'
         timeline.play(0)
-        view?.setTimeout(() => getFocusable(panel)[0]?.focus({ preventScroll: true }), reduced ? 0 : 180)
+        focusTimer = view?.setTimeout(() => getFocusable(panel)[0]?.focus({ preventScroll: true }), reduced ? 0 : 180)
       } else {
+        if (focusTimer) view?.clearTimeout(focusTimer)
+        focusTimer = undefined
         menu.dataset.state = 'closing'
         timeline.eventCallback('onReverseComplete', () => {
           panel.hidden = true
           menu.dataset.state = 'closed'
         })
         timeline.reverse()
-        trigger.focus({ preventScroll: true })
+        // Only pull focus back when the menu owned it; a route change or an
+        // outside click must not steal focus from wherever the user moved to.
+        if (restoreFocus && panel.contains(ownerDocument.activeElement)) {
+          trigger.focus({ preventScroll: true })
+        }
       }
     }
 
     const onClick = () => setOpen(!open)
     const onClose = () => setOpen(false)
+    const onPointerDown = (event) => {
+      if (!open || menu.contains(event.target)) return
+      setOpen(false, { restoreFocus: false })
+    }
     const onKeydown = (event) => {
       if (event.key === 'Escape' && open) setOpen(false)
       if (event.key !== 'Tab' || !open) return
@@ -70,22 +89,31 @@ export function createMenus({ gsap, root, reduced }) {
     trigger.addEventListener('click', onClick)
     closeControls.forEach((control) => control.addEventListener('click', onClose))
     ownerDocument.addEventListener('keydown', onKeydown)
+    ownerDocument.addEventListener('pointerdown', onPointerDown)
     menu.dataset.state = 'closed'
     panel.hidden = true
     trigger.setAttribute('aria-expanded', 'false')
     panel.setAttribute('aria-hidden', 'true')
 
     return () => {
+      if (focusTimer) view?.clearTimeout(focusTimer)
       trigger.removeEventListener('click', onClick)
       closeControls.forEach((control) => control.removeEventListener('click', onClose))
       ownerDocument.removeEventListener('keydown', onKeydown)
+      ownerDocument.removeEventListener('pointerdown', onPointerDown)
       ownerDocument.documentElement.removeAttribute('data-sf-scroll-locked')
-      menu.removeAttribute('data-state')
-      panel.hidden = false
-      panel.removeAttribute('aria-hidden')
-      trigger.setAttribute('aria-expanded', 'false')
       timeline.revert?.()
       timeline.kill()
+
+      // Restore the authored markup rather than forcing the panel open. A
+      // destroyed runtime must never leave an expanded menu on the page.
+      if (authored.state === undefined) delete menu.dataset.state
+      else menu.dataset.state = authored.state
+      panel.hidden = authored.hidden
+      if (authored.ariaHidden === null) panel.removeAttribute('aria-hidden')
+      else panel.setAttribute('aria-hidden', authored.ariaHidden)
+      if (authored.ariaExpanded === null) trigger.removeAttribute('aria-expanded')
+      else trigger.setAttribute('aria-expanded', authored.ariaExpanded)
     }
   })
 }

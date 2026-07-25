@@ -3,6 +3,9 @@ import { defineConfig } from 'tsup'
 export default defineConfig({
   entry: {
     index: 'src/index.js',
+    full: 'src/full.js',
+    plugins: 'src/plugins.js',
+    recipes: 'src/recipes/specs.js',
     cli: 'src/cli.js',
     lenis: 'src/lenis.js',
     mcp: 'src/mcp.js',

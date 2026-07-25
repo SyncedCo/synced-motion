@@ -160,18 +160,32 @@ function validateFixtures(recipe, issues) {
   }
 }
 
-export function validateMotionRecipe(recipe) {
+/**
+ * Validate a motion recipe.
+ *
+ * `mode: 'complete'` (the default) requires the full manifest, including the
+ * prose, preview and fixture metadata that documentation tooling depends on.
+ * `mode: 'runtime'` validates only what the browser runtime actually reads, so
+ * lean specs can be mounted without shipping authoring metadata to visitors.
+ */
+export function validateMotionRecipe(recipe, options = {}) {
+  const mode = options.mode ?? 'complete'
+  if (mode !== 'complete' && mode !== 'runtime') throw new TypeError(`Unknown motion recipe validation mode "${mode}".`)
+  const complete = mode === 'complete'
   const issues = []
   if (!isRecord(recipe)) return { ok: false, issues: ['recipe must be an object'] }
 
   if (recipe.schemaVersion !== MOTION_RECIPE_SCHEMA_VERSION) issues.push(`schemaVersion must be "${MOTION_RECIPE_SCHEMA_VERSION}"`)
-  for (const field of ['id', 'version', 'title', 'description', 'intent', 'family']) {
+  const requiredStrings = complete
+    ? ['id', 'version', 'title', 'description', 'intent', 'family']
+    : ['id', 'version']
+  for (const field of requiredStrings) {
     if (typeof recipe[field] !== 'string' || !recipe[field].trim()) issues.push(`${field} must be a non-empty string`)
   }
   if (typeof recipe.id === 'string' && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(recipe.id)) {
     issues.push('id must use lowercase kebab-case')
   }
-  if (!Array.isArray(recipe.tags)) issues.push('tags must be an array')
+  if (complete && !Array.isArray(recipe.tags)) issues.push('tags must be an array')
   if (!isRecord(recipe.root) || typeof recipe.root.selector !== 'string' || !recipe.root.selector.trim()) {
     issues.push('root.selector must be a non-empty string')
   } else if (/(^|,)\s*(html|body|:root)\b/.test(recipe.root.selector)) {
@@ -194,17 +208,17 @@ export function validateMotionRecipe(recipe) {
   if (!isRecord(recipe.reducedMotion) || !['skip', 'final', 'custom'].includes(recipe.reducedMotion.strategy)) {
     issues.push('reducedMotion.strategy must be skip, final, or custom')
   }
-  if (!isRecord(recipe.noJs) || typeof recipe.noJs.behavior !== 'string') {
+  if (complete && (!isRecord(recipe.noJs) || typeof recipe.noJs.behavior !== 'string')) {
     issues.push('noJs.behavior is required')
   }
-  if (!isRecord(recipe.accessibility) || typeof recipe.accessibility.notes !== 'string') {
+  if (complete && (!isRecord(recipe.accessibility) || typeof recipe.accessibility.notes !== 'string')) {
     issues.push('accessibility.notes is required')
   }
   if (!isRecord(recipe.performance) || !PERFORMANCE_CLASSES.has(recipe.performance.class)) {
     issues.push('performance.class must be low, medium, or high')
   }
   if (!Array.isArray(recipe.dependencies)) issues.push('dependencies must be an array')
-  validateFixtures(recipe, issues)
+  if (complete) validateFixtures(recipe, issues)
   if (typeof recipe.setup !== 'function' && recipe.timeline === undefined) {
     issues.push('recipe requires setup(context) or a declarative timeline')
   }
@@ -217,8 +231,8 @@ export function validateMotionRecipe(recipe) {
   return { ok: issues.length === 0, issues }
 }
 
-export function defineMotionRecipe(recipe) {
-  const result = validateMotionRecipe(recipe)
+export function defineMotionRecipe(recipe, options = {}) {
+  const result = validateMotionRecipe(recipe, options)
   if (!result.ok) throw new MotionRecipeValidationError(result.issues, recipe?.id)
 
   const cloned = cloneValue(recipe)
