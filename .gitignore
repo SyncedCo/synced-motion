@@ -1,9 +1,20 @@
 node_modules/
-dist/
 coverage/
 .DS_Store
 *.log
+
+# Build output
+dist/
+dist-gallery/
+
+# Test and tooling artefacts
 .playwright-cli/
 .playwright-mcp/
+playwright-report/
+test-results/
 output/
-synced-motion-*.png
+
+# Ad-hoc screenshots
+*.png
+!docs/**/*.png
+!example/**/*.png

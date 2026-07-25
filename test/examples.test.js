@@ -46,7 +46,9 @@ describe('full-page examples', () => {
 
   it('keeps orchestration in the shared public API bootstrap', () => {
     const source = readFileSync(resolve('example/examples/main.js'), 'utf8')
-    expect(source).toContain("import { createSyncedMotion } from '../../src/index.js'")
+    // Either published entry point is fine; what matters is that the example
+    // drives motion through the package API and never touches GSAP directly.
+    expect(source).toMatch(/import \{ createSyncedMotion \} from '\.\.\/\.\.\/src\/(index|full)\.js'/)
     expect(source).toContain('createSyncedMotion({ smoothScroll: true })')
     expect(source).not.toMatch(/from ['"]gsap|ScrollTrigger\.create|new Lenis/)
   })

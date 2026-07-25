@@ -1,5 +1,14 @@
 # Declarative attribute API
 
+> **Prefix.** This page is written with the original `data-sf-` spelling, which
+> remains fully supported. `data-motion-` is the documented prefix for new
+> work, and the two are interchangeable: `data-motion-reveal="up"` and
+> `data-sf-reveal="up"` do the same thing. Where both appear on one element,
+> the explicit `data-sf-` value wins.
+>
+> [docs/RECIPE-REFERENCE.md](RECIPE-REFERENCE.md) lists every recipe with
+> `data-motion-` selectors, generated from the registry.
+
 ## Reveal
 
 ```html

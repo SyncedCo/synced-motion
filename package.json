@@ -101,7 +101,10 @@
     "units:check": "node scripts/check-units.mjs",
     "types:check": "node scripts/check-declarations.mjs",
     "size:check": "node scripts/check-size.mjs",
-    "check": "npm run flow:check && npm run flow:lint && npm run flow:doctor && npm run units:check && npm run test && npm run build && npm run types:check && npm run size:check && npm run motion:validate && npm run motion:doctor && npm run mcp:check",
+    "docs:build": "node scripts/build-docs.mjs",
+    "docs:check": "node scripts/build-docs.mjs --check",
+    "gallery:build": "vite build --config example/gallery/vite.config.js",
+    "check": "npm run flow:check && npm run flow:lint && npm run flow:doctor && npm run units:check && npm run test && npm run build && npm run types:check && npm run size:check && npm run docs:check && npm run motion:validate && npm run motion:doctor && npm run mcp:check",
     "pack:check": "npm pack --dry-run"
   },
   "keywords": [

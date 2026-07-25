@@ -230,6 +230,19 @@ export declare function createMediaClipReveals(options: Record<string, unknown>)
 export declare function createMediaCurtainSplits(options: Record<string, unknown>): unknown[]
 export declare function createImageFocusPans(options: Record<string, unknown>): unknown[]
 export declare function createVideoPosterPlayers(options: Record<string, unknown>): Array<() => void>
+export declare function createExpandPanels(options: Record<string, unknown>): Array<() => void>
+export declare function createFounderScenes(options: Record<string, unknown>): unknown[]
+export declare function createHoverMedia(options: Record<string, unknown>): Array<() => void>
+export declare function createMediaExpansions(options: Record<string, unknown>): unknown[]
+export declare function createMenus(options: Record<string, unknown>): Array<() => void>
+export declare function createParallax(options: Record<string, unknown>): unknown[]
+export declare function createReveals(options: Record<string, unknown>): unknown[]
+export declare function createScrollDrifts(options: Record<string, unknown>): unknown[]
+export declare function createScrollExits(options: Record<string, unknown>): unknown[]
+export declare function createScrollStatements(options: Record<string, unknown>): unknown[]
+export declare function createScrollSteps(options: Record<string, unknown>): Array<() => void>
+export declare function createSplitText(options: Record<string, unknown>): unknown[]
+export declare function createStaggers(options: Record<string, unknown>): unknown[]
 export declare function clampIndex(progress: number, length: number): number
 export declare function setActiveState(elements: Element[], activeIndex: number, options?: Record<string, unknown>): void
 export declare const defaults: Readonly<Record<string, unknown>>

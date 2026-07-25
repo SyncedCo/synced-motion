@@ -4,8 +4,26 @@ Synced Motion ships a local `synced-motion` executable. Human-facing text is
 the default; pass `--json` when an agent or build tool needs stable structured
 data.
 
+```bash
+npx synced-motion --help            # every command
+npx synced-motion <command> --help  # one command in detail
+npx synced-motion --version
+```
+
 ## Commands
 
+- `add <id...>` prints ready-to-paste markup for one or more recipes,
+  including every required slot, using the documented `data-motion-`
+  attributes. Pass `--legacy-prefix` to emit `data-sf-` instead. The command
+  writes nothing; redirect it where you want it.
+
+  ```bash
+  npx synced-motion add reveal-rise
+  npx synced-motion add pinned-steps marquee > partials/motion.html
+  ```
+
+  When a recipe needs an optional GSAP plugin, `add` says so on stderr, so the
+  markup can still be piped cleanly.
 - `catalog` lists registered recipe manifests.
 - `recipe <id>` returns one manifest.
 - `suggest "<brief>"` ranks recipes using deterministic catalog metadata.
