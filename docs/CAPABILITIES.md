@@ -60,7 +60,7 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 - cleanup for page transitions and hot reload;
 - Synced Flow semantic color integration.
 
-## Planned expansion
+## Production 1.0 expansion
 
 - horizontal scroll galleries;
 - clip-path and mask transitions;
@@ -68,9 +68,9 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 - SVG drawing and morphing recipes;
 - FLIP-powered layout transitions;
 - route transition adapters;
-- framework adapters for React, Vue and Svelte;
-- a recipe catalog and scaffolding CLI;
-- visual debug overlays and performance budgets;
+- framework adapters for React, Vue, Svelte, Astro, and WordPress;
+- a sixty-recipe catalog, project scaffolding CLI, and local stdio MCP server;
+- a local gallery, inspector diagnostics, and performance metadata;
 - CMS and localization integration examples.
 
 ## Design rule

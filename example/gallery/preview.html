@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%2350998f%22/></svg>" />
+    <title>Synced Motion preview</title>
+  </head>
+  <body>
+    <main>
+      <h1 id="preview-title" class="sf-visually-hidden">Motion recipe preview</h1>
+      <div id="preview-stage" class="motion-preview-stage" aria-live="polite">
+        <div class="sf-empty-state"><h2 class="sf-text-h3">Loading preview…</h2><p>The authored fixture remains readable if motion cannot start.</p></div>
+      </div>
+    </main>
+    <noscript><p>This live preview requires JavaScript. Recipe content is never hidden until its runtime mounts.</p></noscript>
+    <script type="module" src="./preview.js"></script>
+  </body>
+</html>

@@ -4,6 +4,7 @@ export function createSplitText({ gsap, SplitText, root, debug, reduced, revealS
   return [...root.querySelectorAll('[data-sf-split]')].map((element) => {
     const type = element.dataset.sfSplit || 'lines'
     const targetKey = type.includes('chars') ? 'chars' : type.includes('words') ? 'words' : 'lines'
+    const accessibleText = element.getAttribute('aria-label') || element.textContent.trim()
 
     return SplitText.create(element, {
       type,
@@ -11,6 +12,7 @@ export function createSplitText({ gsap, SplitText, root, debug, reduced, revealS
       mask: element.dataset.sfSplitMask === 'true' ? targetKey : undefined,
       aria: 'auto',
       onSplit(instance) {
+        if (accessibleText) element.setAttribute('aria-label', accessibleText)
         return gsap.from(instance[targetKey], {
           autoAlpha: 0,
           yPercent: targetKey === 'chars' ? 55 : 105,

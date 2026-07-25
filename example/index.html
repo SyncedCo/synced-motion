@@ -12,19 +12,21 @@
       <a class="wordmark" href="#top" aria-label="Synced Motion home">
         <span>SYNCED</span><span>MOTION</span>
       </a>
-      <span class="site-nav__status"><i></i> Runtime active</span>
+      <a class="site-nav__examples" href="/examples/">Full-page examples <span aria-hidden="true">↗</span></a>
       <button class="menu-toggle" type="button" data-sf-menu-trigger aria-controls="main-menu">
         <span>Explore</span><b aria-hidden="true">＋</b>
       </button>
       <div id="main-menu" class="menu-panel" data-sf-menu-panel>
         <div class="menu-panel__inner" data-sf-hover-group>
           <nav class="menu-links" aria-label="Primary navigation">
+            <a data-sf-menu-item data-sf-hover-key="examples" href="/examples/">Full-page examples</a>
             <a data-sf-menu-item data-sf-hover-key="motion" href="#motion-language">Motion language</a>
             <a data-sf-menu-item data-sf-hover-key="stories" href="#stories">Scroll stories</a>
             <a data-sf-menu-item data-sf-hover-key="systems" href="#systems">Systems</a>
             <a data-sf-menu-item data-sf-hover-key="start" href="#start">Start building</a>
           </nav>
           <div class="menu-visual" aria-hidden="true">
+            <div class="menu-visual__item tone-examples" data-sf-hover-media="examples"><span>00</span></div>
             <div class="menu-visual__item tone-teal" data-sf-hover-media="motion"><span>01</span></div>
             <div class="menu-visual__item tone-gold" data-sf-hover-media="stories"><span>02</span></div>
             <div class="menu-visual__item tone-coral" data-sf-hover-media="systems"><span>03</span></div>
@@ -141,7 +143,7 @@
         </div>
       </section>
 
-      <section id="stories" class="story" data-sf-scroll-steps data-sf-end="bottom bottom">
+      <section id="stories" class="story story--split" data-sf-scroll-steps data-sf-end="bottom bottom">
         <div class="story__sticky" data-sf-pin-target>
           <div class="sf-container story__layout">
             <div class="story__intro">
@@ -158,12 +160,38 @@
                 <button data-sf-step-link><span>05</span>Resolve</button>
               </nav>
               <div class="chapter-panels">
-                <article data-sf-step-panel><b>01</b><h3>Reveal what matters.</h3><p>Entrances follow hierarchy—not decoration.</p></article>
-                <article data-sf-step-panel><b>02</b><h3>Sequence the story.</h3><p>Timelines turn separate moments into one coherent rhythm.</p></article>
-                <article data-sf-step-panel><b>03</b><h3>Respond to intent.</h3><p>Pointer, keyboard, and scroll share semantic state.</p></article>
-                <article data-sf-step-panel><b>04</b><h3>Transform the space.</h3><p>Pinning and scrub create depth without losing control.</p></article>
-                <article data-sf-step-panel><b>05</b><h3>Resolve with clarity.</h3><p>Every animation returns control to the design system.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">01</b><h3>Reveal what matters.</h3><p>Entrances follow hierarchy—not decoration. Content arrives in the order people need it, turning attention into a clear and deliberate path.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">02</b><h3>Sequence the story.</h3><p>Timelines turn separate moments into one coherent rhythm, giving every transition a role in the larger narrative.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">03</b><h3>Respond to intent.</h3><p>Pointer, keyboard, and scroll share the same semantic state so the experience feels responsive without becoming unpredictable.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">04</b><h3>Transform the space.</h3><p>Pinning and scrub create depth while preserving context, allowing the layout to evolve without taking control away from the visitor.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">05</b><h3>Resolve with clarity.</h3><p>Every animation returns control to the design system, ending in a stable state that remains useful when motion is unavailable.</p></article>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="story story--editorial" aria-labelledby="editorial-movements-title" data-sf-scroll-steps data-sf-end="bottom bottom">
+        <div class="story__sticky" data-sf-pin-target>
+          <div class="sf-container story__layout">
+            <div class="story__intro">
+              <h2 id="editorial-movements-title" class="eyebrow">Five movements — editorial layout</h2>
+            </div>
+            <div class="story__chapters">
+              <div class="chapter-panels">
+                <article data-sf-step-panel><b aria-hidden="true">01</b><h3>Reveal what matters.</h3><p>Entrances follow hierarchy—not decoration. Content arrives in the order people need it, turning attention into a clear and deliberate path.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">02</b><h3>Sequence the story.</h3><p>Timelines turn separate moments into one coherent rhythm, giving every transition a role in the larger narrative.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">03</b><h3>Respond to intent.</h3><p>Pointer, keyboard, and scroll share the same semantic state so the experience feels responsive without becoming unpredictable.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">04</b><h3>Transform the space.</h3><p>Pinning and scrub create depth while preserving context, allowing the layout to evolve without taking control away from the visitor.</p></article>
+                <article data-sf-step-panel><b aria-hidden="true">05</b><h3>Resolve with clarity.</h3><p>Every animation returns control to the design system, ending in a stable state that remains useful when motion is unavailable.</p></article>
+              </div>
+              <nav class="chapter-list" aria-label="Editorial motion chapters">
+                <button data-sf-step-link><span>01</span>Reveal</button>
+                <button data-sf-step-link><span>02</span>Sequence</button>
+                <button data-sf-step-link><span>03</span>Respond</button>
+                <button data-sf-step-link><span>04</span>Transform</button>
+                <button data-sf-step-link><span>05</span>Resolve</button>
+              </nav>
             </div>
           </div>
         </div>
@@ -193,13 +221,14 @@
         </div>
       </section>
 
-      <section class="history sf-section sf-section--spacious">
+      <section id="stack" class="history sf-section sf-section--spacious">
         <div class="sf-container">
           <div class="section-heading section-heading--split">
             <p class="eyebrow">The stack</p>
             <h2 data-sf-split="lines" data-sf-split-mask="false">Made from proven parts.</h2>
+            <p class="history__intro">Four focused systems. Each one does its job, then gets out of the way.</p>
           </div>
-          <div class="history-grid" data-sf-expand-group data-sf-expand-default="3">
+          <div class="history-grid" data-sf-expand-group data-sf-expand-default="0">
             <article class="history-card history-card--flow" tabindex="0" data-sf-expand-panel>
               <span>FOUNDATION</span><b>01</b><div><h3>Synced Flow</h3><p>Fluid tokens, semantic layout, accessible components.</p><small>Design remains the source of truth.</small></div>
             </article>

@@ -1,0 +1,41 @@
+:root { color-scheme: dark; }
+body { background: var(--sf-colour-background); color: var(--sf-colour-foreground); margin: 0; }
+.motion-gallery-shell { min-block-size: 100vb; }
+.motion-gallery-header { align-items: center; border-block-end: 1px solid var(--sf-colour-border-subtle); display: flex; justify-content: space-between; min-block-size: 4.5rem; padding-inline: var(--sf-space-s-l); }
+.motion-gallery-header__nav { align-items: center; display: flex; gap: var(--sf-space-s); }
+.motion-gallery-main { padding: var(--sf-space-l-2xl) var(--sf-space-s-l); }
+.motion-gallery-intro { max-inline-size: 62rem; }
+.motion-gallery-featured { align-items: center; background: linear-gradient(120deg, var(--sf-colour-primary-soft), var(--sf-colour-surface)); border: 1px solid var(--sf-colour-primary-soft-border); border-radius: var(--sf-radius-xl); display: grid; gap: var(--sf-space-xs); grid-template-columns: 0.55fr 1fr auto; padding: var(--sf-space-m); text-decoration: none; transition: border-color var(--sf-motion-duration-fast), translate var(--sf-motion-duration-fast); }
+.motion-gallery-featured:is(:hover, :focus-visible) { border-color: var(--sf-colour-primary); translate: 0 -0.2rem; }
+.motion-gallery-featured strong { font-size: var(--sf-step-1); }
+.motion-gallery-workspace { align-items: start; display: grid; gap: var(--sf-space-l); grid-template-columns: minmax(0, 1fr) minmax(20rem, 28rem); }
+.motion-recipe-card { border: 1px solid var(--sf-colour-border-subtle); min-block-size: 18rem; }
+.motion-recipe-card[aria-current='true'] { border-color: var(--sf-colour-primary); box-shadow: var(--sf-shadow-glow); }
+.motion-recipe-card__meta { align-items: center; display: flex; flex-wrap: wrap; gap: var(--sf-space-2xs); }
+.motion-recipe-card__action { margin-block-start: auto; }
+.motion-inspector { background: var(--sf-colour-surface); color: var(--sf-colour-foreground); inset-block-start: var(--sf-space-m); max-block-size: calc(100vb - 2 * var(--sf-space-m)); overflow: auto; position: sticky; scroll-margin-block-start: var(--sf-space-m); }
+.motion-inspector__preview { background: var(--sf-colour-surface-inset); border: 1px solid var(--sf-colour-border); border-radius: var(--sf-radius-lg); inline-size: 100%; min-block-size: 24rem; }
+.motion-inspector__definition { display: grid; gap: var(--sf-space-xs); grid-template-columns: minmax(7rem, auto) 1fr; margin: 0; }
+.motion-inspector__definition dt { color: var(--sf-colour-muted); }
+.motion-inspector__definition dd { margin: 0; overflow-wrap: anywhere; }
+.motion-inspector__actions { display: flex; flex-wrap: wrap; gap: var(--sf-space-xs); }
+.motion-inspector .sf-check { align-items: center; display: flex; gap: var(--sf-space-xs); }
+.motion-inspector .sf-check input { block-size: 1.25rem; flex: 0 0 auto; inline-size: 1.25rem; }
+.motion-inspector .sf-status { background: var(--sf-colour-primary-soft); border: 1px solid var(--sf-colour-primary-soft-border); border-radius: var(--sf-radius-md); color: var(--sf-colour-foreground); display: block; padding: var(--sf-space-xs) var(--sf-space-s); }
+.motion-parameter-list { border: 0; display: grid; gap: var(--sf-space-s); margin: 0; padding: 0; }
+.motion-parameter-list legend { margin-block-end: var(--sf-space-xs); }
+code { background: transparent; color: inherit; font-family: var(--sf-font-mono); padding: 0; }
+@media (max-width: 64rem) {
+  .motion-gallery-workspace { grid-template-columns: 1fr; }
+  .motion-inspector { max-block-size: none; position: static; }
+  body[data-recipe-selected='true'] .motion-recipe-grid,
+  body[data-recipe-selected='true'] #recipe-count,
+  body[data-recipe-selected='true'] .motion-gallery-intro,
+  body[data-recipe-selected='true'] #gallery-filters { display: none; }
+}
+@media (max-width: 48rem) {
+  .motion-gallery-header__nav .sf-link-plain,
+  .motion-gallery-header__nav .sf-badge { display: none; }
+  .motion-gallery-featured { align-items: start; grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; } }

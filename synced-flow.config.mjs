@@ -38,7 +38,7 @@ const syncedMotionColours = {
 }
 
 export default defineConfig({
-  scan: ['src', 'example'],
+  scan: ['example'],
   out: 'example/synced-flow.generated.css',
   responsiveVariants: false,
   theme: {

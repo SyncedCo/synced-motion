@@ -47,7 +47,11 @@ export function createFounderScenes({ gsap, ScrollTrigger, SplitText, root, debu
 
     return () => {
       timeline.scrollTrigger?.kill()
+      timeline.revert?.()
       timeline.kill()
+      gsap.set([content, ...split.words, statementBackground, metricsBackground, metrics, stat, statLabel, ...details], {
+        clearProps: 'transform,opacity,visibility',
+      })
       split.revert()
     }
   }).filter(Boolean)

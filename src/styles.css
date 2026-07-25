@@ -10,15 +10,15 @@
     overflow: hidden;
   }
 
-  [data-sf-hover-media],
-  [data-sf-step-panel] {
+  [data-sf-hover-group][data-sf-motion-recipe] [data-sf-hover-media],
+  [data-sf-scroll-steps][data-sf-motion-recipe] [data-sf-step-panel] {
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
   }
 
-  [data-sf-hover-media][data-active],
-  [data-sf-step-panel][data-active] {
+  [data-sf-hover-group][data-sf-motion-recipe] [data-sf-hover-media][data-active],
+  [data-sf-scroll-steps][data-sf-motion-recipe] [data-sf-step-panel][data-active] {
     opacity: 1;
     pointer-events: auto;
     visibility: visible;

@@ -17,8 +17,8 @@ export function createScrollStatements({ gsap, ScrollTrigger, root, reduced }) {
 
     gsap.set(heroAccent, { autoAlpha: 1, scale: 9 })
     gsap.set(heading, { xPercent: -50 })
-    gsap.set(lead, { autoAlpha: 0 })
-    gsap.set(inlineAccent, { autoAlpha: 0, xPercent: 50 })
+    gsap.set(lead, { opacity: 0 })
+    gsap.set(inlineAccent, { opacity: 0, xPercent: 50 })
     gsap.set(details, { height: 0 })
     gsap.set(detailItems, { autoAlpha: 0, yPercent: 50 })
     gsap.set(label, { autoAlpha: 0 })
@@ -35,18 +35,22 @@ export function createScrollStatements({ gsap, ScrollTrigger, root, reduced }) {
 
     timeline
       .to(heroAccent, { scale: 1, duration: 0.2, ease: 'none' }, 0)
-      .to(inlineAccent, { autoAlpha: 1, duration: 0.07, ease: 'none' }, 0.18)
+      .to(inlineAccent, { opacity: 1, duration: 0.07, ease: 'none' }, 0.18)
       .to(heroAccent, { autoAlpha: 0, duration: 0.05, ease: 'none' }, 0.2)
       .to(heading, { xPercent: 0, duration: 0.08, ease: 'none' }, 0.26)
       .to(inlineAccent, { xPercent: 0, duration: 0.08, ease: 'none' }, 0.26)
-      .to(lead, { autoAlpha: 1, duration: 0.06, ease: 'none' }, 0.28)
+      .to(lead, { opacity: 1, duration: 0.06, ease: 'none' }, 0.28)
       .to(details, { height: 'auto', duration: 0.1, ease: 'none' }, 0.34)
       .to(detailItems, { autoAlpha: 1, yPercent: 0, duration: 0.1, ease: 'none', stagger: 0.1 }, 0.4)
       .to(label, { autoAlpha: 1, duration: 0.31, ease: 'none' }, 0.5)
 
     return () => {
       timeline.scrollTrigger?.kill()
+      timeline.revert?.()
       timeline.kill()
+      gsap.set([heroAccent, heading, lead, inlineAccent, details, ...detailItems, label].filter(Boolean), {
+        clearProps: 'transform,opacity,visibility,height',
+      })
     }
   }).filter(Boolean)
 }

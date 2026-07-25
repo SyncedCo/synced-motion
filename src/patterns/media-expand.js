@@ -11,12 +11,13 @@ export function createMediaExpansions({ gsap, root, debug, reduced }) {
     const startLabel = scene.querySelector('[data-sf-media-expand-label="start"]')
     const endLabel = scene.querySelector('[data-sf-media-expand-label="end"]')
     if (!frame || !image || !prompt || !caption || !startLabel || !endLabel) return null
+    const view = scene.ownerDocument.defaultView
 
     const expansion = { progress: 0 }
     const syncExpansion = () => {
-      const width = window.innerWidth
-      const height = window.innerHeight
-      const rem = Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16
+      const width = view.innerWidth
+      const height = view.innerHeight
+      const rem = Number.parseFloat(view.getComputedStyle(scene.ownerDocument.documentElement).fontSize) || 16
       const gap = rem * 0.75
       const horizontalInset = gsap.utils.interpolate(width * 0.466, rem, expansion.progress)
       const verticalInset = gsap.utils.interpolate(height * 0.478, rem, expansion.progress)
@@ -56,7 +57,11 @@ export function createMediaExpansions({ gsap, root, debug, reduced }) {
 
     return () => {
       timeline.scrollTrigger?.kill()
+      timeline.revert?.()
       timeline.kill()
+      gsap.set([frame, image, prompt, caption, startLabel, endLabel], {
+        clearProps: 'transform,opacity,visibility,clipPath,left,right',
+      })
     }
   }).filter(Boolean)
 }

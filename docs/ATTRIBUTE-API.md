@@ -10,6 +10,21 @@ Values: `fade`, `up`, `down`, `left`, `right`, or `scale`.
 
 Optional attributes: `data-sf-duration`, `data-sf-delay`, `data-sf-ease`, `data-sf-start`, and `data-sf-once`.
 
+### Directional, scale, and clip reveals
+
+```html
+<article data-sf-reveal-directional="left">...</article>
+<figure data-sf-reveal-scale="0.94">...</figure>
+<figure data-sf-reveal-clip="start">
+  <img data-sf-reveal-clip-content src="project.jpg" alt="Project description" />
+</figure>
+```
+
+Directional values are `left`, `right`, `up`, or `down`. Scale values are
+unitless. Clip values are `start` or `end`. Each effect is applied only after
+JavaScript initializes, clears its temporary presentation when complete, and
+leaves the authored final state unchanged for reduced motion.
+
 ## Stagger
 
 ```html
@@ -33,6 +48,22 @@ Optional attributes: `data-sf-duration`, `data-sf-delay`, `data-sf-ease`, `data-
 
 Use `lines`, `words`, `chars`, or a comma-separated combination. Line splits automatically rebuild after font or width changes. Screen readers retain the unsplit accessible label. Masks are opt-in because tight editorial line-height can otherwise clip ascenders, descenders, and punctuation.
 
+### Character, typewriter, and highlight treatments
+
+```html
+<h2 data-sf-chars-shimmer>Character rhythm</h2>
+<p data-sf-typewriter data-sf-typewriter-speed="0.035">System ready</p>
+<p data-sf-text-highlight>
+  Motion follows <span data-sf-text-highlight-mark>meaning</span>.
+</p>
+```
+
+Character and typewriter recipes use SplitText with its automatic accessible
+label and revert the generated wrappers during cleanup. Add
+`data-sf-typewriter-load` when a typewriter should start on load instead of on
+viewport entry. The highlight recipe only scales the marked visual element;
+the text remains present in document order at all times.
+
 ## Parallax
 
 ```html
@@ -40,6 +71,67 @@ Use `lines`, `words`, `chars`, or a comma-separated combination. Line splits aut
   <img data-sf-parallax="10" alt="" />
 </figure>
 ```
+
+## Scroll progress and depth stack
+
+```html
+<article data-sf-scroll-progress>
+  <span data-sf-scroll-progress-meter aria-hidden="true"></span>
+  <output data-sf-scroll-progress-label aria-label="Reading progress"></output>
+</article>
+
+<section data-sf-scroll-depth-stack>
+  <article data-sf-depth-card>...</article>
+  <article data-sf-depth-card>...</article>
+</section>
+```
+
+The meter uses scale rather than width. The label is optional. Depth cards use
+only opacity and transform and remain fully visible for reduced motion.
+
+## Pinned chapters and product explainers
+
+```html
+<section data-sf-pinned-chapters>
+  <div data-sf-pin-target>...</div>
+  <article data-sf-pinned-chapter>Chapter one</article>
+  <figure data-sf-pinned-visual>...</figure>
+</section>
+
+<section data-sf-product-explainer>
+  <div data-sf-pin-target>...</div>
+  <article data-sf-product-step>Step one</article>
+  <figure data-sf-product-media>...</figure>
+</section>
+```
+
+The runtime synchronizes `data-active` and `aria-current`; consuming CSS owns
+visibility and layout. Without motion, content remains in normal document flow.
+
+## Horizontal galleries and comparison
+
+```html
+<section data-sf-horizontal-gallery>
+  <div data-sf-horizontal-pin>
+    <div data-sf-horizontal-viewport>
+      <div data-sf-horizontal-track>
+        <article data-sf-horizontal-card>...</article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<figure data-sf-comparison>
+  <img src="before.jpg" alt="Before" />
+  <div data-sf-comparison-after><img src="after.jpg" alt="After" /></div>
+  <input data-sf-comparison-range type="range" min="0" max="100" value="50" aria-label="Compare before and after" />
+</figure>
+```
+
+Use `data-sf-horizontal-snap`, `data-sf-horizontal-feature-rail`, or
+`data-sf-horizontal-logo-reel` on the root for the related recipes. Horizontal
+scroll movement is linear and transform-based. The comparison recipe retains a
+native keyboard-operable range input.
 
 ## Marquee
 
@@ -189,3 +281,72 @@ The controller owns `aria-expanded`, `aria-hidden`, Escape handling, focus conta
 ```
 
 Pointer hover and keyboard focus toggle `data-active` on exactly one panel. The consuming site controls expansion sizes, artwork, and content visibility with CSS.
+
+## Counters, progress, and ambient loops
+
+```html
+<output data-sf-counter data-sf-counter-from="0" data-sf-counter-to="120" data-sf-counter-value>120</output>
+<figure data-sf-progress-ring data-sf-progress="72">
+  <svg viewBox="0 0 120 120"><circle data-sf-progress-ring-value cx="60" cy="60" r="48" /></svg>
+  <output data-sf-progress-ring-label>72%</output>
+</figure>
+<span aria-hidden="true" data-sf-ambient-float></span>
+<div data-sf-logo-belt><div data-sf-logo-belt-track>Two identical logo groups</div></div>
+```
+
+Counters preserve their complete output for assistive technology. Progress
+rings retain a text label. Infinite ambient and logo motion pauses off-screen
+and becomes static under reduced motion.
+
+## FLIP and layout transitions
+
+Use `data-sf-flip-card`, `data-sf-flip-card-trigger`, and
+`data-sf-flip-card-detail` for a controlled card expansion. Filtered grids use
+`data-sf-flip-filter`, `data-sf-filter-control`, and `data-sf-filter-item`.
+Navigation indicators use `data-sf-flip-nav`, `data-sf-flip-nav-item`, and an
+inert `data-sf-flip-nav-indicator`. Accordion grids use
+`data-sf-layout-accordion-grid`, `data-sf-layout-item`, and native
+`data-sf-layout-trigger` buttons.
+
+Application-owned list reorder logic remains outside Motion. Dispatch a scoped
+event after declaring the mutation callback:
+
+```js
+list.dispatchEvent(new CustomEvent('sf:motion:reorder', {
+  detail: { mutate(list, items) { list.append(...items.reverse()) } },
+}))
+```
+
+Synced Motion captures the prior geometry, runs the callback synchronously,
+and animates spatial continuity. Reduced motion runs only the mutation.
+
+## SVG drawing, morphing, and motion paths
+
+```html
+<figure data-sf-svg-line-draw><svg><path data-sf-svg-path d="..." /></svg></figure>
+<figure data-sf-svg-morph>
+  <svg><path data-sf-svg-morph-source d="..." /><path data-sf-svg-morph-target d="..." hidden /></svg>
+  <button data-sf-svg-trigger type="button" aria-pressed="false">Change shape</button>
+</figure>
+<figure data-sf-svg-orbit><svg><path data-sf-svg-orbit-path d="..." /><circle data-sf-svg-orbit-subject /></svg></figure>
+<figure data-sf-svg-signature><svg><path d="..." /></svg></figure>
+```
+
+`data-sf-svg-icon-state` uses the equivalent `data-sf-svg-icon-source` and
+`data-sf-svg-icon-target` slots. Authored paths require visible strokes for
+drawing recipes, and morph source/target paths should have compatible intent.
+
+## Page-load and route motion
+
+Page entrances use `data-sf-page-load-hero` with repeated
+`data-sf-page-load-item` children, or `data-sf-page-load-brand` with an optional
+`data-sf-brand-mark`.
+
+Routers keep ownership of navigation and DOM replacement. A route fade listens
+for `sf:motion:route` on `data-sf-route-fade`; pass optional `outgoing`,
+`incoming`, and `complete` values in `event.detail`. A shared-media root listens
+for `sf:motion:route-shared` and requires a synchronous `detail.mutate`
+callback. `data-sf-route-scroll-restore` listens for
+`sf:motion:route-complete` with `detail.top`, then refreshes ScrollTrigger.
+
+Every route listener is root-scoped and removed by runtime cleanup.

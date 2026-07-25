@@ -3,4 +3,7 @@ dist/
 coverage/
 .DS_Store
 *.log
-
+.playwright-cli/
+.playwright-mcp/
+output/
+synced-motion-*.png
