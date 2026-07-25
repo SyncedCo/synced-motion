@@ -43,20 +43,14 @@ describe('synced-motion help', () => {
 })
 
 describe('synced-motion add', () => {
-  it('emits markup using the documented data-motion prefix', async () => {
+  it('emits markup using the data-motion prefix', async () => {
     const { io, out } = collect()
     const result = await runMotionCli(['add', 'reveal-rise'], io)
 
     expect(result.code).toBe(0)
     expect(out.join('\n')).toContain('<section data-motion-reveal>')
+    // There is no legacy vocabulary; nothing should emit the old prefix.
     expect(out.join('\n')).not.toContain('data-sf-')
-  })
-
-  it('emits the legacy prefix on request', async () => {
-    const { io, out } = collect()
-    await runMotionCli(['add', 'reveal-rise', '--legacy-prefix'], io)
-
-    expect(out.join('\n')).toContain('<section data-sf-reveal>')
   })
 
   it('includes every required slot', async () => {

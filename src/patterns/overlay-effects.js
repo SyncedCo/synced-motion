@@ -4,9 +4,9 @@ function focusable(dialog) {
 
 function createDialogControllers({ gsap, root, reduced, selector, shortcut = false }) {
   return [...root.querySelectorAll(selector)].map((scene) => {
-    const trigger = scene.querySelector('[data-sf-overlay-trigger]')
-    const dialog = scene.querySelector('dialog, [data-sf-overlay-dialog]')
-    const closeControls = [...scene.querySelectorAll('[data-sf-overlay-close]')]
+    const trigger = scene.querySelector('[data-motion-overlay-trigger]')
+    const dialog = scene.querySelector('dialog, [data-motion-overlay-dialog]')
+    const closeControls = [...scene.querySelectorAll('[data-motion-overlay-close]')]
     if (!dialog) return undefined
     const ownerDocument = scene.ownerDocument
     const initialOpen = dialog.hasAttribute('open')
@@ -60,17 +60,17 @@ function createDialogControllers({ gsap, root, reduced, selector, shortcut = fal
 }
 
 export function createDialogOverlays(context) {
-  return createDialogControllers({ ...context, selector: '[data-sf-dialog-overlay]' })
+  return createDialogControllers({ ...context, selector: '[data-motion-dialog-overlay]' })
 }
 
 export function createCommandPalettes(context) {
-  return createDialogControllers({ ...context, selector: '[data-sf-command-palette]', shortcut: true })
+  return createDialogControllers({ ...context, selector: '[data-motion-command-palette]', shortcut: true })
 }
 
 export function createNavActiveIndicators({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-nav-indicator]')].map((nav) => {
-    const items = [...nav.querySelectorAll('[data-sf-nav-item]')]
-    const indicator = nav.querySelector('[data-sf-nav-active-indicator]')
+  return [...root.querySelectorAll('[data-motion-nav-indicator]')].map((nav) => {
+    const items = [...nav.querySelectorAll('[data-motion-nav-item]')]
+    const indicator = nav.querySelector('[data-motion-nav-active-indicator]')
     if (!items.length || !indicator) return undefined
     const activate = (item) => {
       items.forEach((entry) => entry.toggleAttribute('data-active', entry === item))
@@ -100,8 +100,8 @@ export function createNavActiveIndicators({ gsap, root, reduced }) {
 }
 
 export function createAccordionDisclosures({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-accordion-motion]')].map((disclosure) => {
-    const panel = disclosure.querySelector('[data-sf-accordion-panel]')
+  return [...root.querySelectorAll('[data-motion-accordion-motion]')].map((disclosure) => {
+    const panel = disclosure.querySelector('[data-motion-accordion-panel]')
     if (!panel) return undefined
     const toggle = () => {
       const open = disclosure.hasAttribute('open') || disclosure.getAttribute('aria-expanded') === 'true'

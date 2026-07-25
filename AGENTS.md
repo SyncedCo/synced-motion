@@ -3,7 +3,7 @@
 - Do not commit, push, publish, or deploy without explicit approval from Scott.
 - Keep the package framework-neutral and free of jQuery or Webflow runtime dependencies.
 - Synced Motion is a standalone package. Do not reintroduce a hard dependency on Synced Flow in the API, the docs, or the README.
-- Use `data-motion-*` in new markup, docs and examples. `data-sf-*` stays supported; do not remove it in 1.x.
+- The attribute vocabulary is `data-motion-*`. There is no legacy prefix and no alias layer; do not reintroduce one.
 - Never import an optional GSAP plugin (SplitText, Flip, DrawSVG, MorphSVG, MotionPath) from the core. They belong in `src/plugins.js` and `@syncedco/motion/full`.
 - Authoring metadata (title, description, intent, family, tags, accessibility, noJs, preview, fixtures) lives in `src/recipes/authoring.js` and must never be imported by the browser runtime. Runtime specs live in `src/recipes/specs.js`.
 - Annotate new recipe specs with `/* @__PURE__ */` so unused recipes stay tree-shakeable. `npm run size:check` will fail if they are not.

@@ -11,8 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Recipe behaviour** carries its own `version` field in the manifest. A
   visual change to an existing recipe is a minor bump; a change to its root
   selector, required slots or parameter bounds is a major one.
-- **The `data-sf-*` attribute prefix stays supported.** It will not be removed
-  in a 1.x release.
+- **The attribute prefix is `data-motion-`.** Renaming it is a major change.
 - **Bundle budgets** in `scripts/check-size.mjs` are part of the contract. They
   are raised deliberately, never quietly.
 
@@ -25,8 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `@syncedco/motion/full` registers every optional GSAP plugin in one import,
   preserving the previous batteries-included behaviour.
 - `@syncedco/motion/plugins` exposes the optional plugin set for selective use.
-- `data-motion-*` is now the documented authoring prefix. It is normalised onto
-  the internal names once at mount and fully reverted on destroy.
+- `data-motion-*` is the attribute vocabulary throughout. The runtime marks
+  state with `data-motion-runtime`, `data-motion-reduced`,
+  `data-motion-scroll-locked` and `data-motion-recipe`, and the package's own
+  custom properties are `--motion-*`.
 - `synced-motion add <id...>` prints ready-to-paste markup with every required
   slot, and warns when a recipe needs an optional plugin.
 - `synced-motion --version` and per-command `--help`.

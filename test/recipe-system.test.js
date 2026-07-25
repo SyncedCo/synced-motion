@@ -149,16 +149,16 @@ describe('root-scoped motion runtime', () => {
     expect(motion.inspect().mounted).toEqual(expect.arrayContaining([
       expect.objectContaining({ id: 'reveal-rise' }),
     ]))
-    expect(document.querySelector('[data-sf-reveal]').getAttribute('data-sf-motion-recipe')).toBe('reveal-rise')
+    expect(document.querySelector('[data-motion-reveal]').getAttribute('data-motion-recipe')).toBe('reveal-rise')
 
     motion.destroy()
-    expect(document.querySelector('[data-sf-reveal]').hasAttribute('data-sf-motion-recipe')).toBe(false)
+    expect(document.querySelector('[data-motion-reveal]').hasAttribute('data-motion-recipe')).toBe(false)
   })
 
   it('passes actual recipe root Elements to built-ins and activates fine-pointer recipes', () => {
     document.body.innerHTML = `
-      <div data-sf-magnetic><button data-sf-magnetic-action>Move</button></div>
-      <div data-sf-pointer-spotlight><span data-sf-spotlight></span></div>
+      <div data-motion-magnetic><button data-motion-magnetic-action>Move</button></div>
+      <div data-motion-pointer-spotlight><span data-motion-spotlight></span></div>
     `
     const dependencies = runtimeDependencies()
     const quickTo = vi.fn(() => vi.fn())
@@ -207,8 +207,8 @@ describe('root-scoped motion runtime', () => {
     expect(dependencies.ScrollTrigger.refresh).toHaveBeenCalledOnce()
     runtime.destroy()
     expect(dependencies.media.revert).toHaveBeenCalledOnce()
-    expect(document.querySelector('[data-motion-test]').hasAttribute('data-sf-motion-recipe')).toBe(false)
-    expect(document.documentElement.hasAttribute('data-sf-motion')).toBe(false)
+    expect(document.querySelector('[data-motion-test]').hasAttribute('data-motion-recipe')).toBe(false)
+    expect(document.documentElement.hasAttribute('data-motion-runtime')).toBe(false)
   })
 
   it('skips a root with missing required slots without hiding its content', () => {
@@ -237,7 +237,7 @@ describe('root-scoped motion runtime', () => {
     })
 
     expect(setup.mock.calls[0][0].reduced).toBe(true)
-    expect(document.documentElement.hasAttribute('data-sf-reduced-motion')).toBe(true)
+    expect(document.documentElement.hasAttribute('data-motion-reduced')).toBe(true)
     runtime.destroy()
   })
 
@@ -279,7 +279,7 @@ describe('root-scoped motion runtime', () => {
     runtime.mountRecipe('test-reveal', document.querySelector('[data-motion-test]'))
     runtime.destroy()
     expect(dispose).toHaveBeenCalledOnce()
-    expect(document.querySelector('[data-motion-test]').hasAttribute('data-sf-motion-recipe')).toBe(false)
+    expect(document.querySelector('[data-motion-test]').hasAttribute('data-motion-recipe')).toBe(false)
   })
 
   it('rolls back previously mounted recipes when strict setup fails', () => {
@@ -290,8 +290,8 @@ describe('root-scoped motion runtime', () => {
 
     expect(() => createMotionRuntime({ recipes: [first, second], dependencies: runtimeDependencies() })).toThrow('setup failed')
     expect(dispose).toHaveBeenCalledOnce()
-    expect(document.querySelector('[data-motion-test]').hasAttribute('data-sf-motion-recipe')).toBe(false)
-    expect(document.documentElement.hasAttribute('data-sf-motion')).toBe(false)
+    expect(document.querySelector('[data-motion-test]').hasAttribute('data-motion-recipe')).toBe(false)
+    expect(document.documentElement.hasAttribute('data-motion-runtime')).toBe(false)
   })
 
   it('preserves the receiver for object-form cleanup', () => {

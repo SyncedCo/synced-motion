@@ -247,10 +247,3 @@ export declare function clampIndex(progress: number, length: number): number
 export declare function setActiveState(elements: Element[], activeIndex: number, options?: Record<string, unknown>): void
 export declare const defaults: Readonly<Record<string, unknown>>
 
-/** The documented authoring prefix: `data-motion-`. */
-export declare const CANONICAL_ATTRIBUTE_PREFIX: 'data-motion-'
-/** The original Synced Flow prefix, still fully supported: `data-sf-`. */
-export declare const LEGACY_ATTRIBUTE_PREFIX: 'data-sf-'
-export declare function canonicalSelector(selector: string): string
-/** Mirrors `data-motion-*` onto `data-sf-*`; returns an undo function. */
-export declare function normalizeMotionAliases(scope: Document | Element): () => void

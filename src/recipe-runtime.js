@@ -1,6 +1,5 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { normalizeMotionAliases } from './core/aliases.js'
 import { compileMotionRecipe } from './recipes/compiler.js'
 import { createMotionRegistry } from './recipes/registry.js'
 
@@ -132,8 +131,8 @@ export function createMotionRuntime(options = {}) {
       const dispose = typeof result === 'function' ? result : (typeof result?.destroy === 'function' ? () => result.destroy() : undefined)
       if (typeof dispose === 'function') cleanup.add(dispose)
       mounted.set(key, { id: recipe.id, root: rootDescription(mountRoot, recipe.root.selector), slots: Object.keys(slots), performance: recipe.performance.class })
-      mountRoot.setAttribute('data-sf-motion-recipe', recipe.id)
-      cleanup.add(() => mountRoot.removeAttribute('data-sf-motion-recipe'))
+      mountRoot.setAttribute('data-motion-recipe', recipe.id)
+      cleanup.add(() => mountRoot.removeAttribute('data-motion-recipe'))
       return key
     } catch (error) {
       errors.push({ id: recipe.id, phase: 'mount', message: error instanceof Error ? error.message : String(error) })
@@ -146,9 +145,6 @@ export function createMotionRuntime(options = {}) {
     const recipe = registry.get(id)
     if (!recipe) throw new Error(`Unknown motion recipe "${id}".`)
     const compiled = compileMotionRecipe(recipe)
-    // A caller-supplied root may be markup added after mount(), so give it the
-    // same data-motion-* to data-sf-* normalisation the initial pass performs.
-    if (mountRoot) cleanup.add(normalizeMotionAliases(mountRoot))
     if (mountRoot) {
       const contained = root.nodeType === 9
         ? root.documentElement.contains(mountRoot)
@@ -166,7 +162,7 @@ export function createMotionRuntime(options = {}) {
     if (active) return runtime
     active = true
     const rootElement = documentElementFor(root)
-    rootElement?.setAttribute('data-sf-motion', 'ready')
+    rootElement?.setAttribute('data-motion-runtime', 'ready')
 
     try {
       media.add({
@@ -174,13 +170,12 @@ export function createMotionRuntime(options = {}) {
         motion: '(prefers-reduced-motion: no-preference)',
       }, (context) => {
         reduced = options.reducedMotion === 'reduce' || Boolean(context.conditions.reduce)
-        rootElement?.toggleAttribute('data-sf-reduced-motion', reduced)
+        rootElement?.toggleAttribute('data-motion-reduced', reduced)
         try {
-          cleanup.add(normalizeMotionAliases(root))
           for (const recipe of registry.list()) mountRecipe(recipe.id, undefined, options.parameterOverrides?.[recipe.id])
         } catch (error) {
           teardownMounted()
-          rootElement?.removeAttribute('data-sf-reduced-motion')
+          rootElement?.removeAttribute('data-motion-reduced')
           throw error
         }
         return teardownMounted
@@ -188,8 +183,8 @@ export function createMotionRuntime(options = {}) {
     } catch (error) {
       active = false
       teardownMounted()
-      rootElement?.removeAttribute('data-sf-motion')
-      rootElement?.removeAttribute('data-sf-reduced-motion')
+      rootElement?.removeAttribute('data-motion-runtime')
+      rootElement?.removeAttribute('data-motion-reduced')
       throw error
     }
 
@@ -220,8 +215,8 @@ export function createMotionRuntime(options = {}) {
       media.revert?.()
       teardownMounted()
       const rootElement = documentElementFor(root)
-      rootElement?.removeAttribute('data-sf-motion')
-      rootElement?.removeAttribute('data-sf-reduced-motion')
+      rootElement?.removeAttribute('data-motion-runtime')
+      rootElement?.removeAttribute('data-motion-reduced')
     },
   })
 

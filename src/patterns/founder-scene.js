@@ -3,15 +3,15 @@ import { numberAttribute } from '../core/options.js'
 export function createFounderScenes({ gsap, ScrollTrigger, SplitText, root, debug, reduced }) {
   if (reduced) return []
 
-  return [...root.querySelectorAll('[data-sf-founder-scene]')].map((scene) => {
-    const content = scene.querySelector('[data-sf-founder-content]')
-    const heading = scene.querySelector('[data-sf-founder-heading]')
-    const statementBackground = scene.querySelector('[data-sf-founder-statement-bg]')
-    const metricsBackground = scene.querySelector('[data-sf-founder-metrics-bg]')
-    const metrics = scene.querySelector('[data-sf-founder-metrics]')
-    const stat = scene.querySelector('[data-sf-founder-stat]')
-    const statLabel = scene.querySelector('[data-sf-founder-stat-label]')
-    const details = [...scene.querySelectorAll('[data-sf-founder-detail]')]
+  return [...root.querySelectorAll('[data-motion-founder-scene]')].map((scene) => {
+    const content = scene.querySelector('[data-motion-founder-content]')
+    const heading = scene.querySelector('[data-motion-founder-heading]')
+    const statementBackground = scene.querySelector('[data-motion-founder-statement-bg]')
+    const metricsBackground = scene.querySelector('[data-motion-founder-metrics-bg]')
+    const metrics = scene.querySelector('[data-motion-founder-metrics]')
+    const stat = scene.querySelector('[data-motion-founder-stat]')
+    const statLabel = scene.querySelector('[data-motion-founder-stat-label]')
+    const details = [...scene.querySelectorAll('[data-motion-founder-detail]')]
     if (!content || !heading || !statementBackground || !metricsBackground || !metrics || !stat || !statLabel) return null
 
     const split = new SplitText(heading, { type: 'words', aria: 'auto' })
@@ -29,7 +29,7 @@ export function createFounderScenes({ gsap, ScrollTrigger, SplitText, root, debu
         trigger: scene,
         start: 'clamp(top top)',
         end: 'clamp(bottom bottom)',
-        scrub: numberAttribute(scene, 'data-sf-scrub', 0.8),
+        scrub: numberAttribute(scene, 'data-motion-scrub', 0.8),
         markers: debug,
       },
     })

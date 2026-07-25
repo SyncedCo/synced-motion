@@ -5,7 +5,7 @@ import { createMediaClipReveals, createVideoPosterPlayers } from '../src/pattern
 
 describe('hover and pointer recipes', () => {
   it('uses the same lift state for pointer and keyboard focus and removes listeners', () => {
-    document.body.innerHTML = '<a href="#" data-sf-hover-lift>Card</a>'
+    document.body.innerHTML = '<a href="#" data-motion-hover-lift>Card</a>'
     const gsap = { to: vi.fn(), set: vi.fn() }
     const item = document.querySelector('a')
     const [cleanup] = createHoverLifts({ gsap, root: document, reduced: false })
@@ -18,13 +18,13 @@ describe('hover and pointer recipes', () => {
   })
 
   it('only enables magnetic motion for a fine pointer', () => {
-    document.body.innerHTML = '<div data-sf-magnetic><button data-sf-magnetic-action>Go</button></div>'
+    document.body.innerHTML = '<div data-motion-magnetic><button data-motion-magnetic-action>Go</button></div>'
     const original = window.matchMedia
     window.matchMedia = vi.fn(() => ({ matches: true }))
     const xTo = vi.fn()
     const yTo = vi.fn()
     const gsap = { quickTo: vi.fn((_target, property) => property === 'x' ? xTo : yTo), set: vi.fn() }
-    const scene = document.querySelector('[data-sf-magnetic]')
+    const scene = document.querySelector('[data-motion-magnetic]')
     scene.getBoundingClientRect = () => ({ left: 0, top: 0, width: 100, height: 100 })
     const [cleanup] = createMagneticActions({ gsap, root: document, reduced: false })
     scene.dispatchEvent(new MouseEvent('pointermove', { clientX: 75, clientY: 25 }))
@@ -38,20 +38,20 @@ describe('hover and pointer recipes', () => {
 describe('overlay recipes', () => {
   it('opens and closes a dialog while maintaining trigger state and focus return', () => {
     document.body.innerHTML = `
-      <div data-sf-dialog-overlay>
-        <button data-sf-overlay-trigger>Open</button>
-        <dialog data-sf-overlay-dialog><button data-sf-overlay-close>Close</button></dialog>
+      <div data-motion-dialog-overlay>
+        <button data-motion-overlay-trigger>Open</button>
+        <dialog data-motion-overlay-dialog><button data-motion-overlay-close>Close</button></dialog>
       </div>
     `
     const dialog = document.querySelector('dialog')
     dialog.showModal = vi.fn(() => dialog.setAttribute('open', ''))
     dialog.close = vi.fn(() => { dialog.removeAttribute('open'); dialog.dispatchEvent(new Event('close')) })
     const gsap = { fromTo: vi.fn(), set: vi.fn() }
-    const trigger = document.querySelector('[data-sf-overlay-trigger]')
+    const trigger = document.querySelector('[data-motion-overlay-trigger]')
     const [cleanup] = createDialogOverlays({ gsap, root: document, reduced: false })
     trigger.click()
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
-    expect(document.activeElement).toBe(document.querySelector('[data-sf-overlay-close]'))
+    expect(document.activeElement).toBe(document.querySelector('[data-motion-overlay-close]'))
     cleanup()
     expect(dialog.close).toHaveBeenCalledOnce()
     expect(dialog.hasAttribute('open')).toBe(false)
@@ -60,7 +60,7 @@ describe('overlay recipes', () => {
   })
 
   it('animates only the presentation of an open native disclosure', () => {
-    document.body.innerHTML = '<details data-sf-accordion-motion open><summary>Title</summary><div data-sf-accordion-panel>Body</div></details>'
+    document.body.innerHTML = '<details data-motion-accordion-motion open><summary>Title</summary><div data-motion-accordion-panel>Body</div></details>'
     const gsap = { fromTo: vi.fn(), set: vi.fn() }
     const disclosure = document.querySelector('details')
     createAccordionDisclosures({ gsap, root: document, reduced: false })
@@ -71,7 +71,7 @@ describe('overlay recipes', () => {
 
 describe('media recipes', () => {
   it('creates a bounded clip reveal and skips it for reduced motion', () => {
-    document.body.innerHTML = '<figure data-sf-media-clip><div data-sf-media-frame></div></figure>'
+    document.body.innerHTML = '<figure data-motion-media-clip><div data-motion-media-frame></div></figure>'
     const gsap = { from: vi.fn(() => ({})) }
     createMediaClipReveals({ gsap, root: document, reduced: false, debug: false })
     expect(gsap.from).toHaveBeenCalledWith(expect.any(Element), expect.objectContaining({ clipPath: 'inset(0 100% 0 0)' }))
@@ -80,10 +80,10 @@ describe('media recipes', () => {
 
   it('keeps native video controls and restores the poster during cleanup', async () => {
     document.body.innerHTML = `
-      <figure data-sf-video-poster>
-        <button data-sf-video-trigger aria-pressed="false">Play</button>
-        <img data-sf-video-poster-image alt="">
-        <video data-sf-video-element></video>
+      <figure data-motion-video-poster>
+        <button data-motion-video-trigger aria-pressed="false">Play</button>
+        <img data-motion-video-poster-image alt="">
+        <video data-motion-video-element></video>
       </figure>
     `
     const video = document.querySelector('video')

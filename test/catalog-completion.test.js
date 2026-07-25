@@ -119,18 +119,18 @@ describe('production recipe catalog', () => {
     const registry = createBuiltinMotionRegistry()
     const expectations = {
       'horizontal-comparison-slider': ['input[type="range"]'],
-      'video-poster-play': ['button[data-sf-video-trigger]', 'video[data-sf-video-element]'],
+      'video-poster-play': ['button[data-motion-video-trigger]', 'video[data-motion-video-element]'],
       'accordion-disclosure': ['details', 'summary'],
-      'dialog-overlay': ['button[data-sf-overlay-trigger]', 'dialog[data-sf-overlay-dialog]'],
-      'command-palette': ['dialog[data-sf-overlay-dialog]', 'input[data-sf-command-input]'],
-      'layout-accordion-grid': ['button[data-sf-layout-trigger][aria-expanded]'],
-      'pinned-statement': ['[data-sf-statement-lead]', '[data-sf-statement-hero-accent]'],
-      'pinned-founder-story': ['[data-sf-founder-stat]', '[data-sf-founder-metrics-bg]'],
-      'media-expand': ['img[alt]', 'figcaption[data-sf-media-expand-caption]'],
-      'split-lines-rise': ['h2[data-sf-split="lines"]'],
-      'split-words-cascade': ['h2[data-sf-split="words"]'],
-      'split-chars-shimmer': ['h2[data-sf-chars-shimmer]'],
-      'typewriter-announce': ['h2[data-sf-typewriter]'],
+      'dialog-overlay': ['button[data-motion-overlay-trigger]', 'dialog[data-motion-overlay-dialog]'],
+      'command-palette': ['dialog[data-motion-overlay-dialog]', 'input[data-motion-command-input]'],
+      'layout-accordion-grid': ['button[data-motion-layout-trigger][aria-expanded]'],
+      'pinned-statement': ['[data-motion-statement-lead]', '[data-motion-statement-hero-accent]'],
+      'pinned-founder-story': ['[data-motion-founder-stat]', '[data-motion-founder-metrics-bg]'],
+      'media-expand': ['img[alt]', 'figcaption[data-motion-media-expand-caption]'],
+      'split-lines-rise': ['h2[data-motion-split="lines"]'],
+      'split-words-cascade': ['h2[data-motion-split="words"]'],
+      'split-chars-shimmer': ['h2[data-motion-chars-shimmer]'],
+      'typewriter-announce': ['h2[data-motion-typewriter]'],
     }
     for (const [id, selectors] of Object.entries(expectations)) {
       const fixture = registry.get(id).fixtures[0]

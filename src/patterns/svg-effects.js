@@ -6,8 +6,8 @@ function dispose(animation) {
 
 export function createSvgLineDraws({ gsap, root, reduced, debug }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-svg-line-draw]')].map((scene) => {
-    const paths = [...scene.querySelectorAll('[data-sf-svg-path], path, line, polyline')]
+  return [...root.querySelectorAll('[data-motion-svg-line-draw]')].map((scene) => {
+    const paths = [...scene.querySelectorAll('[data-motion-svg-path], path, line, polyline')]
     if (!paths.length) return undefined
     return gsap.from(paths, {
       drawSVG: '0%',
@@ -23,7 +23,7 @@ function createMorphControllers({ gsap, root, reduced, selector, sourceSelector,
   return [...root.querySelectorAll(selector)].map((scene) => {
     const source = scene.querySelector(sourceSelector)
     const target = scene.querySelector(targetSelector)
-    const trigger = scene.querySelector('[data-sf-svg-trigger]') ?? scene.querySelector('button')
+    const trigger = scene.querySelector('[data-motion-svg-trigger]') ?? scene.querySelector('button')
     if (!source || !target || !trigger) return undefined
     const original = source.getAttribute('d')
     let active = false
@@ -49,26 +49,26 @@ function createMorphControllers({ gsap, root, reduced, selector, sourceSelector,
 export function createSvgPathMorphs(context) {
   return createMorphControllers({
     ...context,
-    selector: '[data-sf-svg-morph]',
-    sourceSelector: '[data-sf-svg-morph-source]',
-    targetSelector: '[data-sf-svg-morph-target]',
+    selector: '[data-motion-svg-morph]',
+    sourceSelector: '[data-motion-svg-morph-source]',
+    targetSelector: '[data-motion-svg-morph-target]',
   })
 }
 
 export function createSvgIconStates(context) {
   return createMorphControllers({
     ...context,
-    selector: '[data-sf-svg-icon-state]',
-    sourceSelector: '[data-sf-svg-icon-source]',
-    targetSelector: '[data-sf-svg-icon-target]',
+    selector: '[data-motion-svg-icon-state]',
+    sourceSelector: '[data-motion-svg-icon-source]',
+    targetSelector: '[data-motion-svg-icon-target]',
   })
 }
 
 export function createSvgOrbits({ gsap, root, reduced, debug }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-svg-orbit]')].map((scene) => {
-    const subject = scene.querySelector('[data-sf-svg-orbit-subject]')
-    const path = scene.querySelector('[data-sf-svg-orbit-path]')
+  return [...root.querySelectorAll('[data-motion-svg-orbit]')].map((scene) => {
+    const subject = scene.querySelector('[data-motion-svg-orbit-subject]')
+    const path = scene.querySelector('[data-motion-svg-orbit-path]')
     if (!subject || !path) return undefined
     return gsap.to(subject, {
       motionPath: { path, align: path, alignOrigin: [0.5, 0.5], autoRotate: true },
@@ -80,7 +80,7 @@ export function createSvgOrbits({ gsap, root, reduced, debug }) {
 
 export function createSvgSignatureReveals({ gsap, root, reduced, debug }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-svg-signature]')].map((scene) => {
+  return [...root.querySelectorAll('[data-motion-svg-signature]')].map((scene) => {
     const paths = [...scene.querySelectorAll('path')]
     if (!paths.length) return undefined
     return gsap.from(paths, {

@@ -1,8 +1,8 @@
 export function createScrollProgressMeters({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-scroll-progress]')].map((scene) => {
-    const meter = scene.querySelector('[data-sf-scroll-progress-meter]')
-    const label = scene.querySelector('[data-sf-scroll-progress-label]')
+  return [...root.querySelectorAll('[data-motion-scroll-progress]')].map((scene) => {
+    const meter = scene.querySelector('[data-motion-scroll-progress-meter]')
+    const label = scene.querySelector('[data-motion-scroll-progress-label]')
     if (!meter) return undefined
     return gsap.fromTo(meter, { scaleX: 0 }, {
       scaleX: 1,
@@ -10,8 +10,8 @@ export function createScrollProgressMeters({ gsap, root, debug, reduced }) {
       ease: 'none',
       scrollTrigger: {
         trigger: scene,
-        start: scene.getAttribute('data-sf-start') || 'top bottom',
-        end: scene.getAttribute('data-sf-end') || 'bottom top',
+        start: scene.getAttribute('data-motion-start') || 'top bottom',
+        end: scene.getAttribute('data-motion-end') || 'bottom top',
         scrub: true,
         markers: debug,
         onUpdate(self) {
@@ -24,8 +24,8 @@ export function createScrollProgressMeters({ gsap, root, debug, reduced }) {
 
 export function createScrollDepthStacks({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-scroll-depth-stack]')].map((scene) => {
-    const cards = [...scene.querySelectorAll('[data-sf-depth-card]')]
+  return [...root.querySelectorAll('[data-motion-scroll-depth-stack]')].map((scene) => {
+    const cards = [...scene.querySelectorAll('[data-motion-depth-card]')]
     if (!cards.length) return undefined
     return gsap.from(cards, {
       autoAlpha: 0,

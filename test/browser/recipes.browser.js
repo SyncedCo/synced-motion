@@ -76,7 +76,7 @@ for (const { family, id } of FAMILIES) {
 
     // GSAP may leave inline styles mid-tween; what must not survive teardown is
     // the runtime's own bookkeeping attribute.
-    expect(after, `${id} left a mounted marker behind`).not.toContain('data-sf-motion-recipe')
+    expect(after, `${id} left a mounted marker behind`).not.toContain('data-motion-recipe')
     expect(before.length, `${id} produced no markup`).toBeGreaterThan(0)
   })
 
@@ -98,10 +98,10 @@ for (const { family, id } of FAMILIES) {
 test('scroll-driven recipes respond to actual scrolling', async ({ page }) => {
   await page.evaluate(() => window.motionHarness.mount('scroll-parallax'))
 
-  const before = await page.evaluate(() => window.motionHarness.measure('[data-sf-parallax]'))
+  const before = await page.evaluate(() => window.motionHarness.measure('[data-motion-parallax]'))
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2))
   await page.waitForTimeout(500)
-  const after = await page.evaluate(() => window.motionHarness.measure('[data-sf-parallax]'))
+  const after = await page.evaluate(() => window.motionHarness.measure('[data-motion-parallax]'))
 
   expect(before?.transform, 'parallax produced no transform').toBeDefined()
   expect(after?.transform).not.toBe(before?.transform)
@@ -111,7 +111,7 @@ test('reduced motion leaves content at its authored final state', async ({ page 
   await page.evaluate(() => window.motionHarness.mount('reveal-rise', { reduced: true }))
   await page.waitForTimeout(300)
 
-  const measured = await page.evaluate(() => window.motionHarness.measure('[data-sf-reveal]'))
+  const measured = await page.evaluate(() => window.motionHarness.measure('[data-motion-reveal]'))
   expect(measured.opacity).toBe(1)
   expect(measured.visibility).not.toBe('hidden')
 })

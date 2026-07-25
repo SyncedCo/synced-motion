@@ -58,7 +58,7 @@ export function createSyncedMotion(options = {}) {
       view?.removeEventListener('load', refresh)
       smoothScroll?.destroy()
       runtime.destroy()
-      ownerDocument.documentElement.removeAttribute('data-sf-scroll-locked')
+      ownerDocument.documentElement.removeAttribute('data-motion-scroll-locked')
     },
   })
 }

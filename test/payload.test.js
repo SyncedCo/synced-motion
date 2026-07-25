@@ -76,7 +76,7 @@ describe('runtime payload', () => {
   })
 
   it('mounts a registry built from individually imported specs', () => {
-    document.body.innerHTML = '<p data-sf-reveal="up">Readable</p>'
+    document.body.innerHTML = '<p data-motion-reveal="up">Readable</p>'
     const registry = createMotionRegistry([revealRise, marquee], { mode: 'runtime' })
     const runtime = createMotionRuntime({ registry, dependencies: stubDependencies() })
 
@@ -88,7 +88,7 @@ describe('runtime payload', () => {
 
 describe('optional plugin dependencies', () => {
   it('skips a recipe whose plugin was not supplied, with an actionable fix', () => {
-    document.body.innerHTML = '<h2 data-sf-split="lines">A heading that needs SplitText</h2>'
+    document.body.innerHTML = '<h2 data-motion-split="lines">A heading that needs SplitText</h2>'
     const registry = createRuntimeMotionRegistry(builtinMotionSpecs.filter((spec) => spec.id === 'split-lines-rise'))
     const runtime = createMotionRuntime({ registry, dependencies: stubDependencies() })
 
@@ -102,7 +102,7 @@ describe('optional plugin dependencies', () => {
   })
 
   it('mounts the same recipe once the plugin is supplied', () => {
-    document.body.innerHTML = '<h2 data-sf-split="lines">A heading that needs SplitText</h2>'
+    document.body.innerHTML = '<h2 data-motion-split="lines">A heading that needs SplitText</h2>'
     class SplitText {
       constructor(element) { this.lines = [element]; this.words = [element]; this.chars = [element] }
       revert() {}

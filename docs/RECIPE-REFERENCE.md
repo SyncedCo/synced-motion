@@ -5,7 +5,7 @@ Every registered recipe, generated from the catalog so it cannot drift from the
 code. 60 recipes across 12 families.
 
 Selectors are shown with the documented `data-motion-` prefix. The original
-`data-sf-` names remain fully supported.
+`data-motion-` names remain fully supported.
 
 To explore these interactively, run `npm run gallery`. To query them from a
 script or an agent, use `npx synced-motion catalog --json`.

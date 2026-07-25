@@ -10,7 +10,7 @@ const directions = {
 function viewportConfig(element, debug) {
   return {
     trigger: element,
-    start: element.getAttribute('data-sf-start') || 'top 85%',
+    start: element.getAttribute('data-motion-start') || 'top 85%',
     once: true,
     markers: debug,
   }
@@ -18,12 +18,12 @@ function viewportConfig(element, debug) {
 
 export function createDirectionalReveals({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-reveal-directional]')].map((element) => {
-    const direction = directions[element.getAttribute('data-sf-reveal-directional')] ?? directions.up
+  return [...root.querySelectorAll('[data-motion-reveal-directional]')].map((element) => {
+    const direction = directions[element.getAttribute('data-motion-reveal-directional')] ?? directions.up
     return gsap.from(element, {
       autoAlpha: 0,
       ...direction,
-      duration: numberAttribute(element, 'data-sf-duration', 0.7),
+      duration: numberAttribute(element, 'data-motion-duration', 0.7),
       ease: 'power2.out',
       clearProps: 'transform,opacity,visibility',
       scrollTrigger: viewportConfig(element, debug),
@@ -33,11 +33,11 @@ export function createDirectionalReveals({ gsap, root, debug, reduced }) {
 
 export function createScaleReveals({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-reveal-scale]')].map((element) => gsap.from(element, {
+  return [...root.querySelectorAll('[data-motion-reveal-scale]')].map((element) => gsap.from(element, {
     autoAlpha: 0,
-    scale: numberAttribute(element, 'data-sf-reveal-scale', 0.94),
-    transformOrigin: element.getAttribute('data-sf-origin') || '50% 50%',
-    duration: numberAttribute(element, 'data-sf-duration', 0.75),
+    scale: numberAttribute(element, 'data-motion-reveal-scale', 0.94),
+    transformOrigin: element.getAttribute('data-motion-origin') || '50% 50%',
+    duration: numberAttribute(element, 'data-motion-duration', 0.75),
     ease: 'power2.out',
     clearProps: 'transform,opacity,visibility',
     scrollTrigger: viewportConfig(element, debug),
@@ -46,13 +46,13 @@ export function createScaleReveals({ gsap, root, debug, reduced }) {
 
 export function createClipWipeReveals({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-reveal-clip]')].map((scene) => {
-    const content = scene.querySelector('[data-sf-reveal-clip-content]') ?? scene
-    const direction = scene.getAttribute('data-sf-reveal-clip') || 'start'
+  return [...root.querySelectorAll('[data-motion-reveal-clip]')].map((scene) => {
+    const content = scene.querySelector('[data-motion-reveal-clip-content]') ?? scene
+    const direction = scene.getAttribute('data-motion-reveal-clip') || 'start'
     const clipPath = direction === 'end' ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)'
     return gsap.from(content, {
       clipPath,
-      duration: numberAttribute(scene, 'data-sf-duration', 0.9),
+      duration: numberAttribute(scene, 'data-motion-duration', 0.9),
       ease: 'power3.inOut',
       clearProps: 'clipPath',
       scrollTrigger: viewportConfig(scene, debug),

@@ -8,8 +8,8 @@ function disposeAll(animations) {
 
 export function createPageLoadHeroes({ gsap, root, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-page-load-hero]')].map((scene) => {
-    const items = [...scene.querySelectorAll('[data-sf-page-load-item]')]
+  return [...root.querySelectorAll('[data-motion-page-load-hero]')].map((scene) => {
+    const items = [...scene.querySelectorAll('[data-motion-page-load-item]')]
     if (!items.length) return undefined
     return gsap.from(items, { autoAlpha: 0, y: '1.5rem', duration: 0.7, stagger: 0.09, ease: 'power3.out', clearProps: 'transform,opacity,visibility' })
   }).filter(Boolean)
@@ -17,18 +17,18 @@ export function createPageLoadHeroes({ gsap, root, reduced }) {
 
 export function createPageLoadBrandMarks({ gsap, root, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-page-load-brand]')].map((scene) => {
-    const mark = scene.querySelector('[data-sf-brand-mark]') ?? scene
+  return [...root.querySelectorAll('[data-motion-page-load-brand]')].map((scene) => {
+    const mark = scene.querySelector('[data-motion-brand-mark]') ?? scene
     return gsap.from(mark, { autoAlpha: 0, scale: 0.92, rotate: -4, transformOrigin: 'center', duration: 0.8, ease: 'power3.out', clearProps: 'transform,opacity,visibility' })
   })
 }
 
 export function createRouteFades({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-route-fade]')].map((scene) => {
+  return [...root.querySelectorAll('[data-motion-route-fade]')].map((scene) => {
     const animations = []
     const transition = (event) => {
-      const outgoing = event.detail?.outgoing ?? scene.querySelector('[data-sf-route-outgoing]')
-      const incoming = event.detail?.incoming ?? scene.querySelector('[data-sf-route-incoming]')
+      const outgoing = event.detail?.outgoing ?? scene.querySelector('[data-motion-route-outgoing]')
+      const incoming = event.detail?.incoming ?? scene.querySelector('[data-motion-route-incoming]')
       const complete = typeof event.detail?.complete === 'function' ? event.detail.complete : () => {}
       if (reduced) {
         complete()
@@ -48,10 +48,10 @@ export function createRouteFades({ gsap, root, reduced }) {
 }
 
 export function createRouteSharedMedia({ Flip, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-route-shared-media]')].map((scene) => {
+  return [...root.querySelectorAll('[data-motion-route-shared-media]')].map((scene) => {
     const animations = []
     const transition = (event) => {
-      const media = [...scene.querySelectorAll('[data-sf-shared-media]')]
+      const media = [...scene.querySelectorAll('[data-motion-shared-media]')]
       if (!media.length || typeof event.detail?.mutate !== 'function') return
       const state = Flip.getState(media)
       event.detail.mutate(scene, media)
@@ -66,7 +66,7 @@ export function createRouteSharedMedia({ Flip, root, reduced }) {
 }
 
 export function createRouteScrollRestores({ ScrollTrigger, root }) {
-  return [...root.querySelectorAll('[data-sf-route-scroll-restore]')].map((scene) => {
+  return [...root.querySelectorAll('[data-motion-route-scroll-restore]')].map((scene) => {
     const view = scene.ownerDocument.defaultView
     const restore = (event) => {
       const top = Number.isFinite(event.detail?.top) ? event.detail.top : 0

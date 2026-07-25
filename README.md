@@ -192,12 +192,6 @@ createMotionRuntime({ registry: createMotionRegistry([reveal]) })
 Your recipe appears in the gallery, the CLI and the MCP server automatically.
 See [the recipe system](docs/RECIPES.md).
 
-## Attribute prefix
-
-`data-motion-*` is the documented prefix. `data-sf-*` is the original Synced
-Flow spelling, still fully supported and not going away in 1.x — an explicit
-`data-sf-*` attribute always wins over its `data-motion-*` alias.
-
 ## Using it with Synced Flow
 
 Synced Motion is standalone, but it is designed to sit alongside

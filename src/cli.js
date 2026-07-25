@@ -1,6 +1,5 @@
 import { createDefaultMotionService } from './default-service.js'
 import { readFileSync } from 'node:fs'
-import { canonicalSelector } from './core/aliases.js'
 import { packageVersion } from './version.js'
 import {
   applyMotionProjectSetup,
@@ -30,14 +29,13 @@ function parseArguments(args) {
 
 const COMMANDS = {
   add: {
-    usage: 'synced-motion add <id...> [--legacy-prefix] [--json]',
+    usage: 'synced-motion add <id...> [--json]',
     summary: 'Print ready-to-paste markup for one or more recipes.',
     detail: `Emits the semantic markup a recipe needs, including every required
 slot, using the documented data-motion-* attributes.
 
   synced-motion add reveal-rise
-  synced-motion add pinned-steps marquee > partials/motion.html
-  synced-motion add reveal-rise --legacy-prefix   # emit data-sf-* instead`,
+  synced-motion add pinned-steps marquee > partials/motion.html`,
   },
   catalog: {
     usage: 'synced-motion catalog [--json]',
@@ -113,11 +111,8 @@ Run "synced-motion <command> --help" for details on a single command.
 }
 
 /** Indent-aware markup emitter for `synced-motion add`. */
-function markupForRecipe(recipe, { legacyPrefix = false } = {}) {
-  const attribute = (selector) => {
-    const canonical = legacyPrefix ? selector : canonicalSelector(selector)
-    return canonical.replace(/^\[/, '').replace(/\]$/, '')
-  }
+function markupForRecipe(recipe) {
+  const attribute = (selector) => selector.replace(/^\[/, '').replace(/\]$/, '')
   const slots = recipe.slots.filter((slot) => slot.name !== 'root')
   const children = slots.flatMap((slot) => {
     const count = slot.multiple ? 2 : 1
@@ -190,11 +185,10 @@ export async function runMotionCli(args = process.argv.slice(2), io = console, s
       }
       recipes.push(recipe)
     }
-    const legacyPrefix = Boolean(options['legacy-prefix'])
     const blocks = recipes.map((recipe) => ({
       id: recipe.id,
       dependencies: recipe.dependencies,
-      markup: markupForRecipe(recipe, { legacyPrefix }),
+      markup: markupForRecipe(recipe),
     }))
     if (options.json) {
       io.log(JSON.stringify({ schemaVersion: '1', recipes: blocks }, null, 2))

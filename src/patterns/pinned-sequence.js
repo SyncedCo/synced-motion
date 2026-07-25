@@ -4,7 +4,7 @@ import { setActiveState } from '../core/state.js'
 function createPinnedSequences({ ScrollTrigger, root, debug, reduced, selector, itemSelector, visualSelector }) {
   if (reduced) return []
   return [...root.querySelectorAll(selector)].map((scene) => {
-    const pin = scene.querySelector('[data-sf-pin-target]')
+    const pin = scene.querySelector('[data-motion-pin-target]')
     const items = [...scene.querySelectorAll(itemSelector)]
     const visuals = [...scene.querySelectorAll(visualSelector)]
     if (!pin || !items.length) return undefined
@@ -17,7 +17,7 @@ function createPinnedSequences({ ScrollTrigger, root, debug, reduced, selector, 
     const instance = ScrollTrigger.create({
       trigger: scene,
       start: 'top top',
-      end: scene.getAttribute('data-sf-end') || 'bottom bottom',
+      end: scene.getAttribute('data-motion-end') || 'bottom bottom',
       pin,
       markers: debug,
       onUpdate(self) { activate(clampIndex(self.progress, items.length)) },
@@ -33,17 +33,17 @@ function createPinnedSequences({ ScrollTrigger, root, debug, reduced, selector, 
 export function createPinnedChapterCrossfades(context) {
   return createPinnedSequences({
     ...context,
-    selector: '[data-sf-pinned-chapters]',
-    itemSelector: '[data-sf-pinned-chapter]',
-    visualSelector: '[data-sf-pinned-visual]',
+    selector: '[data-motion-pinned-chapters]',
+    itemSelector: '[data-motion-pinned-chapter]',
+    visualSelector: '[data-motion-pinned-visual]',
   })
 }
 
 export function createPinnedProductExplainers(context) {
   return createPinnedSequences({
     ...context,
-    selector: '[data-sf-product-explainer]',
-    itemSelector: '[data-sf-product-step]',
-    visualSelector: '[data-sf-product-media]',
+    selector: '[data-motion-product-explainer]',
+    itemSelector: '[data-motion-product-step]',
+    visualSelector: '[data-motion-product-media]',
   })
 }

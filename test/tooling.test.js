@@ -101,7 +101,7 @@ describe('CLI and MCP parity', () => {
     const service = createDefaultMotionService()
     const cwd = mkdtempSync(join(tmpdir(), 'synced-motion-'))
     const file = join(cwd, 'page.html')
-    const markup = '<section data-sf-page-load-hero><div data-sf-page-load-item></div></section>'
+    const markup = '<section data-motion-page-load-hero><div data-motion-page-load-item></div></section>'
     writeFileSync(file, markup)
 
     const scanCli = await runMotionCli(['scan', '--file', file, '--json'], capture(), service)
@@ -142,7 +142,7 @@ describe('CLI and MCP parity', () => {
 
   it('scans semantic hooks and composes a constrained plan', async () => {
     const service = createDefaultMotionService()
-    const markup = '<section data-sf-scroll-steps><div data-sf-pin-target></div><button data-sf-step-link></button></section><article data-sf-step-panel></article>'
+    const markup = '<section data-motion-scroll-steps><div data-motion-pin-target></div><button data-motion-step-link></button></section><article data-motion-step-panel></article>'
     const scan = service.scanMarkup(markup)
     expect(scan.recipes).toEqual([
       expect.objectContaining({ id: 'pinned-steps', ready: false, missingSlots: ['panels'] }),

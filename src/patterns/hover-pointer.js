@@ -4,7 +4,7 @@ function clearTween(gsap, target) {
 
 export function createHoverLifts({ gsap, root, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-hover-lift]')].map((item) => {
+  return [...root.querySelectorAll('[data-motion-hover-lift]')].map((item) => {
     const enter = () => gsap.to(item, { y: '-0.5rem', scale: 1.01, duration: 0.25, ease: 'power2.out', overwrite: 'auto' })
     const leave = () => gsap.to(item, { y: 0, scale: 1, duration: 0.3, ease: 'power2.out', overwrite: 'auto' })
     item.addEventListener('pointerenter', enter)
@@ -24,13 +24,13 @@ export function createHoverLifts({ gsap, root, reduced }) {
 export function createMagneticActions({ gsap, root, reduced }) {
   const view = root.nodeType === 9 ? root.defaultView : root.ownerDocument?.defaultView
   if (reduced || !view?.matchMedia?.('(pointer: fine)').matches) return []
-  return [...root.querySelectorAll('[data-sf-magnetic]')].map((scene) => {
-    const action = scene.querySelector('[data-sf-magnetic-action]') ?? scene
+  return [...root.querySelectorAll('[data-motion-magnetic]')].map((scene) => {
+    const action = scene.querySelector('[data-motion-magnetic-action]') ?? scene
     const xTo = gsap.quickTo(action, 'x', { duration: 0.35, ease: 'power3.out' })
     const yTo = gsap.quickTo(action, 'y', { duration: 0.35, ease: 'power3.out' })
     const move = (event) => {
       const rect = scene.getBoundingClientRect()
-      const strength = Number(scene.getAttribute('data-sf-magnetic-strength') || 0.2)
+      const strength = Number(scene.getAttribute('data-motion-magnetic-strength') || 0.2)
       xTo((event.clientX - rect.left - rect.width / 2) * strength)
       yTo((event.clientY - rect.top - rect.height / 2) * strength)
     }
@@ -50,8 +50,8 @@ export function createMagneticActions({ gsap, root, reduced }) {
 export function createPointerSpotlights({ gsap, root, reduced }) {
   const view = root.nodeType === 9 ? root.defaultView : root.ownerDocument?.defaultView
   if (reduced || !view?.matchMedia?.('(pointer: fine)').matches) return []
-  return [...root.querySelectorAll('[data-sf-pointer-spotlight]')].map((scene) => {
-    const spotlight = scene.querySelector('[data-sf-spotlight]')
+  return [...root.querySelectorAll('[data-motion-pointer-spotlight]')].map((scene) => {
+    const spotlight = scene.querySelector('[data-motion-spotlight]')
     if (!spotlight) return undefined
     const xTo = gsap.quickTo(spotlight, 'x', { duration: 0.2, ease: 'power2.out' })
     const yTo = gsap.quickTo(spotlight, 'y', { duration: 0.2, ease: 'power2.out' })

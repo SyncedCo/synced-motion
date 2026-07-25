@@ -10,11 +10,11 @@ function flipFrom(Flip, state, reduced, animations, options = {}) {
 }
 
 export function createFlipListReorders({ Flip, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-flip-list]')].map((list) => {
+  return [...root.querySelectorAll('[data-motion-flip-list]')].map((list) => {
     const animations = []
     const onReorder = (event) => {
       if (typeof event.detail?.mutate !== 'function') return
-      const items = [...list.querySelectorAll('[data-sf-flip-item]')]
+      const items = [...list.querySelectorAll('[data-motion-flip-item]')]
       const state = Flip.getState(items)
       event.detail.mutate(list, items)
       flipFrom(Flip, state, reduced, animations, { stagger: 0.03 })
@@ -28,9 +28,9 @@ export function createFlipListReorders({ Flip, root, reduced }) {
 }
 
 export function createFlipCardDetails({ Flip, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-flip-card]')].map((card) => {
-    const trigger = card.querySelector('[data-sf-flip-card-trigger]')
-    const detail = card.querySelector('[data-sf-flip-card-detail]')
+  return [...root.querySelectorAll('[data-motion-flip-card]')].map((card) => {
+    const trigger = card.querySelector('[data-motion-flip-card-trigger]')
+    const detail = card.querySelector('[data-motion-flip-card-detail]')
     if (!trigger || !detail) return undefined
     const animations = []
     const initialExpanded = card.hasAttribute('data-expanded')
@@ -56,17 +56,17 @@ export function createFlipCardDetails({ Flip, root, reduced }) {
 }
 
 export function createFlipFilterGrids({ Flip, gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-flip-filter]')].map((scene) => {
-    const controls = [...scene.querySelectorAll('[data-sf-filter-control]')]
-    const items = [...scene.querySelectorAll('[data-sf-filter-item]')]
+  return [...root.querySelectorAll('[data-motion-flip-filter]')].map((scene) => {
+    const controls = [...scene.querySelectorAll('[data-motion-filter-control]')]
+    const items = [...scene.querySelectorAll('[data-motion-filter-item]')]
     if (!controls.length || !items.length) return undefined
     const animations = []
     const apply = (control) => {
-      const value = control.getAttribute('data-sf-filter-control') || 'all'
+      const value = control.getAttribute('data-motion-filter-control') || 'all'
       const state = Flip.getState(items)
       controls.forEach((entry) => entry.setAttribute('aria-pressed', String(entry === control)))
       items.forEach((item) => {
-        const values = (item.getAttribute('data-sf-filter-item') || '').split(/\s+/)
+        const values = (item.getAttribute('data-motion-filter-item') || '').split(/\s+/)
         item.toggleAttribute('hidden', value !== 'all' && !values.includes(value))
       })
       flipFrom(Flip, state, reduced, animations, {
@@ -88,9 +88,9 @@ export function createFlipFilterGrids({ Flip, gsap, root, reduced }) {
 }
 
 export function createFlipNavIndicators({ Flip, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-flip-nav]')].map((nav) => {
-    const items = [...nav.querySelectorAll('[data-sf-flip-nav-item]')]
-    const indicator = nav.querySelector('[data-sf-flip-nav-indicator]')
+  return [...root.querySelectorAll('[data-motion-flip-nav]')].map((nav) => {
+    const items = [...nav.querySelectorAll('[data-motion-flip-nav-item]')]
+    const indicator = nav.querySelector('[data-motion-flip-nav-indicator]')
     if (!items.length || !indicator) return undefined
     const animations = []
     const originalParent = indicator.parentNode
@@ -121,11 +121,11 @@ export function createFlipNavIndicators({ Flip, root, reduced }) {
 }
 
 export function createLayoutAccordionGrids({ Flip, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-layout-accordion-grid]')].map((grid) => {
-    const items = [...grid.querySelectorAll('[data-sf-layout-item]')]
+  return [...root.querySelectorAll('[data-motion-layout-accordion-grid]')].map((grid) => {
+    const items = [...grid.querySelectorAll('[data-motion-layout-item]')]
     const animations = []
     const listeners = items.flatMap((item) => {
-      const trigger = item.querySelector('[data-sf-layout-trigger]')
+      const trigger = item.querySelector('[data-motion-layout-trigger]')
       if (!trigger) return []
       const handler = () => {
         const state = Flip.getState(items)
@@ -133,7 +133,7 @@ export function createLayoutAccordionGrids({ Flip, root, reduced }) {
         items.forEach((entry) => {
           const active = entry === item && expanded
           entry.toggleAttribute('data-expanded', active)
-          entry.querySelector('[data-sf-layout-trigger]')?.setAttribute('aria-expanded', String(active))
+          entry.querySelector('[data-motion-layout-trigger]')?.setAttribute('aria-expanded', String(active))
         })
         flipFrom(Flip, state, reduced, animations, { stagger: 0.025 })
       }
@@ -146,7 +146,7 @@ export function createLayoutAccordionGrids({ Flip, root, reduced }) {
       animationCleanup(animations)()
       items.forEach((item) => {
         item.removeAttribute('data-expanded')
-        item.querySelector('[data-sf-layout-trigger]')?.setAttribute('aria-expanded', 'false')
+        item.querySelector('[data-motion-layout-trigger]')?.setAttribute('aria-expanded', 'false')
       })
     }
   }).filter(Boolean)

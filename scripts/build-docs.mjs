@@ -5,7 +5,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createBuiltinMotionRegistry } from '../src/recipes/builtins.js'
-import { canonicalSelector } from '../src/core/aliases.js'
 
 const OUTPUT = resolve(import.meta.dirname, '../docs/RECIPE-REFERENCE.md')
 
@@ -47,7 +46,7 @@ function slotRows(recipe) {
   const slots = recipe.slots.filter((slot) => slot.name !== 'root')
   if (!slots.length) return '_The root element is the only target._'
   const rows = slots.map((slot) => {
-    const selector = canonicalSelector(slot.selector)
+    const selector = slot.selector
     return `| \`${slot.name}\` | \`${escape(selector)}\` | ${slot.required === false ? 'optional' : 'required'} | ${slot.multiple ? 'many' : 'one'} |`
   })
   return ['| Slot | Selector | Required | Count |', '| --- | --- | --- | --- |', ...rows].join('\n')
@@ -63,7 +62,7 @@ function section(recipe) {
 
 ${recipe.description} ${recipe.intent}
 ${pluginNote}
-- **Root:** \`${escape(canonicalSelector(recipe.root.selector))}\`
+- **Root:** \`${escape(recipe.root.selector)}\`
 - **Triggers:** ${recipe.triggers.map((trigger) => `\`${trigger.type}\``).join(', ')}
 - **Performance:** ${recipe.performance.class}
 - **Reduced motion:** ${recipe.reducedMotion.strategy} — ${recipe.reducedMotion.behavior ?? 'see notes'}
@@ -97,7 +96,7 @@ Every registered recipe, generated from the catalog so it cannot drift from the
 code. ${recipes.length} recipes across ${families.length} families.
 
 Selectors are shown with the documented \`data-motion-\` prefix. The original
-\`data-sf-\` names remain fully supported.
+\`data-motion-\` names remain fully supported.
 
 To explore these interactively, run \`npm run gallery\`. To query them from a
 script or an agent, use \`npx synced-motion catalog --json\`.

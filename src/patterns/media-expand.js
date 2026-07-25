@@ -3,13 +3,13 @@ import { numberAttribute } from '../core/options.js'
 export function createMediaExpansions({ gsap, root, debug, reduced }) {
   if (reduced) return []
 
-  return [...root.querySelectorAll('[data-sf-media-expand]')].map((scene) => {
-    const frame = scene.querySelector('[data-sf-media-expand-frame]')
+  return [...root.querySelectorAll('[data-motion-media-expand]')].map((scene) => {
+    const frame = scene.querySelector('[data-motion-media-expand-frame]')
     const image = frame?.querySelector('img')
-    const prompt = scene.querySelector('[data-sf-media-expand-prompt]')
-    const caption = scene.querySelector('[data-sf-media-expand-caption]')
-    const startLabel = scene.querySelector('[data-sf-media-expand-label="start"]')
-    const endLabel = scene.querySelector('[data-sf-media-expand-label="end"]')
+    const prompt = scene.querySelector('[data-motion-media-expand-prompt]')
+    const caption = scene.querySelector('[data-motion-media-expand-caption]')
+    const startLabel = scene.querySelector('[data-motion-media-expand-label="start"]')
+    const endLabel = scene.querySelector('[data-motion-media-expand-label="end"]')
     if (!frame || !image || !prompt || !caption || !startLabel || !endLabel) return null
     const view = scene.ownerDocument.defaultView
 
@@ -39,7 +39,7 @@ export function createMediaExpansions({ gsap, root, debug, reduced }) {
         trigger: scene,
         start: 'clamp(top top)',
         end: 'clamp(bottom bottom)',
-        scrub: numberAttribute(scene, 'data-sf-scrub', 0.8),
+        scrub: numberAttribute(scene, 'data-motion-scrub', 0.8),
         invalidateOnRefresh: true,
         markers: debug,
         onRefresh: syncExpansion,

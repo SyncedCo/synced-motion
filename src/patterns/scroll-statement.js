@@ -3,15 +3,15 @@ import { numberAttribute } from '../core/options.js'
 export function createScrollStatements({ gsap, ScrollTrigger, root, reduced }) {
   if (reduced) return []
 
-  return [...root.querySelectorAll('[data-sf-scroll-statement]')].map((scene) => {
-    const pin = scene.querySelector('[data-sf-statement-pin]')
-    const heading = scene.querySelector('[data-sf-statement-heading]')
-    const lead = scene.querySelector('[data-sf-statement-lead]')
-    const heroAccent = scene.querySelector('[data-sf-statement-hero-accent]')
-    const inlineAccent = scene.querySelector('[data-sf-statement-inline-accent]')
-    const details = scene.querySelector('[data-sf-statement-details]')
-    const detailItems = [...scene.querySelectorAll('[data-sf-statement-detail]')]
-    const label = scene.querySelector('[data-sf-statement-label]')
+  return [...root.querySelectorAll('[data-motion-scroll-statement]')].map((scene) => {
+    const pin = scene.querySelector('[data-motion-statement-pin]')
+    const heading = scene.querySelector('[data-motion-statement-heading]')
+    const lead = scene.querySelector('[data-motion-statement-lead]')
+    const heroAccent = scene.querySelector('[data-motion-statement-hero-accent]')
+    const inlineAccent = scene.querySelector('[data-motion-statement-inline-accent]')
+    const details = scene.querySelector('[data-motion-statement-details]')
+    const detailItems = [...scene.querySelectorAll('[data-motion-statement-detail]')]
+    const label = scene.querySelector('[data-motion-statement-label]')
 
     if (!pin || !heading || !lead || !heroAccent || !inlineAccent || !details) return null
 
@@ -28,7 +28,7 @@ export function createScrollStatements({ gsap, ScrollTrigger, root, reduced }) {
         trigger: scene,
         start: 'clamp(top top)',
         end: 'clamp(bottom bottom)',
-        scrub: numberAttribute(scene, 'data-sf-scrub', 0.8),
+        scrub: numberAttribute(scene, 'data-motion-scrub', 0.8),
         invalidateOnRefresh: true,
       },
     })

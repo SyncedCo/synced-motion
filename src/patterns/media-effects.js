@@ -1,7 +1,7 @@
 export function createMediaClipReveals({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-media-clip]')].map((scene) => {
-    const frame = scene.querySelector('[data-sf-media-frame]') ?? scene
+  return [...root.querySelectorAll('[data-motion-media-clip]')].map((scene) => {
+    const frame = scene.querySelector('[data-motion-media-frame]') ?? scene
     return gsap.from(frame, {
       clipPath: 'inset(0 100% 0 0)',
       duration: 0.9,
@@ -14,9 +14,9 @@ export function createMediaClipReveals({ gsap, root, debug, reduced }) {
 
 export function createMediaCurtainSplits({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-media-curtain]')].map((scene) => {
-    const start = scene.querySelector('[data-sf-curtain-start]')
-    const end = scene.querySelector('[data-sf-curtain-end]')
+  return [...root.querySelectorAll('[data-motion-media-curtain]')].map((scene) => {
+    const start = scene.querySelector('[data-motion-curtain-start]')
+    const end = scene.querySelector('[data-motion-curtain-end]')
     if (!start || !end) return undefined
     const timeline = gsap.timeline({ scrollTrigger: { trigger: scene, start: 'top 85%', once: true, markers: debug } })
     timeline.to(start, { scaleX: 0, transformOrigin: 'left center', duration: 0.75, ease: 'power3.inOut' }, 0)
@@ -27,8 +27,8 @@ export function createMediaCurtainSplits({ gsap, root, debug, reduced }) {
 
 export function createImageFocusPans({ gsap, root, debug, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-image-focus-pan]')].map((scene) => {
-    const image = scene.querySelector('img, [data-sf-focus-image]')
+  return [...root.querySelectorAll('[data-motion-image-focus-pan]')].map((scene) => {
+    const image = scene.querySelector('img, [data-motion-focus-image]')
     if (!image) return undefined
     return gsap.fromTo(image, { scale: 1.08, xPercent: -2, yPercent: -2 }, {
       scale: 1,
@@ -41,10 +41,10 @@ export function createImageFocusPans({ gsap, root, debug, reduced }) {
 }
 
 export function createVideoPosterPlayers({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-video-poster]')].map((scene) => {
-    const trigger = scene.querySelector('[data-sf-video-trigger]')
-    const poster = scene.querySelector('[data-sf-video-poster-image]')
-    const video = scene.querySelector('[data-sf-video-element], video')
+  return [...root.querySelectorAll('[data-motion-video-poster]')].map((scene) => {
+    const trigger = scene.querySelector('[data-motion-video-trigger]')
+    const poster = scene.querySelector('[data-motion-video-poster-image]')
+    const video = scene.querySelector('[data-motion-video-element], video')
     if (!trigger || !video) return undefined
     const play = async () => {
       trigger.setAttribute('aria-pressed', 'true')

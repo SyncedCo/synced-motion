@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 test('the menu traps focus, closes on Escape and returns focus to its trigger', async ({ page }) => {
   await page.evaluate(() => window.motionHarness.mount('accessible-menu'))
 
-  const trigger = page.locator('[data-sf-menu-trigger]')
+  const trigger = page.locator('[data-motion-menu-trigger]')
   await expect(trigger).toHaveAttribute('aria-expanded', 'false')
 
   await trigger.click()
@@ -21,7 +21,7 @@ test('the menu traps focus, closes on Escape and returns focus to its trigger', 
   // Focus moves once the entrance completes, not on a timer: the items animate
   // from autoAlpha 0 and a visibility:hidden element cannot take focus.
   await page.waitForFunction(
-    () => document.querySelector('[data-sf-menu-panel]').contains(document.activeElement),
+    () => document.querySelector('[data-motion-menu-panel]').contains(document.activeElement),
     undefined,
     { timeout: 3000 },
   )
@@ -30,18 +30,18 @@ test('the menu traps focus, closes on Escape and returns focus to its trigger', 
   await expect(trigger).toHaveAttribute('aria-expanded', 'false')
 
   const focusOnTrigger = await page.evaluate(() =>
-    document.activeElement === document.querySelector('[data-sf-menu-trigger]'))
+    document.activeElement === document.querySelector('[data-motion-menu-trigger]'))
   expect(focusOnTrigger).toBe(true)
 })
 
 test('an outside click closes the menu without stealing focus', async ({ page }) => {
   await page.evaluate(() => window.motionHarness.mount('accessible-menu'))
 
-  const trigger = page.locator('[data-sf-menu-trigger]')
+  const trigger = page.locator('[data-motion-menu-trigger]')
   await trigger.click()
   await expect(trigger).toHaveAttribute('aria-expanded', 'true')
   await page.waitForFunction(
-    () => document.querySelector('[data-sf-menu-panel]').contains(document.activeElement),
+    () => document.querySelector('[data-motion-menu-panel]').contains(document.activeElement),
     undefined,
     { timeout: 3000 },
   )
@@ -52,9 +52,9 @@ test('an outside click closes the menu without stealing focus', async ({ page })
 
 test('destroying the runtime never leaves an expanded menu on the page', async ({ page }) => {
   await page.evaluate(() => window.motionHarness.mount('accessible-menu'))
-  await page.locator('[data-sf-menu-trigger]').click()
+  await page.locator('[data-motion-menu-trigger]').click()
   await page.waitForFunction(
-    () => document.querySelector('[data-sf-menu-panel]').contains(document.activeElement),
+    () => document.querySelector('[data-motion-menu-panel]').contains(document.activeElement),
     undefined,
     { timeout: 3000 },
   )
@@ -62,12 +62,12 @@ test('destroying the runtime never leaves an expanded menu on the page', async (
   await page.evaluate(() => window.motionHarness.destroy())
 
   const state = await page.evaluate(() => {
-    const panel = document.querySelector('[data-sf-menu-panel]')
-    const trigger = document.querySelector('[data-sf-menu-trigger]')
+    const panel = document.querySelector('[data-motion-menu-panel]')
+    const trigger = document.querySelector('[data-motion-menu-trigger]')
     return {
       hidden: panel.hidden,
       ariaExpanded: trigger.getAttribute('aria-expanded'),
-      scrollLocked: document.documentElement.hasAttribute('data-sf-scroll-locked'),
+      scrollLocked: document.documentElement.hasAttribute('data-motion-scroll-locked'),
     }
   })
 

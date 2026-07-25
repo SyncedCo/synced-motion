@@ -6,17 +6,17 @@ const exampleRoutes = [
   {
     route: '/examples/field-notes/',
     file: 'example/examples/field-notes/index.html',
-    recipes: ['data-sf-scroll-progress', 'data-sf-svg-orbit', 'data-sf-pinned-chapters'],
+    recipes: ['data-motion-scroll-progress', 'data-motion-svg-orbit', 'data-motion-pinned-chapters'],
   },
   {
     route: '/examples/kestrel-one/',
     file: 'example/examples/kestrel-one/index.html',
-    recipes: ['data-sf-pointer-spotlight', 'data-sf-product-explainer', 'data-sf-comparison', 'data-sf-magnetic'],
+    recipes: ['data-motion-pointer-spotlight', 'data-motion-product-explainer', 'data-motion-comparison', 'data-motion-magnetic'],
   },
   {
     route: '/examples/common-ground/',
     file: 'example/examples/common-ground/index.html',
-    recipes: ['data-sf-pointer-spotlight', 'data-sf-ambient-float', 'data-sf-flip-filter', 'data-sf-layout-accordion-grid'],
+    recipes: ['data-motion-pointer-spotlight', 'data-motion-ambient-float', 'data-motion-flip-filter', 'data-motion-layout-accordion-grid'],
   },
 ]
 
@@ -55,14 +55,14 @@ describe('full-page examples', () => {
 
   it('gives each page a distinct primary interaction system', () => {
     const [field, product, studio] = exampleRoutes.map(({ file }) => parse(file))
-    expect(field.querySelector('[data-sf-svg-orbit]')).not.toBeNull()
-    expect(field.querySelector('[data-sf-product-explainer], [data-sf-flip-filter]')).toBeNull()
-    expect(product.querySelector('[data-sf-product-explainer]')).not.toBeNull()
-    expect(product.querySelector('[data-sf-comparison-range][type="range"]')).not.toBeNull()
-    expect(product.querySelector('[data-sf-svg-orbit], [data-sf-flip-filter]')).toBeNull()
-    expect(studio.querySelector('[data-sf-flip-filter]')).not.toBeNull()
-    expect(studio.querySelector('[data-sf-layout-accordion-grid]')).not.toBeNull()
-    expect(studio.querySelector('[data-sf-svg-orbit], [data-sf-product-explainer]')).toBeNull()
+    expect(field.querySelector('[data-motion-svg-orbit]')).not.toBeNull()
+    expect(field.querySelector('[data-motion-product-explainer], [data-motion-flip-filter]')).toBeNull()
+    expect(product.querySelector('[data-motion-product-explainer]')).not.toBeNull()
+    expect(product.querySelector('[data-motion-comparison-range][type="range"]')).not.toBeNull()
+    expect(product.querySelector('[data-motion-svg-orbit], [data-motion-flip-filter]')).toBeNull()
+    expect(studio.querySelector('[data-motion-flip-filter]')).not.toBeNull()
+    expect(studio.querySelector('[data-motion-layout-accordion-grid]')).not.toBeNull()
+    expect(studio.querySelector('[data-motion-svg-orbit], [data-motion-product-explainer]')).toBeNull()
   })
 
   it('makes complete examples prominent from the showcase and catalog', () => {

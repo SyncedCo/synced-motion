@@ -13,7 +13,7 @@ Replace opaque Webflow interaction attributes with readable semantic hooks:
 <a data-wf-element-id="645ee970-6c97-eea3-d61b-013ab5a5f236">...</a>
 
 <!-- After -->
-<a data-sf-step-link>...</a>
+<a data-motion-step-link>...</a>
 ```
 
 ## Preserve ownership boundaries

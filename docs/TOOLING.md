@@ -13,9 +13,8 @@ npx synced-motion --version
 ## Commands
 
 - `add <id...>` prints ready-to-paste markup for one or more recipes,
-  including every required slot, using the documented `data-motion-`
-  attributes. Pass `--legacy-prefix` to emit `data-sf-` instead. The command
-  writes nothing; redirect it where you want it.
+  including every required slot. The command writes nothing; redirect it
+  where you want it.
 
   ```bash
   npx synced-motion add reveal-rise

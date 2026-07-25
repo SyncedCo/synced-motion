@@ -39,13 +39,13 @@ describe('semantic active state', () => {
 
   it('activates expanding panels through pointer and keyboard input', () => {
     document.body.innerHTML = `
-      <div data-sf-expand-group data-sf-expand-default="1">
-        <article data-sf-expand-panel></article>
-        <article data-sf-expand-panel></article>
-        <article data-sf-expand-panel></article>
+      <div data-motion-expand-group data-motion-expand-default="1">
+        <article data-motion-expand-panel></article>
+        <article data-motion-expand-panel></article>
+        <article data-motion-expand-panel></article>
       </div>
     `
-    const panels = [...document.querySelectorAll('[data-sf-expand-panel]')]
+    const panels = [...document.querySelectorAll('[data-motion-expand-panel]')]
     const [destroy] = createExpandPanels({ root: document })
 
     expect(panels[1].hasAttribute('data-active')).toBe(true)
@@ -60,8 +60,8 @@ describe('semantic active state', () => {
 describe('marquee motion', () => {
   it('creates a seamless transform loop and restores it during cleanup', () => {
     document.body.innerHTML = `
-      <div data-sf-marquee data-sf-marquee-duration="16">
-        <div data-sf-marquee-track><span>One</span><span aria-hidden="true">One</span></div>
+      <div data-motion-marquee data-motion-marquee-duration="16">
+        <div data-motion-marquee-track><span>One</span><span aria-hidden="true">One</span></div>
       </div>
     `
     const tween = { paused: vi.fn(), revert: vi.fn() }

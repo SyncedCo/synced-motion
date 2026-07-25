@@ -106,372 +106,372 @@ function spec({
 
 export const revealRise = /* @__PURE__ */ spec({
   id: 'reveal-rise',
-  selector: '[data-sf-reveal]', parameters: { start: { type: 'string', default: 'top 85%' } },
+  selector: '[data-motion-reveal]', parameters: { start: { type: 'string', default: 'top 85%' } },
   triggers: [{ type: 'viewport', start: 'top 85%' }], dependencies: ['gsap', 'ScrollTrigger'],
   setup: /* @__PURE__ */ setupFactory(createReveals, (context) => ({ ...context, revealStart: context.parameters.start })),
 })
 
 export const revealStaggerCascade = /* @__PURE__ */ spec({
   id: 'reveal-stagger-cascade',
-  selector: '[data-sf-stagger]', slots: [{ name: 'items', selector: '[data-sf-stagger-item]', required: false, multiple: true }],
+  selector: '[data-motion-stagger]', slots: [{ name: 'items', selector: '[data-motion-stagger-item]', required: false, multiple: true }],
   parameters: { start: { type: 'string', default: 'top 85%' } }, triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'],
   setup: /* @__PURE__ */ setupFactory(createStaggers, (context) => ({ ...context, revealStart: context.parameters.start })),
 })
 
 export const revealDirectional = /* @__PURE__ */ spec({
   id: 'reveal-directional',
-  selector: '[data-sf-reveal-directional]', triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createDirectionalReveals),
+  selector: '[data-motion-reveal-directional]', triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createDirectionalReveals),
 })
 
 export const revealScaleIn = /* @__PURE__ */ spec({
   id: 'reveal-scale-in',
-  selector: '[data-sf-reveal-scale]', triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScaleReveals),
+  selector: '[data-motion-reveal-scale]', triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScaleReveals),
 })
 
 export const revealClipWipe = /* @__PURE__ */ spec({
   id: 'reveal-clip-wipe',
-       selector: '[data-sf-reveal-clip]',
-  slots: [{ name: 'content', selector: '[data-sf-reveal-clip-content]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createClipWipeReveals),
+       selector: '[data-motion-reveal-clip]',
+  slots: [{ name: 'content', selector: '[data-motion-reveal-clip-content]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createClipWipeReveals),
 })
 
 export const splitLinesRise = /* @__PURE__ */ spec({
   id: 'split-lines-rise',
-  selector: '[data-sf-split="lines"]', parameters: { start: { type: 'string', default: 'top 85%' } }, triggers: [{ type: 'viewport' }],
+  selector: '[data-motion-split="lines"]', parameters: { start: { type: 'string', default: 'top 85%' } }, triggers: [{ type: 'viewport' }],
   dependencies: ['gsap', 'SplitText', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createSplitText, (context) => ({ ...context, revealStart: context.parameters.start })),
 })
 
 export const splitWordsCascade = /* @__PURE__ */ spec({
   id: 'split-words-cascade',
-  selector: '[data-sf-split="words"]', parameters: { start: { type: 'string', default: 'top 85%' } }, triggers: [{ type: 'viewport' }],
+  selector: '[data-motion-split="words"]', parameters: { start: { type: 'string', default: 'top 85%' } }, triggers: [{ type: 'viewport' }],
   dependencies: ['gsap', 'SplitText', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createSplitText, (context) => ({ ...context, revealStart: context.parameters.start })),
 })
 
 export const splitCharsShimmer = /* @__PURE__ */ spec({
   id: 'split-chars-shimmer',
-       selector: '[data-sf-chars-shimmer]',
+       selector: '[data-motion-chars-shimmer]',
   triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'SplitText', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createCharacterShimmers),
 })
 
 export const typewriterAnnounce = /* @__PURE__ */ spec({
   id: 'typewriter-announce',
-       selector: '[data-sf-typewriter]',
+       selector: '[data-motion-typewriter]',
   triggers: [{ type: 'viewport' }, { type: 'load' }], dependencies: ['gsap', 'SplitText', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createTypewriterAnnouncements),
 })
 
 export const textHighlightSweep = /* @__PURE__ */ spec({
   id: 'text-highlight-sweep',
-       selector: '[data-sf-text-highlight]',
-  slots: [{ name: 'mark', selector: '[data-sf-text-highlight-mark]' }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createTextHighlightSweeps),
+       selector: '[data-motion-text-highlight]',
+  slots: [{ name: 'mark', selector: '[data-motion-text-highlight-mark]' }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createTextHighlightSweeps),
 })
 
 export const scrollParallax = /* @__PURE__ */ spec({
   id: 'scroll-parallax',
-  selector: '[data-sf-parallax]', triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createParallax),
+  selector: '[data-motion-parallax]', triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createParallax),
 })
 
 export const scrollExit = /* @__PURE__ */ spec({
   id: 'scroll-exit',
-  selector: '[data-sf-scroll-exit]', triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollExits),
+  selector: '[data-motion-scroll-exit]', triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollExits),
 })
 
 export const scrollDrift = /* @__PURE__ */ spec({
   id: 'scroll-drift',
-       selector: '[data-sf-scroll-drift]',
-  slots: [{ name: 'layer', selector: '[data-sf-drift-layer]' }], triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollDrifts),
+       selector: '[data-motion-scroll-drift]',
+  slots: [{ name: 'layer', selector: '[data-motion-drift-layer]' }], triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollDrifts),
 })
 
 export const scrollProgressMeter = /* @__PURE__ */ spec({
   id: 'scroll-progress-meter',
-       selector: '[data-sf-scroll-progress]',
-  slots: [{ name: 'meter', selector: '[data-sf-scroll-progress-meter]' }, { name: 'label', selector: '[data-sf-scroll-progress-label]', required: false }],
+       selector: '[data-motion-scroll-progress]',
+  slots: [{ name: 'meter', selector: '[data-motion-scroll-progress-meter]' }, { name: 'label', selector: '[data-motion-scroll-progress-label]', required: false }],
   triggers: [{ type: 'scroll' }], performance: 'low', dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollProgressMeters),
 })
 
 export const scrollDepthStack = /* @__PURE__ */ spec({
   id: 'scroll-depth-stack',
-       selector: '[data-sf-scroll-depth-stack]',
-  slots: [{ name: 'cards', selector: '[data-sf-depth-card]', multiple: true }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollDepthStacks),
+       selector: '[data-motion-scroll-depth-stack]',
+  slots: [{ name: 'cards', selector: '[data-motion-depth-card]', multiple: true }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollDepthStacks),
 })
 
 export const pinnedSteps = /* @__PURE__ */ spec({
   id: 'pinned-steps',
-       selector: '[data-sf-scroll-steps]',
-  slots: [{ name: 'pin', selector: '[data-sf-pin-target]' }, { name: 'links', selector: '[data-sf-step-link]', multiple: true }, { name: 'panels', selector: '[data-sf-step-panel]', multiple: true }],
+       selector: '[data-motion-scroll-steps]',
+  slots: [{ name: 'pin', selector: '[data-motion-pin-target]' }, { name: 'links', selector: '[data-motion-step-link]', multiple: true }, { name: 'panels', selector: '[data-motion-step-panel]', multiple: true }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollSteps),
 })
 
 export const pinnedStatement = /* @__PURE__ */ spec({
   id: 'pinned-statement',
-       selector: '[data-sf-scroll-statement]',
-  slots: [{ name: 'pin', selector: '[data-sf-statement-pin]' }, { name: 'heading', selector: '[data-sf-statement-heading]' }, { name: 'details', selector: '[data-sf-statement-details]' }],
+       selector: '[data-motion-scroll-statement]',
+  slots: [{ name: 'pin', selector: '[data-motion-statement-pin]' }, { name: 'heading', selector: '[data-motion-statement-heading]' }, { name: 'details', selector: '[data-motion-statement-details]' }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createScrollStatements),
 })
 
 export const pinnedFounderStory = /* @__PURE__ */ spec({
   id: 'pinned-founder-story',
-       selector: '[data-sf-founder-scene]',
-  slots: [{ name: 'content', selector: '[data-sf-founder-content]' }, { name: 'heading', selector: '[data-sf-founder-heading]' }, { name: 'metrics', selector: '[data-sf-founder-metrics]' }],
+       selector: '[data-motion-founder-scene]',
+  slots: [{ name: 'content', selector: '[data-motion-founder-content]' }, { name: 'heading', selector: '[data-motion-founder-heading]' }, { name: 'metrics', selector: '[data-motion-founder-metrics]' }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'SplitText', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createFounderScenes),
 })
 
 export const pinnedChapterCrossfade = /* @__PURE__ */ spec({
   id: 'pinned-chapter-crossfade',
-       selector: '[data-sf-pinned-chapters]',
-  slots: [{ name: 'pin', selector: '[data-sf-pin-target]' }, { name: 'chapters', selector: '[data-sf-pinned-chapter]', multiple: true }, { name: 'visuals', selector: '[data-sf-pinned-visual]', multiple: true }],
+       selector: '[data-motion-pinned-chapters]',
+  slots: [{ name: 'pin', selector: '[data-motion-pin-target]' }, { name: 'chapters', selector: '[data-motion-pinned-chapter]', multiple: true }, { name: 'visuals', selector: '[data-motion-pinned-visual]', multiple: true }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createPinnedChapterCrossfades),
 })
 
 export const pinnedProductExplainer = /* @__PURE__ */ spec({
   id: 'pinned-product-explainer',
-       selector: '[data-sf-product-explainer]',
-  slots: [{ name: 'pin', selector: '[data-sf-pin-target]' }, { name: 'steps', selector: '[data-sf-product-step]', multiple: true }, { name: 'media', selector: '[data-sf-product-media]', multiple: true }],
+       selector: '[data-motion-product-explainer]',
+  slots: [{ name: 'pin', selector: '[data-motion-pin-target]' }, { name: 'steps', selector: '[data-motion-product-step]', multiple: true }, { name: 'media', selector: '[data-motion-product-media]', multiple: true }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createPinnedProductExplainers),
 })
 
 export const horizontalGalleryScrub = /* @__PURE__ */ spec({
   id: 'horizontal-gallery-scrub',
-       selector: '[data-sf-horizontal-gallery]',
-  slots: [{ name: 'track', selector: '[data-sf-horizontal-track]' }, { name: 'cards', selector: '[data-sf-horizontal-card]', multiple: true }],
+       selector: '[data-motion-horizontal-gallery]',
+  slots: [{ name: 'track', selector: '[data-motion-horizontal-track]' }, { name: 'cards', selector: '[data-motion-horizontal-card]', multiple: true }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createHorizontalGalleryScrubs),
 })
 
 export const horizontalGallerySnap = /* @__PURE__ */ spec({
   id: 'horizontal-gallery-snap',
-       selector: '[data-sf-horizontal-snap]',
-  slots: [{ name: 'track', selector: '[data-sf-horizontal-track]' }, { name: 'cards', selector: '[data-sf-horizontal-card]', multiple: true }],
+       selector: '[data-motion-horizontal-snap]',
+  slots: [{ name: 'track', selector: '[data-motion-horizontal-track]' }, { name: 'cards', selector: '[data-motion-horizontal-card]', multiple: true }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createHorizontalGallerySnaps),
 })
 
 export const horizontalFeatureRail = /* @__PURE__ */ spec({
   id: 'horizontal-feature-rail',
-       selector: '[data-sf-horizontal-feature-rail]',
-  slots: [{ name: 'track', selector: '[data-sf-horizontal-track]' }, { name: 'cards', selector: '[data-sf-horizontal-card]', multiple: true }, { name: 'labels', selector: '[data-sf-horizontal-label]', required: false, multiple: true }],
+       selector: '[data-motion-horizontal-feature-rail]',
+  slots: [{ name: 'track', selector: '[data-motion-horizontal-track]' }, { name: 'cards', selector: '[data-motion-horizontal-card]', multiple: true }, { name: 'labels', selector: '[data-motion-horizontal-label]', required: false, multiple: true }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createHorizontalFeatureRails),
 })
 
 export const horizontalLogoReel = /* @__PURE__ */ spec({
   id: 'horizontal-logo-reel',
-       selector: '[data-sf-horizontal-logo-reel]',
-  slots: [{ name: 'track', selector: '[data-sf-horizontal-track]' }], triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createHorizontalLogoReels),
+       selector: '[data-motion-horizontal-logo-reel]',
+  slots: [{ name: 'track', selector: '[data-motion-horizontal-track]' }], triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createHorizontalLogoReels),
 })
 
 export const horizontalComparisonSlider = /* @__PURE__ */ spec({
   id: 'horizontal-comparison-slider',
-       selector: '[data-sf-comparison]',
-  slots: [{ name: 'after', selector: '[data-sf-comparison-after]' }, { name: 'range', selector: '[data-sf-comparison-range]' }],
+       selector: '[data-motion-comparison]',
+  slots: [{ name: 'after', selector: '[data-motion-comparison-after]' }, { name: 'range', selector: '[data-motion-comparison-range]' }],
   triggers: [{ type: 'pointer' }, { type: 'focus' }], dependencies: [], setup: /* @__PURE__ */ setupFactory(createHorizontalComparisonSliders),
 })
 
 export const mediaExpand = /* @__PURE__ */ spec({
   id: 'media-expand',
-       selector: '[data-sf-media-expand]',
-  slots: [{ name: 'frame', selector: '[data-sf-media-expand-frame]' }, { name: 'caption', selector: '[data-sf-media-expand-caption]', required: false }],
+       selector: '[data-motion-media-expand]',
+  slots: [{ name: 'frame', selector: '[data-motion-media-expand-frame]' }, { name: 'caption', selector: '[data-motion-media-expand-caption]', required: false }],
   triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createMediaExpansions),
 })
 
 export const mediaClipReveal = /* @__PURE__ */ spec({
   id: 'media-clip-reveal',
-       selector: '[data-sf-media-clip]',
-  slots: [{ name: 'frame', selector: '[data-sf-media-frame]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createMediaClipReveals),
+       selector: '[data-motion-media-clip]',
+  slots: [{ name: 'frame', selector: '[data-motion-media-frame]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createMediaClipReveals),
 })
 
 export const mediaCurtainSplit = /* @__PURE__ */ spec({
   id: 'media-curtain-split',
-       selector: '[data-sf-media-curtain]',
-  slots: [{ name: 'start', selector: '[data-sf-curtain-start]' }, { name: 'end', selector: '[data-sf-curtain-end]' }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createMediaCurtainSplits),
+       selector: '[data-motion-media-curtain]',
+  slots: [{ name: 'start', selector: '[data-motion-curtain-start]' }, { name: 'end', selector: '[data-motion-curtain-end]' }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createMediaCurtainSplits),
 })
 
 export const imageFocusPan = /* @__PURE__ */ spec({
   id: 'image-focus-pan',
-       selector: '[data-sf-image-focus-pan]',
-  slots: [{ name: 'image', selector: '[data-sf-focus-image]', required: false }], triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createImageFocusPans),
+       selector: '[data-motion-image-focus-pan]',
+  slots: [{ name: 'image', selector: '[data-motion-focus-image]', required: false }], triggers: [{ type: 'scroll' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createImageFocusPans),
 })
 
 export const videoPosterPlay = /* @__PURE__ */ spec({
   id: 'video-poster-play',
-       selector: '[data-sf-video-poster]',
-  slots: [{ name: 'trigger', selector: '[data-sf-video-trigger]' }, { name: 'video', selector: '[data-sf-video-element]' }], triggers: [{ type: 'click' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createVideoPosterPlayers),
+       selector: '[data-motion-video-poster]',
+  slots: [{ name: 'trigger', selector: '[data-motion-video-trigger]' }, { name: 'video', selector: '[data-motion-video-element]' }], triggers: [{ type: 'click' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createVideoPosterPlayers),
 })
 
 export const hoverMediaSwitch = /* @__PURE__ */ spec({
   id: 'hover-media-switch',
-       selector: '[data-sf-hover-group]',
-  slots: [{ name: 'triggers', selector: '[data-sf-hover-key]', multiple: true }, { name: 'media', selector: '[data-sf-hover-media]', multiple: true }],
+       selector: '[data-motion-hover-group]',
+  slots: [{ name: 'triggers', selector: '[data-motion-hover-key]', multiple: true }, { name: 'media', selector: '[data-motion-hover-media]', multiple: true }],
   triggers: [{ type: 'hover' }, { type: 'focus' }], performance: 'low', dependencies: [], setup: /* @__PURE__ */ setupFactory(createHoverMedia),
 })
 
 export const expandPanels = /* @__PURE__ */ spec({
   id: 'expand-panels',
-       selector: '[data-sf-expand-group]',
-  slots: [{ name: 'panels', selector: '[data-sf-expand-panel]', multiple: true }], triggers: [{ type: 'hover' }, { type: 'focus' }], performance: 'low', dependencies: [], setup: /* @__PURE__ */ setupFactory(createExpandPanels),
+       selector: '[data-motion-expand-group]',
+  slots: [{ name: 'panels', selector: '[data-motion-expand-panel]', multiple: true }], triggers: [{ type: 'hover' }, { type: 'focus' }], performance: 'low', dependencies: [], setup: /* @__PURE__ */ setupFactory(createExpandPanels),
 })
 
 export const hoverLift = /* @__PURE__ */ spec({
   id: 'hover-lift',
-       selector: '[data-sf-hover-lift]',
+       selector: '[data-motion-hover-lift]',
   triggers: [{ type: 'hover' }, { type: 'focus' }], performance: 'low', dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createHoverLifts),
 })
 
 export const magneticAction = /* @__PURE__ */ spec({
   id: 'magnetic-action',
-       selector: '[data-sf-magnetic]',
-  slots: [{ name: 'action', selector: '[data-sf-magnetic-action]', required: false }], triggers: [{ type: 'pointer' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createMagneticActions),
+       selector: '[data-motion-magnetic]',
+  slots: [{ name: 'action', selector: '[data-motion-magnetic-action]', required: false }], triggers: [{ type: 'pointer' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createMagneticActions),
 })
 
 export const pointerSpotlight = /* @__PURE__ */ spec({
   id: 'pointer-spotlight',
-       selector: '[data-sf-pointer-spotlight]',
-  slots: [{ name: 'spotlight', selector: '[data-sf-spotlight]' }], triggers: [{ type: 'pointer' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createPointerSpotlights),
+       selector: '[data-motion-pointer-spotlight]',
+  slots: [{ name: 'spotlight', selector: '[data-motion-spotlight]' }], triggers: [{ type: 'pointer' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createPointerSpotlights),
 })
 
 export const accessibleMenu = /* @__PURE__ */ spec({
   id: 'accessible-menu',
-       selector: '[data-sf-menu]',
-  slots: [{ name: 'trigger', selector: '[data-sf-menu-trigger]' }, { name: 'panel', selector: '[data-sf-menu-panel]' }, { name: 'items', selector: '[data-sf-menu-item]', multiple: true }],
+       selector: '[data-motion-menu]',
+  slots: [{ name: 'trigger', selector: '[data-motion-menu-trigger]' }, { name: 'panel', selector: '[data-motion-menu-panel]' }, { name: 'items', selector: '[data-motion-menu-item]', multiple: true }],
   triggers: [{ type: 'click' }, { type: 'focus' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createMenus),
 })
 
 export const dialogOverlay = /* @__PURE__ */ spec({
   id: 'dialog-overlay',
-       selector: '[data-sf-dialog-overlay]',
-  slots: [{ name: 'trigger', selector: '[data-sf-overlay-trigger]', required: false }, { name: 'dialog', selector: '[data-sf-overlay-dialog]' }], triggers: [{ type: 'click' }, { type: 'focus' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createDialogOverlays),
+       selector: '[data-motion-dialog-overlay]',
+  slots: [{ name: 'trigger', selector: '[data-motion-overlay-trigger]', required: false }, { name: 'dialog', selector: '[data-motion-overlay-dialog]' }], triggers: [{ type: 'click' }, { type: 'focus' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createDialogOverlays),
 })
 
 export const navActiveIndicator = /* @__PURE__ */ spec({
   id: 'nav-active-indicator',
-       selector: '[data-sf-nav-indicator]',
-  slots: [{ name: 'items', selector: '[data-sf-nav-item]', multiple: true }, { name: 'indicator', selector: '[data-sf-nav-active-indicator]' }], triggers: [{ type: 'focus' }, { type: 'pointer' }, { type: 'click' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createNavActiveIndicators),
+       selector: '[data-motion-nav-indicator]',
+  slots: [{ name: 'items', selector: '[data-motion-nav-item]', multiple: true }, { name: 'indicator', selector: '[data-motion-nav-active-indicator]' }], triggers: [{ type: 'focus' }, { type: 'pointer' }, { type: 'click' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createNavActiveIndicators),
 })
 
 export const accordionDisclosure = /* @__PURE__ */ spec({
   id: 'accordion-disclosure',
-       selector: '[data-sf-accordion-motion]',
-  slots: [{ name: 'panel', selector: '[data-sf-accordion-panel]' }], triggers: [{ type: 'click' }], performance: 'low', dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createAccordionDisclosures),
+       selector: '[data-motion-accordion-motion]',
+  slots: [{ name: 'panel', selector: '[data-motion-accordion-panel]' }], triggers: [{ type: 'click' }], performance: 'low', dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createAccordionDisclosures),
 })
 
 export const commandPalette = /* @__PURE__ */ spec({
   id: 'command-palette',
-       selector: '[data-sf-command-palette]',
-  slots: [{ name: 'dialog', selector: '[data-sf-overlay-dialog]' }, { name: 'input', selector: '[data-sf-command-input]' }], triggers: [{ type: 'click' }, { type: 'focus' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createCommandPalettes),
+       selector: '[data-motion-command-palette]',
+  slots: [{ name: 'dialog', selector: '[data-motion-overlay-dialog]' }, { name: 'input', selector: '[data-motion-command-input]' }], triggers: [{ type: 'click' }, { type: 'focus' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createCommandPalettes),
 })
 
 export const marquee = /* @__PURE__ */ spec({
   id: 'marquee',
-       selector: '[data-sf-marquee]',
-  slots: [{ name: 'track', selector: '[data-sf-marquee-track]' }], triggers: [{ type: 'load' }, { type: 'viewport' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createMarquees),
+       selector: '[data-motion-marquee]',
+  slots: [{ name: 'track', selector: '[data-motion-marquee-track]' }], triggers: [{ type: 'load' }, { type: 'viewport' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createMarquees),
 })
 
 export const counterValue = /* @__PURE__ */ spec({
   id: 'counter-value',
-       selector: '[data-sf-counter]',
-  slots: [{ name: 'value', selector: '[data-sf-counter-value]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createValueCounters),
+       selector: '[data-motion-counter]',
+  slots: [{ name: 'value', selector: '[data-motion-counter-value]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createValueCounters),
 })
 
 export const progressRing = /* @__PURE__ */ spec({
   id: 'progress-ring',
-       selector: '[data-sf-progress-ring]',
-  slots: [{ name: 'ring', selector: '[data-sf-progress-ring-value]' }, { name: 'label', selector: '[data-sf-progress-ring-label]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'DrawSVGPlugin', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createProgressRings),
+       selector: '[data-motion-progress-ring]',
+  slots: [{ name: 'ring', selector: '[data-motion-progress-ring-value]' }, { name: 'label', selector: '[data-motion-progress-ring-label]', required: false }], triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'DrawSVGPlugin', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createProgressRings),
 })
 
 export const ambientFloat = /* @__PURE__ */ spec({
   id: 'ambient-float',
-       selector: '[data-sf-ambient-float]',
+       selector: '[data-motion-ambient-float]',
   triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createAmbientFloats),
 })
 
 export const loopingLogoBelt = /* @__PURE__ */ spec({
   id: 'looping-logo-belt',
-       selector: '[data-sf-logo-belt]',
-  slots: [{ name: 'track', selector: '[data-sf-logo-belt-track]' }], triggers: [{ type: 'load' }, { type: 'viewport' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createLoopingLogoBelts),
+       selector: '[data-motion-logo-belt]',
+  slots: [{ name: 'track', selector: '[data-motion-logo-belt-track]' }], triggers: [{ type: 'load' }, { type: 'viewport' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createLoopingLogoBelts),
 })
 
 export const flipListReorder = /* @__PURE__ */ spec({
   id: 'flip-list-reorder',
-       selector: '[data-sf-flip-list]',
-  slots: [{ name: 'items', selector: '[data-sf-flip-item]', multiple: true }], triggers: [{ type: 'state' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipListReorders),
+       selector: '[data-motion-flip-list]',
+  slots: [{ name: 'items', selector: '[data-motion-flip-item]', multiple: true }], triggers: [{ type: 'state' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipListReorders),
 })
 
 export const flipCardToDetail = /* @__PURE__ */ spec({
   id: 'flip-card-to-detail',
-       selector: '[data-sf-flip-card]',
-  slots: [{ name: 'trigger', selector: '[data-sf-flip-card-trigger]' }, { name: 'detail', selector: '[data-sf-flip-card-detail]' }], triggers: [{ type: 'click' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipCardDetails),
+       selector: '[data-motion-flip-card]',
+  slots: [{ name: 'trigger', selector: '[data-motion-flip-card-trigger]' }, { name: 'detail', selector: '[data-motion-flip-card-detail]' }], triggers: [{ type: 'click' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipCardDetails),
 })
 
 export const flipFilterGrid = /* @__PURE__ */ spec({
   id: 'flip-filter-grid',
-       selector: '[data-sf-flip-filter]',
-  slots: [{ name: 'controls', selector: '[data-sf-filter-control]', multiple: true }, { name: 'items', selector: '[data-sf-filter-item]', multiple: true }], triggers: [{ type: 'click' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipFilterGrids),
+       selector: '[data-motion-flip-filter]',
+  slots: [{ name: 'controls', selector: '[data-motion-filter-control]', multiple: true }, { name: 'items', selector: '[data-motion-filter-item]', multiple: true }], triggers: [{ type: 'click' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipFilterGrids),
 })
 
 export const flipNavIndicator = /* @__PURE__ */ spec({
   id: 'flip-nav-indicator',
-       selector: '[data-sf-flip-nav]',
-  slots: [{ name: 'items', selector: '[data-sf-flip-nav-item]', multiple: true }, { name: 'indicator', selector: '[data-sf-flip-nav-indicator]' }], triggers: [{ type: 'focus' }, { type: 'click' }], dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipNavIndicators),
+       selector: '[data-motion-flip-nav]',
+  slots: [{ name: 'items', selector: '[data-motion-flip-nav-item]', multiple: true }, { name: 'indicator', selector: '[data-motion-flip-nav-indicator]' }], triggers: [{ type: 'focus' }, { type: 'click' }], dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createFlipNavIndicators),
 })
 
 export const layoutAccordionGrid = /* @__PURE__ */ spec({
   id: 'layout-accordion-grid',
-       selector: '[data-sf-layout-accordion-grid]',
-  slots: [{ name: 'items', selector: '[data-sf-layout-item]', multiple: true }, { name: 'triggers', selector: '[data-sf-layout-trigger]', multiple: true }], triggers: [{ type: 'click' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createLayoutAccordionGrids),
+       selector: '[data-motion-layout-accordion-grid]',
+  slots: [{ name: 'items', selector: '[data-motion-layout-item]', multiple: true }, { name: 'triggers', selector: '[data-motion-layout-trigger]', multiple: true }], triggers: [{ type: 'click' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createLayoutAccordionGrids),
 })
 
 export const svgLineDraw = /* @__PURE__ */ spec({
   id: 'svg-line-draw',
-       selector: '[data-sf-svg-line-draw]',
+       selector: '[data-motion-svg-line-draw]',
   triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'DrawSVGPlugin', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createSvgLineDraws),
 })
 
 export const svgPathMorph = /* @__PURE__ */ spec({
   id: 'svg-path-morph',
-       selector: '[data-sf-svg-morph]',
-  slots: [{ name: 'source', selector: '[data-sf-svg-morph-source]' }, { name: 'target', selector: '[data-sf-svg-morph-target]' }, { name: 'trigger', selector: '[data-sf-svg-trigger]' }], triggers: [{ type: 'click' }], dependencies: ['gsap', 'MorphSVGPlugin'], setup: /* @__PURE__ */ setupFactory(createSvgPathMorphs),
+       selector: '[data-motion-svg-morph]',
+  slots: [{ name: 'source', selector: '[data-motion-svg-morph-source]' }, { name: 'target', selector: '[data-motion-svg-morph-target]' }, { name: 'trigger', selector: '[data-motion-svg-trigger]' }], triggers: [{ type: 'click' }], dependencies: ['gsap', 'MorphSVGPlugin'], setup: /* @__PURE__ */ setupFactory(createSvgPathMorphs),
 })
 
 export const svgIconState = /* @__PURE__ */ spec({
   id: 'svg-icon-state',
-       selector: '[data-sf-svg-icon-state]',
-  slots: [{ name: 'source', selector: '[data-sf-svg-icon-source]' }, { name: 'target', selector: '[data-sf-svg-icon-target]' }, { name: 'trigger', selector: '[data-sf-svg-trigger]' }], triggers: [{ type: 'click' }], dependencies: ['gsap', 'MorphSVGPlugin'], setup: /* @__PURE__ */ setupFactory(createSvgIconStates),
+       selector: '[data-motion-svg-icon-state]',
+  slots: [{ name: 'source', selector: '[data-motion-svg-icon-source]' }, { name: 'target', selector: '[data-motion-svg-icon-target]' }, { name: 'trigger', selector: '[data-motion-svg-trigger]' }], triggers: [{ type: 'click' }], dependencies: ['gsap', 'MorphSVGPlugin'], setup: /* @__PURE__ */ setupFactory(createSvgIconStates),
 })
 
 export const svgOrbit = /* @__PURE__ */ spec({
   id: 'svg-orbit',
-       selector: '[data-sf-svg-orbit]',
-  slots: [{ name: 'subject', selector: '[data-sf-svg-orbit-subject]' }, { name: 'path', selector: '[data-sf-svg-orbit-path]' }], triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'MotionPathPlugin', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createSvgOrbits),
+       selector: '[data-motion-svg-orbit]',
+  slots: [{ name: 'subject', selector: '[data-motion-svg-orbit-subject]' }, { name: 'path', selector: '[data-motion-svg-orbit-path]' }], triggers: [{ type: 'scroll' }], performance: 'high', dependencies: ['gsap', 'MotionPathPlugin', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createSvgOrbits),
 })
 
 export const svgSignatureReveal = /* @__PURE__ */ spec({
   id: 'svg-signature-reveal',
-       selector: '[data-sf-svg-signature]',
+       selector: '[data-motion-svg-signature]',
   triggers: [{ type: 'viewport' }], dependencies: ['gsap', 'DrawSVGPlugin', 'ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createSvgSignatureReveals),
 })
 
 export const pageLoadHero = /* @__PURE__ */ spec({
   id: 'page-load-hero',
-       selector: '[data-sf-page-load-hero]',
-  slots: [{ name: 'items', selector: '[data-sf-page-load-item]', multiple: true }], triggers: [{ type: 'load' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createPageLoadHeroes),
+       selector: '[data-motion-page-load-hero]',
+  slots: [{ name: 'items', selector: '[data-motion-page-load-item]', multiple: true }], triggers: [{ type: 'load' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createPageLoadHeroes),
 })
 
 export const pageLoadBrandMark = /* @__PURE__ */ spec({
   id: 'page-load-brand-mark',
-       selector: '[data-sf-page-load-brand]',
-  slots: [{ name: 'mark', selector: '[data-sf-brand-mark]', required: false }], triggers: [{ type: 'load' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createPageLoadBrandMarks),
+       selector: '[data-motion-page-load-brand]',
+  slots: [{ name: 'mark', selector: '[data-motion-brand-mark]', required: false }], triggers: [{ type: 'load' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createPageLoadBrandMarks),
 })
 
 export const routeFade = /* @__PURE__ */ spec({
   id: 'route-fade',
-       selector: '[data-sf-route-fade]',
-  slots: [{ name: 'outgoing', selector: '[data-sf-route-outgoing]', required: false }, { name: 'incoming', selector: '[data-sf-route-incoming]', required: false }], triggers: [{ type: 'route' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createRouteFades),
+       selector: '[data-motion-route-fade]',
+  slots: [{ name: 'outgoing', selector: '[data-motion-route-outgoing]', required: false }, { name: 'incoming', selector: '[data-motion-route-incoming]', required: false }], triggers: [{ type: 'route' }], dependencies: ['gsap'], setup: /* @__PURE__ */ setupFactory(createRouteFades),
 })
 
 export const routeSharedMedia = /* @__PURE__ */ spec({
   id: 'route-shared-media',
-       selector: '[data-sf-route-shared-media]',
-  slots: [{ name: 'media', selector: '[data-sf-shared-media]', multiple: true }], triggers: [{ type: 'route' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createRouteSharedMedia),
+       selector: '[data-motion-route-shared-media]',
+  slots: [{ name: 'media', selector: '[data-motion-shared-media]', multiple: true }], triggers: [{ type: 'route' }], performance: 'high', dependencies: ['gsap', 'Flip'], setup: /* @__PURE__ */ setupFactory(createRouteSharedMedia),
 })
 
 export const routeScrollRestore = /* @__PURE__ */ spec({
   id: 'route-scroll-restore',
-       selector: '[data-sf-route-scroll-restore]',
+       selector: '[data-motion-route-scroll-restore]',
   triggers: [{ type: 'route' }], dependencies: ['ScrollTrigger'], setup: /* @__PURE__ */ setupFactory(createRouteScrollRestores),
 })
 

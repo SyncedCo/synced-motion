@@ -5,12 +5,12 @@ function restoreText(element, value) {
 }
 
 export function createValueCounters({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-counter]')].map((scene) => {
-    const output = scene.querySelector('[data-sf-counter-value]') ?? scene
+  return [...root.querySelectorAll('[data-motion-counter]')].map((scene) => {
+    const output = scene.querySelector('[data-motion-counter-value]') ?? scene
     const original = output.textContent
-    const from = numberAttribute(scene, 'data-sf-counter-from', 0)
-    const to = numberAttribute(scene, 'data-sf-counter-to', Number.parseFloat(original) || 0)
-    const decimals = Math.max(0, Math.min(6, numberAttribute(scene, 'data-sf-counter-decimals', 0)))
+    const from = numberAttribute(scene, 'data-motion-counter-from', 0)
+    const to = numberAttribute(scene, 'data-motion-counter-to', Number.parseFloat(original) || 0)
+    const decimals = Math.max(0, Math.min(6, numberAttribute(scene, 'data-motion-counter-decimals', 0)))
     const format = (value) => Number(value).toFixed(decimals)
 
     if (reduced) {
@@ -22,7 +22,7 @@ export function createValueCounters({ gsap, root, reduced }) {
     output.textContent = format(from)
     const tween = gsap.to(state, {
       value: to,
-      duration: Math.max(0.1, numberAttribute(scene, 'data-sf-counter-duration', 1.2)),
+      duration: Math.max(0.1, numberAttribute(scene, 'data-motion-counter-duration', 1.2)),
       ease: 'power2.out',
       onUpdate: () => { output.textContent = format(state.value) },
       scrollTrigger: { trigger: scene, start: 'top 85%', once: true },
@@ -37,11 +37,11 @@ export function createValueCounters({ gsap, root, reduced }) {
 }
 
 export function createProgressRings({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-progress-ring]')].map((scene) => {
-    const ring = scene.querySelector('[data-sf-progress-ring-value]')
-    const label = scene.querySelector('[data-sf-progress-ring-label]')
+  return [...root.querySelectorAll('[data-motion-progress-ring]')].map((scene) => {
+    const ring = scene.querySelector('[data-motion-progress-ring-value]')
+    const label = scene.querySelector('[data-motion-progress-ring-label]')
     if (!ring) return undefined
-    const progress = Math.max(0, Math.min(100, numberAttribute(scene, 'data-sf-progress', 100)))
+    const progress = Math.max(0, Math.min(100, numberAttribute(scene, 'data-motion-progress', 100)))
     const originalLabel = label?.textContent
     if (label) label.textContent = `${Math.round(progress)}%`
 
@@ -49,7 +49,7 @@ export function createProgressRings({ gsap, root, reduced }) {
       ? gsap.set(ring, { drawSVG: `${progress}%` })
       : gsap.fromTo(ring, { drawSVG: '0%' }, {
         drawSVG: `${progress}%`,
-        duration: Math.max(0.1, numberAttribute(scene, 'data-sf-progress-duration', 1)),
+        duration: Math.max(0.1, numberAttribute(scene, 'data-motion-progress-duration', 1)),
         ease: 'power2.out',
         scrollTrigger: { trigger: scene, start: 'top 85%', once: true },
       })
@@ -66,10 +66,10 @@ export function createProgressRings({ gsap, root, reduced }) {
 
 export function createAmbientFloats({ gsap, ScrollTrigger, root, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-ambient-float]')].map((element) => {
+  return [...root.querySelectorAll('[data-motion-ambient-float]')].map((element) => {
     const tween = gsap.to(element, {
-      y: element.getAttribute('data-sf-float-distance') || '-0.75rem',
-      duration: Math.max(0.5, numberAttribute(element, 'data-sf-float-duration', 3)),
+      y: element.getAttribute('data-motion-float-distance') || '-0.75rem',
+      duration: Math.max(0.5, numberAttribute(element, 'data-motion-float-duration', 3)),
       ease: 'sine.inOut',
       repeat: -1,
       yoyo: true,
@@ -94,13 +94,13 @@ export function createAmbientFloats({ gsap, ScrollTrigger, root, reduced }) {
 
 export function createLoopingLogoBelts({ gsap, root, reduced }) {
   if (reduced) return []
-  return [...root.querySelectorAll('[data-sf-logo-belt]')].map((scene) => {
-    const track = scene.querySelector('[data-sf-logo-belt-track]')
+  return [...root.querySelectorAll('[data-motion-logo-belt]')].map((scene) => {
+    const track = scene.querySelector('[data-motion-logo-belt-track]')
     if (!track) return undefined
-    const direction = scene.getAttribute('data-sf-logo-belt-direction') === 'right' ? 1 : -1
+    const direction = scene.getAttribute('data-motion-logo-belt-direction') === 'right' ? 1 : -1
     const tween = gsap.fromTo(track, { xPercent: direction > 0 ? -50 : 0 }, {
       xPercent: direction > 0 ? 0 : -50,
-      duration: Math.max(1, numberAttribute(scene, 'data-sf-logo-belt-duration', 24)),
+      duration: Math.max(1, numberAttribute(scene, 'data-motion-logo-belt-duration', 24)),
       ease: 'none',
       repeat: -1,
     })

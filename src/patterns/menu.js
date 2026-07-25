@@ -1,12 +1,12 @@
 import { getFocusable } from '../core/state.js'
 
 export function createMenus({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-menu]')].map((menu) => {
+  return [...root.querySelectorAll('[data-motion-menu]')].map((menu) => {
     const ownerDocument = menu.ownerDocument
-    const trigger = menu.querySelector('[data-sf-menu-trigger]')
-    const panel = menu.querySelector('[data-sf-menu-panel]')
-    const items = [...menu.querySelectorAll('[data-sf-menu-item]')]
-    const closeControls = [...menu.querySelectorAll('[data-sf-menu-close]')]
+    const trigger = menu.querySelector('[data-motion-menu-trigger]')
+    const panel = menu.querySelector('[data-motion-menu-panel]')
+    const items = [...menu.querySelectorAll('[data-motion-menu-item]')]
+    const closeControls = [...menu.querySelectorAll('[data-motion-menu-close]')]
     if (!trigger || !panel) return () => {}
 
     const authored = {
@@ -38,7 +38,7 @@ export function createMenus({ gsap, root, reduced }) {
       open = next
       trigger.setAttribute('aria-expanded', String(open))
       panel.setAttribute('aria-hidden', String(!open))
-      ownerDocument.documentElement.toggleAttribute('data-sf-scroll-locked', open)
+      ownerDocument.documentElement.toggleAttribute('data-motion-scroll-locked', open)
 
       if (open) {
         panel.hidden = false
@@ -102,7 +102,7 @@ export function createMenus({ gsap, root, reduced }) {
       closeControls.forEach((control) => control.removeEventListener('click', onClose))
       ownerDocument.removeEventListener('keydown', onKeydown)
       ownerDocument.removeEventListener('pointerdown', onPointerDown)
-      ownerDocument.documentElement.removeAttribute('data-sf-scroll-locked')
+      ownerDocument.documentElement.removeAttribute('data-motion-scroll-locked')
       timeline.revert?.()
       timeline.kill()
 

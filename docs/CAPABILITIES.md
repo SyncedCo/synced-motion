@@ -26,14 +26,14 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 | Responsive breakpoints | Fluid values, intrinsic layout and container queries |
 | Components | Semantic templates or framework components |
 | Interaction timeline | GSAP timelines and reusable patterns |
-| Scroll reveals | `data-sf-reveal` and ScrollTrigger |
-| Stagger sequences | `data-sf-stagger` |
+| Scroll reveals | `data-motion-reveal` and ScrollTrigger |
+| Stagger sequences | `data-motion-stagger` |
 | Scroll-linked motion | ScrollTrigger scrub patterns |
-| Pinned storytelling | `data-sf-scroll-steps` and `data-sf-pin-target` |
-| Hover-driven imagery | `data-sf-hover-group` |
-| Menus and overlays | Accessible `data-sf-menu` controller |
+| Pinned storytelling | `data-motion-scroll-steps` and `data-motion-pin-target` |
+| Hover-driven imagery | `data-motion-hover-group` |
+| Menus and overlays | Accessible `data-motion-menu` controller |
 | Smooth scrolling | Optional Lenis adapter |
-| Interaction element IDs | Readable semantic `data-sf-*` hooks |
+| Interaction element IDs | Readable semantic `data-motion-*` hooks |
 | CMS Collections | JSON, Markdown or a headless CMS |
 | Collection pages | Reusable application templates |
 | Conditional visibility | Component or template logic |

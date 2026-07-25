@@ -1,50 +1,50 @@
 @layer synced-motion {
   :root {
-    --sf-motion-duration-fast: 180ms;
-    --sf-motion-duration-base: 480ms;
-    --sf-motion-duration-slow: 800ms;
-    --sf-motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-duration-fast: 180ms;
+    --motion-duration-base: 480ms;
+    --motion-duration-slow: 800ms;
+    --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  html[data-sf-scroll-locked] {
+  html[data-motion-scroll-locked] {
     overflow: hidden;
   }
 
-  [data-sf-hover-group][data-sf-motion-recipe] [data-sf-hover-media],
-  [data-sf-scroll-steps][data-sf-motion-recipe] [data-sf-step-panel] {
+  [data-motion-hover-group][data-motion-recipe] [data-motion-hover-media],
+  [data-motion-scroll-steps][data-motion-recipe] [data-motion-step-panel] {
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
   }
 
-  [data-sf-hover-group][data-sf-motion-recipe] [data-sf-hover-media][data-active],
-  [data-sf-scroll-steps][data-sf-motion-recipe] [data-sf-step-panel][data-active] {
+  [data-motion-hover-group][data-motion-recipe] [data-motion-hover-media][data-active],
+  [data-motion-scroll-steps][data-motion-recipe] [data-motion-step-panel][data-active] {
     opacity: 1;
     pointer-events: auto;
     visibility: visible;
   }
 
-  [data-sf-step-link] {
+  [data-motion-step-link] {
     color: var(--sf-colour-muted, currentColor);
-    transition: color var(--sf-motion-duration-base) var(--sf-motion-ease-out);
+    transition: color var(--motion-duration-base) var(--motion-ease-out);
   }
 
-  [data-sf-step-link][data-active] {
+  [data-motion-step-link][data-active] {
     color: var(--sf-colour-primary, currentColor);
   }
 
-  [data-sf-expand-panel] {
+  [data-motion-expand-panel] {
     transition:
-      flex var(--sf-motion-duration-slow) var(--sf-motion-ease-out),
-      color var(--sf-motion-duration-base) var(--sf-motion-ease-out);
+      flex var(--motion-duration-slow) var(--motion-ease-out),
+      color var(--motion-duration-base) var(--motion-ease-out);
   }
 
-  [data-sf-menu][data-state='closed'] [data-sf-menu-panel] {
+  [data-motion-menu][data-state='closed'] [data-motion-menu-panel] {
     pointer-events: none;
     visibility: hidden;
   }
 
-  [data-sf-menu][data-state='open'] [data-sf-menu-panel] {
+  [data-motion-menu][data-state='open'] [data-motion-menu-panel] {
     pointer-events: auto;
     visibility: visible;
   }
@@ -56,9 +56,9 @@
       scroll-behavior: auto !important;
     }
 
-    [data-sf-reveal],
-    [data-sf-stagger] > *,
-    [data-sf-parallax] {
+    [data-motion-reveal],
+    [data-motion-stagger] > *,
+    [data-motion-parallax] {
       opacity: 1 !important;
       transform: none !important;
       visibility: visible !important;
