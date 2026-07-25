@@ -145,6 +145,42 @@ React and Vue are optional peer dependencies. Svelte, Astro and WordPress use
 small lifecycle adapters that keep their runtimes out of the core bundle. See
 [Framework and CMS integrations](docs/INTEGRATIONS.md).
 
+## Pairs well with Synced Flow
+
+Synced Motion works with any CSS — Tailwind, vanilla, CSS modules, your own
+design system. It has no dependency on Synced Flow and never will.
+
+That said, the two were built to the same rule, and it shows when you use them
+together: **Flow decides what things look like, Motion decides how they
+arrive.** Nothing in this package writes a colour, a spacing value or a font
+size, so a theme change in Flow can never be undermined by a stale value baked
+into an animation. There is no overlap to reconcile and no fight over
+specificity.
+
+```bash
+npm install @syncedco/flow @syncedco/motion gsap
+```
+
+```html
+<!-- sf-* owns the look. data-motion-* owns the arrival. -->
+<section class="sf-section">
+  <div class="sf-container sf-stack">
+    <p class="sf-kicker" data-motion-reveal="fade">A motion system</p>
+    <h1 class="sf-text-display" data-motion-split="lines">
+      Engaging experiences without framework debt.
+    </h1>
+  </div>
+</section>
+```
+
+The two vocabularies stay legible side by side: you can read that markup and
+know exactly which package is responsible for what. Motion toggles semantic
+state — `data-active`, `aria-current`, `aria-expanded` — and your CSS decides
+how that state looks, which is the same seam whether or not the CSS is Flow's.
+
+Keep brand tokens in `synced-flow.config.mjs`. This repository's showcase is a
+worked example of the pairing; run `npm run dev` to see it.
+
 ## Writing your own recipe
 
 The built-ins are not a fixed menu. A custom recipe is the same contract:
@@ -191,14 +227,6 @@ createMotionRuntime({ registry: createMotionRegistry([reveal]) })
 
 Your recipe appears in the gallery, the CLI and the MCP server automatically.
 See [the recipe system](docs/RECIPES.md).
-
-## Using it with Synced Flow
-
-Synced Motion is standalone, but it is designed to sit alongside
-[Synced Flow](https://www.npmjs.com/package/@syncedco/flow): Flow owns layout,
-tokens, typography and final component states; Motion owns animation
-orchestration and semantic state only. Nothing here writes colours, spacing or
-type. If you use both, keep brand tokens in `synced-flow.config.mjs`.
 
 ## Principles
 
