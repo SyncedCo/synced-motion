@@ -1,12 +1,20 @@
 import { getFocusable } from '../core/state.js'
 
 export function createMenus({ gsap, root, reduced }) {
-  return [...root.querySelectorAll('[data-sf-menu]')].map((menu) => {
-    const trigger = menu.querySelector('[data-sf-menu-trigger]')
-    const panel = menu.querySelector('[data-sf-menu-panel]')
-    const items = [...menu.querySelectorAll('[data-sf-menu-item]')]
-    const closeControls = [...menu.querySelectorAll('[data-sf-menu-close]')]
+  return [...root.querySelectorAll('[data-motion-menu]')].map((menu) => {
+    const ownerDocument = menu.ownerDocument
+    const trigger = menu.querySelector('[data-motion-menu-trigger]')
+    const panel = menu.querySelector('[data-motion-menu-panel]')
+    const items = [...menu.querySelectorAll('[data-motion-menu-item]')]
+    const closeControls = [...menu.querySelectorAll('[data-motion-menu-close]')]
     if (!trigger || !panel) return () => {}
+
+    const authored = {
+      hidden: panel.hidden,
+      ariaHidden: panel.getAttribute('aria-hidden'),
+      ariaExpanded: trigger.getAttribute('aria-expanded'),
+      state: menu.dataset.state,
+    }
 
     let open = false
     const timeline = gsap.timeline({ paused: true })
@@ -24,18 +32,25 @@ export function createMenus({ gsap, root, reduced }) {
         ease: 'power3.out',
       }, reduced ? 0 : '-=0.2')
 
-    const setOpen = (next) => {
+    const setOpen = (next, options = {}) => {
+      if (next === open) return
+      const { restoreFocus = true } = options
       open = next
-      menu.dataset.state = open ? 'open' : 'closed'
       trigger.setAttribute('aria-expanded', String(open))
       panel.setAttribute('aria-hidden', String(!open))
-      document.documentElement.toggleAttribute('data-sf-scroll-locked', open)
+      ownerDocument.documentElement.toggleAttribute('data-motion-scroll-locked', open)
 
       if (open) {
         panel.hidden = false
         menu.dataset.state = 'open'
+        // Focus once the entrance has finished. The items animate from
+        // autoAlpha 0, which is visibility:hidden, and a hidden element cannot
+        // take focus -- focusing on a timer silently did nothing.
+        timeline.eventCallback('onComplete', () => {
+          if (!open) return
+          getFocusable(panel)[0]?.focus({ preventScroll: true })
+        })
         timeline.play(0)
-        window.setTimeout(() => getFocusable(panel)[0]?.focus({ preventScroll: true }), reduced ? 0 : 180)
       } else {
         menu.dataset.state = 'closing'
         timeline.eventCallback('onReverseComplete', () => {
@@ -43,12 +58,20 @@ export function createMenus({ gsap, root, reduced }) {
           menu.dataset.state = 'closed'
         })
         timeline.reverse()
-        trigger.focus({ preventScroll: true })
+        // Only pull focus back when the menu owned it; a route change or an
+        // outside click must not steal focus from wherever the user moved to.
+        if (restoreFocus && panel.contains(ownerDocument.activeElement)) {
+          trigger.focus({ preventScroll: true })
+        }
       }
     }
 
     const onClick = () => setOpen(!open)
     const onClose = () => setOpen(false)
+    const onPointerDown = (event) => {
+      if (!open || menu.contains(event.target)) return
+      setOpen(false, { restoreFocus: false })
+    }
     const onKeydown = (event) => {
       if (event.key === 'Escape' && open) setOpen(false)
       if (event.key !== 'Tab' || !open) return
@@ -56,10 +79,10 @@ export function createMenus({ gsap, root, reduced }) {
       const focusable = getFocusable(panel)
       const first = focusable[0]
       const last = focusable.at(-1)
-      if (event.shiftKey && document.activeElement === first) {
+      if (event.shiftKey && ownerDocument.activeElement === first) {
         event.preventDefault()
         last?.focus()
-      } else if (!event.shiftKey && document.activeElement === last) {
+      } else if (!event.shiftKey && ownerDocument.activeElement === last) {
         event.preventDefault()
         first?.focus()
       }
@@ -67,7 +90,8 @@ export function createMenus({ gsap, root, reduced }) {
 
     trigger.addEventListener('click', onClick)
     closeControls.forEach((control) => control.addEventListener('click', onClose))
-    document.addEventListener('keydown', onKeydown)
+    ownerDocument.addEventListener('keydown', onKeydown)
+    ownerDocument.addEventListener('pointerdown', onPointerDown)
     menu.dataset.state = 'closed'
     panel.hidden = true
     trigger.setAttribute('aria-expanded', 'false')
@@ -76,8 +100,21 @@ export function createMenus({ gsap, root, reduced }) {
     return () => {
       trigger.removeEventListener('click', onClick)
       closeControls.forEach((control) => control.removeEventListener('click', onClose))
-      document.removeEventListener('keydown', onKeydown)
+      ownerDocument.removeEventListener('keydown', onKeydown)
+      ownerDocument.removeEventListener('pointerdown', onPointerDown)
+      ownerDocument.documentElement.removeAttribute('data-motion-scroll-locked')
+      timeline.revert?.()
       timeline.kill()
+
+      // Restore the authored markup rather than forcing the panel open. A
+      // destroyed runtime must never leave an expanded menu on the page.
+      if (authored.state === undefined) delete menu.dataset.state
+      else menu.dataset.state = authored.state
+      panel.hidden = authored.hidden
+      if (authored.ariaHidden === null) panel.removeAttribute('aria-hidden')
+      else panel.setAttribute('aria-hidden', authored.ariaHidden)
+      if (authored.ariaExpanded === null) trigger.removeAttribute('aria-expanded')
+      else trigger.setAttribute('aria-expanded', authored.ariaExpanded)
     }
   })
 }

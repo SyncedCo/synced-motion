@@ -3,20 +3,21 @@ import { numberAttribute } from '../core/options.js'
 export function createMediaExpansions({ gsap, root, debug, reduced }) {
   if (reduced) return []
 
-  return [...root.querySelectorAll('[data-sf-media-expand]')].map((scene) => {
-    const frame = scene.querySelector('[data-sf-media-expand-frame]')
+  return [...root.querySelectorAll('[data-motion-media-expand]')].map((scene) => {
+    const frame = scene.querySelector('[data-motion-media-expand-frame]')
     const image = frame?.querySelector('img')
-    const prompt = scene.querySelector('[data-sf-media-expand-prompt]')
-    const caption = scene.querySelector('[data-sf-media-expand-caption]')
-    const startLabel = scene.querySelector('[data-sf-media-expand-label="start"]')
-    const endLabel = scene.querySelector('[data-sf-media-expand-label="end"]')
+    const prompt = scene.querySelector('[data-motion-media-expand-prompt]')
+    const caption = scene.querySelector('[data-motion-media-expand-caption]')
+    const startLabel = scene.querySelector('[data-motion-media-expand-label="start"]')
+    const endLabel = scene.querySelector('[data-motion-media-expand-label="end"]')
     if (!frame || !image || !prompt || !caption || !startLabel || !endLabel) return null
+    const view = scene.ownerDocument.defaultView
 
     const expansion = { progress: 0 }
     const syncExpansion = () => {
-      const width = window.innerWidth
-      const height = window.innerHeight
-      const rem = Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16
+      const width = view.innerWidth
+      const height = view.innerHeight
+      const rem = Number.parseFloat(view.getComputedStyle(scene.ownerDocument.documentElement).fontSize) || 16
       const gap = rem * 0.75
       const horizontalInset = gsap.utils.interpolate(width * 0.466, rem, expansion.progress)
       const verticalInset = gsap.utils.interpolate(height * 0.478, rem, expansion.progress)
@@ -38,7 +39,7 @@ export function createMediaExpansions({ gsap, root, debug, reduced }) {
         trigger: scene,
         start: 'clamp(top top)',
         end: 'clamp(bottom bottom)',
-        scrub: numberAttribute(scene, 'data-sf-scrub', 0.8),
+        scrub: numberAttribute(scene, 'data-motion-scrub', 0.8),
         invalidateOnRefresh: true,
         markers: debug,
         onRefresh: syncExpansion,
@@ -56,7 +57,11 @@ export function createMediaExpansions({ gsap, root, debug, reduced }) {
 
     return () => {
       timeline.scrollTrigger?.kill()
+      timeline.revert?.()
       timeline.kill()
+      gsap.set([frame, image, prompt, caption, startLabel, endLabel], {
+        clearProps: 'transform,opacity,visibility,clipPath,left,right',
+      })
     }
   }).filter(Boolean)
 }

@@ -1,98 +1,64 @@
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SplitText } from 'gsap/SplitText'
 import { mergeOptions } from './core/options.js'
-import { createHoverMedia } from './patterns/hover-media.js'
-import { createFounderScenes } from './patterns/founder-scene.js'
-import { createExpandPanels } from './patterns/expand-panels.js'
-import { createMenus } from './patterns/menu.js'
-import { createMediaExpansions } from './patterns/media-expand.js'
-import { createMarquees } from './patterns/marquee.js'
-import { createParallax } from './patterns/parallax.js'
-import { createReveals } from './patterns/reveal.js'
-import { createScrollSteps } from './patterns/scroll-steps.js'
-import { createScrollExits } from './patterns/scroll-exit.js'
-import { createScrollDrifts } from './patterns/scroll-drift.js'
-import { createScrollStatements } from './patterns/scroll-statement.js'
-import { createStaggers } from './patterns/stagger.js'
-import { createSplitText } from './patterns/split-text.js'
+import { createDefaultMotionRuntime } from './default-runtime.js'
 import { createLenisAdapter } from './lenis.js'
 
-gsap.registerPlugin(ScrollTrigger, SplitText)
-
 export function createSyncedMotion(options = {}) {
-  if (typeof document === 'undefined') {
-    throw new Error('Synced Motion requires a browser document.')
-  }
+  if (typeof document === 'undefined') throw new Error('Synced Motion requires a browser document.')
 
   const settings = mergeOptions(options)
   const root = settings.root || document
-  const cleanups = []
-  const media = gsap.matchMedia()
-  let smoothScroll
-
-  media.add({
-    reduce: settings.reducedMotionQuery,
-    motion: '(prefers-reduced-motion: no-preference)',
-  }, (context) => {
-    const reduced = context.conditions.reduce
-    const shared = {
-      gsap,
-      ScrollTrigger,
-      SplitText,
-      root,
-      reduced,
-      debug: settings.debug,
-      revealStart: settings.revealStart,
-    }
-
-    createReveals(shared)
-    createFounderScenes(shared)
-    createSplitText(shared)
-    createStaggers(shared)
-    createParallax(shared)
-    createMediaExpansions(shared)
-    createScrollExits(shared)
-    createScrollDrifts(shared)
-    createScrollStatements(shared)
-    createScrollSteps(shared)
-    cleanups.push(
-      ...createHoverMedia(shared),
-      ...createExpandPanels(shared),
-      ...createMarquees(shared),
-      ...createMenus(shared),
-    )
-
-    root.documentElement?.toggleAttribute('data-sf-reduced-motion', reduced)
-    return () => cleanups.splice(0).forEach((cleanup) => cleanup?.())
+  const ownerDocument = root.nodeType === 9 ? root : root.ownerDocument
+  const view = ownerDocument.defaultView
+  const parameterOverrides = {
+    'reveal-rise': { start: settings.revealStart },
+    'reveal-stagger-cascade': { start: settings.revealStart },
+    'split-lines-rise': { start: settings.revealStart },
+    'split-words-cascade': { start: settings.revealStart },
+    ...settings.parameterOverrides,
+  }
+  const runtime = createDefaultMotionRuntime({
+    root,
+    debug: settings.debug,
+    reducedMotionQuery: settings.reducedMotionQuery,
+    reducedMotion: settings.reducedMotion,
+    parameterOverrides,
+    dependencies: settings.dependencies,
+    strict: settings.strict,
   })
 
-  if (settings.smoothScroll && !window.matchMedia(settings.reducedMotionQuery).matches) {
-    smoothScroll = createLenisAdapter({
-      gsap,
-      ScrollTrigger,
+  const systemReduced = Boolean(view?.matchMedia?.(settings.reducedMotionQuery).matches)
+  const smoothScroll = settings.smoothScroll && settings.reducedMotion !== 'reduce' && !systemReduced
+    ? createLenisAdapter({
+      gsap: runtime.gsap,
+      ScrollTrigger: runtime.ScrollTrigger,
       options: typeof settings.smoothScroll === 'object' ? settings.smoothScroll : {},
     })
+    : undefined
+
+  let destroyed = false
+  // Guarded so a font-loading or load event that resolves after teardown
+  // cannot refresh a destroyed runtime.
+  const refresh = () => {
+    if (destroyed) return
+    runtime.refresh()
   }
+  if (ownerDocument.fonts?.ready) ownerDocument.fonts.ready.then(refresh)
+  view?.addEventListener('load', refresh, { once: true })
 
-  document.documentElement.setAttribute('data-sf-motion', 'ready')
-
-  const refresh = () => ScrollTrigger.refresh()
-  if (document.fonts?.ready) document.fonts.ready.then(refresh)
-  window.addEventListener('load', refresh, { once: true })
-
-  return {
-    gsap,
-    ScrollTrigger,
+  return Object.freeze({
+    gsap: runtime.gsap,
+    ScrollTrigger: runtime.ScrollTrigger,
+    registry: runtime.registry,
     smoothScroll,
+    inspect: runtime.inspect,
+    mountRecipe: runtime.mountRecipe,
     refresh,
     destroy() {
-      window.removeEventListener('load', refresh)
+      destroyed = true
+      view?.removeEventListener('load', refresh)
       smoothScroll?.destroy()
-      media.revert()
-      document.documentElement.removeAttribute('data-sf-motion')
-      document.documentElement.removeAttribute('data-sf-reduced-motion')
-      document.documentElement.removeAttribute('data-sf-scroll-locked')
+      runtime.destroy()
+      ownerDocument.documentElement.removeAttribute('data-motion-scroll-locked')
     },
-  }
+  })
 }

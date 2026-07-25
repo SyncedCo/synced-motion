@@ -1,0 +1,12 @@
+import '../../src/synced-flow.css'
+import '../../src/styles.css'
+import './examples.css'
+import { createSyncedMotion } from '../../src/full.js'
+
+const motion = createSyncedMotion({ smoothScroll: true })
+
+if (import.meta.env.DEV) window.syncedMotion = motion
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => motion.destroy())
+}

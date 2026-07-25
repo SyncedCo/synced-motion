@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Browse and inspect all sixty production Synced Motion recipes." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%2350998f%22/></svg>" />
+    <title>Synced Motion recipe gallery</title>
+  </head>
+  <body>
+    <a class="sf-skip-link" href="#gallery-main">Skip to recipe gallery</a>
+    <div class="motion-gallery-shell">
+      <header class="motion-gallery-header">
+        <a class="sf-link-plain sf-text-h4" href="/">Synced Motion</a>
+        <nav class="motion-gallery-header__nav" aria-label="Gallery navigation">
+          <a class="sf-button" href="/examples/">View full-page examples</a>
+          <a class="sf-link-plain" href="/">Showcase</a>
+          <span class="sf-badge">60 recipes · 12 families</span>
+        </nav>
+      </header>
+      <main id="gallery-main" class="sf-container sf-container--wide motion-gallery-main">
+        <section class="sf-stack motion-gallery-intro" aria-labelledby="gallery-title">
+          <p class="sf-kicker">Local recipe laboratory</p>
+          <h1 id="gallery-title" class="sf-text-h1">Compose motion from a system, not snippets.</h1>
+          <p class="sf-text-lead sf-text-muted">Search the production catalog, inspect its contract, tune bounded parameters, and run one isolated recipe at a time.</p>
+          <a class="motion-gallery-featured sf-link-plain" href="/examples/">
+            <span class="sf-kicker">Start with the finished experience</span>
+            <strong>See recipes working together across three complete sites.</strong>
+            <span aria-hidden="true">Explore examples ↗</span>
+          </a>
+        </section>
+
+        <form id="gallery-filters" class="sf-filter-bar" role="search">
+          <label class="sf-field">
+            <span class="sf-label">Search recipes</span>
+            <input id="recipe-search" class="sf-input" name="q" type="search" placeholder="Try pinned, typography, route…" />
+          </label>
+          <label class="sf-field">
+            <span class="sf-label">Family</span>
+            <select id="family-filter" class="sf-select" name="family"><option value="">All families</option></select>
+          </label>
+          <label class="sf-field">
+            <span class="sf-label">Performance</span>
+            <select id="performance-filter" class="sf-select" name="performance">
+              <option value="">Any cost</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option>
+            </select>
+          </label>
+          <button class="sf-button sf-button--outline" type="reset">Reset</button>
+        </form>
+
+        <p id="recipe-count" class="sf-status" data-tone="info" data-dot="false" role="status" aria-live="polite"></p>
+        <div class="motion-gallery-workspace">
+          <section aria-labelledby="recipes-title">
+            <h2 id="recipes-title" class="sf-visually-hidden">Motion recipes</h2>
+            <div id="recipe-grid" class="sf-auto-grid motion-recipe-grid"></div>
+            <div id="recipe-empty" class="sf-empty-state" hidden>
+              <h3 class="sf-text-h3">No recipes match</h3><p>Clear a filter or try a broader motion intent.</p>
+            </div>
+          </section>
+          <aside id="recipe-inspector" class="sf-card motion-inspector" aria-labelledby="inspector-title">
+            <div class="sf-stack">
+              <p class="sf-kicker">Inspector</p>
+              <h2 id="inspector-title" class="sf-text-h2" tabindex="-1">Choose a recipe</h2>
+              <p>Select any catalog card to inspect its live fixture, semantic contract, fallbacks, and integration code.</p>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <noscript><div class="sf-alert">The catalog needs JavaScript for filtering and previews. Read <code>docs/RECIPES.md</code> in this project, or run <code>synced-motion catalog --json</code> locally for the complete recipe contract.</div></noscript>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

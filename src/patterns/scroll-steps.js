@@ -2,15 +2,15 @@ import { clampIndex } from '../core/options.js'
 import { setActiveState } from '../core/state.js'
 
 export function createScrollSteps({ ScrollTrigger, root, debug, reduced }) {
-  return [...root.querySelectorAll('[data-sf-scroll-steps]')].map((scene) => {
-    const links = [...scene.querySelectorAll('[data-sf-step-link]')]
-    const panels = [...scene.querySelectorAll('[data-sf-step-panel]')]
-    const pin = scene.querySelector('[data-sf-pin-target]')
+  return [...root.querySelectorAll('[data-motion-scroll-steps]')].map((scene) => {
+    const links = [...scene.querySelectorAll('[data-motion-step-link]')]
+    const panels = [...scene.querySelectorAll('[data-motion-step-panel]')]
+    const pin = scene.querySelector('[data-motion-pin-target]')
 
     const activate = (index) => {
       setActiveState(links, index, { ariaCurrent: true })
       setActiveState(panels, index)
-      scene.style.setProperty('--sf-motion-step', String(index))
+      scene.style.setProperty('--motion-step', String(index))
       scene.dispatchEvent(new CustomEvent('sfmotion:step', { detail: { index } }))
     }
 
@@ -19,10 +19,10 @@ export function createScrollSteps({ ScrollTrigger, root, debug, reduced }) {
 
     return ScrollTrigger.create({
       trigger: scene,
-      start: scene.dataset.sfStart || 'top top',
-      end: scene.dataset.sfEnd || 'bottom bottom',
+      start: scene.dataset.motionStart || 'top top',
+      end: scene.dataset.motionEnd || 'bottom bottom',
       pin: pin || false,
-      pinSpacing: scene.dataset.sfPinSpacing !== 'false',
+      pinSpacing: scene.dataset.motionPinSpacing !== 'false',
       scrub: true,
       markers: debug,
       onUpdate(self) {

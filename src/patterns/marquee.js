@@ -3,12 +3,12 @@ import { numberAttribute } from '../core/options.js'
 export function createMarquees({ gsap, root, reduced }) {
   if (reduced) return []
 
-  return [...root.querySelectorAll('[data-sf-marquee]')].map((marquee) => {
-    const track = [...marquee.children].find((child) => child.hasAttribute('data-sf-marquee-track'))
+  return [...root.querySelectorAll('[data-motion-marquee]')].map((marquee) => {
+    const track = [...marquee.children].find((child) => child.hasAttribute('data-motion-marquee-track'))
     if (!track) return null
 
-    const direction = marquee.getAttribute('data-sf-marquee-direction') === 'right' ? 1 : -1
-    const duration = Math.max(0.1, numberAttribute(marquee, 'data-sf-marquee-duration', 28))
+    const direction = marquee.getAttribute('data-motion-marquee-direction') === 'right' ? 1 : -1
+    const duration = Math.max(0.1, numberAttribute(marquee, 'data-motion-marquee-duration', 28))
     const start = direction === 1 ? -50 : 0
     const end = direction === 1 ? 0 : -50
     const tween = gsap.fromTo(

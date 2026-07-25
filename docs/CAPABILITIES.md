@@ -1,6 +1,6 @@
 # Synced Motion capability blueprint
 
-Synced Motion reproduces the published-page capabilities that make Webflow useful for animated marketing sites, while keeping layout and visual identity inside Synced Flow.
+Synced Motion reproduces the published-page capabilities that make Webflow useful for animated marketing sites, while keeping layout and visual identity in whatever design system the project already uses.
 
 It is not intended to recreate Webflow's hosted visual Designer, billing platform, hosting, or collaborative SaaS interface.
 
@@ -8,7 +8,7 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 
 | Concern | Owner |
 |---|---|
-| Fluid layout, typography, spacing, colors | Synced Flow |
+| Fluid layout, typography, spacing, colors | The consuming design system (Synced Flow is one option) |
 | Semantic application state | Consuming application |
 | Timed animation and sequencing | GSAP through Synced Motion |
 | Scroll progress, pinning, scrub and triggers | ScrollTrigger |
@@ -26,14 +26,14 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 | Responsive breakpoints | Fluid values, intrinsic layout and container queries |
 | Components | Semantic templates or framework components |
 | Interaction timeline | GSAP timelines and reusable patterns |
-| Scroll reveals | `data-sf-reveal` and ScrollTrigger |
-| Stagger sequences | `data-sf-stagger` |
+| Scroll reveals | `data-motion-reveal` and ScrollTrigger |
+| Stagger sequences | `data-motion-stagger` |
 | Scroll-linked motion | ScrollTrigger scrub patterns |
-| Pinned storytelling | `data-sf-scroll-steps` and `data-sf-pin-target` |
-| Hover-driven imagery | `data-sf-hover-group` |
-| Menus and overlays | Accessible `data-sf-menu` controller |
+| Pinned storytelling | `data-motion-scroll-steps` and `data-motion-pin-target` |
+| Hover-driven imagery | `data-motion-hover-group` |
+| Menus and overlays | Accessible `data-motion-menu` controller |
 | Smooth scrolling | Optional Lenis adapter |
-| Interaction element IDs | Readable semantic `data-sf-*` hooks |
+| Interaction element IDs | Readable semantic `data-motion-*` hooks |
 | CMS Collections | JSON, Markdown or a headless CMS |
 | Collection pages | Reusable application templates |
 | Conditional visibility | Component or template logic |
@@ -60,7 +60,7 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 - cleanup for page transitions and hot reload;
 - Synced Flow semantic color integration.
 
-## Planned expansion
+## Production 1.0 expansion
 
 - horizontal scroll galleries;
 - clip-path and mask transitions;
@@ -68,9 +68,9 @@ It is not intended to recreate Webflow's hosted visual Designer, billing platfor
 - SVG drawing and morphing recipes;
 - FLIP-powered layout transitions;
 - route transition adapters;
-- framework adapters for React, Vue and Svelte;
-- a recipe catalog and scaffolding CLI;
-- visual debug overlays and performance budgets;
+- framework adapters for React, Vue, Svelte, Astro, and WordPress;
+- a sixty-recipe catalog, project scaffolding CLI, and local stdio MCP server;
+- a local gallery, inspector diagnostics, and performance metadata;
 - CMS and localization integration examples.
 
 ## Design rule

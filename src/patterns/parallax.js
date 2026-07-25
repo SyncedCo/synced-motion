@@ -3,8 +3,8 @@ import { numberAttribute } from '../core/options.js'
 export function createParallax({ gsap, root, debug, reduced }) {
   if (reduced) return []
 
-  return [...root.querySelectorAll('[data-sf-parallax]')].map((element) => {
-    const distance = numberAttribute(element, 'data-sf-parallax', 12)
+  return [...root.querySelectorAll('[data-motion-parallax]')].map((element) => {
+    const distance = numberAttribute(element, 'data-motion-parallax', 12)
 
     return gsap.fromTo(
       element,
@@ -13,10 +13,10 @@ export function createParallax({ gsap, root, debug, reduced }) {
         yPercent: distance,
         ease: 'none',
         scrollTrigger: {
-          trigger: element.closest('[data-sf-parallax-scene]') || element,
+          trigger: element.closest('[data-motion-parallax-scene]') || element,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: numberAttribute(element, 'data-sf-scrub', 0.6),
+          scrub: numberAttribute(element, 'data-motion-scrub', 0.6),
           markers: debug,
         },
       },

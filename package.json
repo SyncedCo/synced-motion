@@ -1,33 +1,99 @@
 {
   "name": "@syncedco/motion",
-  "version": "0.1.0",
-  "description": "A semantic GSAP and Lenis motion toolkit designed to complement Synced Flow.",
+  "version": "1.0.0",
+  "description": "Accessible, framework-neutral scroll and interaction animation for the web. Sixty validated GSAP recipes with reduced-motion, no-JS and cleanup behaviour built into the contract.",
   "type": "module",
+  "author": "Scott Mackey",
+  "homepage": "https://github.com/SyncedCo/synced-motion#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SyncedCo/synced-motion.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SyncedCo/synced-motion/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": [
-    "./src/styles.css"
+    "./dist/styles.css"
   ],
   "files": [
+    "bin",
     "dist",
+    "docs",
     "README.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "TRADEMARKS.md",
     "LICENSE"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "synced-motion": "./bin/synced-motion.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./full": {
+      "types": "./dist/full.d.ts",
+      "import": "./dist/full.js"
+    },
+    "./plugins": {
+      "types": "./dist/plugins.d.ts",
+      "import": "./dist/plugins.js"
+    },
+    "./recipes": {
+      "types": "./dist/recipes.d.ts",
+      "import": "./dist/recipes.js"
+    },
     "./styles.css": "./dist/styles.css",
     "./lenis": {
       "types": "./dist/lenis.d.ts",
       "import": "./dist/lenis.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp.d.ts",
+      "import": "./dist/mcp.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js"
+    },
+    "./vue": {
+      "types": "./dist/vue.d.ts",
+      "import": "./dist/vue.js"
+    },
+    "./svelte": {
+      "types": "./dist/svelte.d.ts",
+      "import": "./dist/svelte.js"
+    },
+    "./astro": {
+      "types": "./dist/astro.d.ts",
+      "import": "./dist/astro.js"
+    },
+    "./wordpress": {
+      "types": "./dist/wordpress.d.ts",
+      "import": "./dist/wordpress.js"
     }
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node scripts/copy-declarations.mjs",
     "dev": "vite example",
+    "gallery": "vite example --open /gallery/",
+    "cli": "node ./bin/synced-motion.mjs",
+    "mcp": "node ./bin/synced-motion.mjs mcp",
+    "motion:validate": "node ./bin/synced-motion.mjs validate",
+    "motion:doctor": "node ./bin/synced-motion.mjs doctor",
+    "motion:mcp": "node ./bin/synced-motion.mjs mcp",
+    "mcp:check": "node scripts/check-mcp.mjs",
     "flow:build": "synced-flow build",
     "flow:check": "synced-flow build --check",
     "flow:lint": "synced-flow lint",
@@ -35,8 +101,15 @@
     "flow:watch": "synced-flow watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:browser": "playwright test",
+    "test:browser:ui": "playwright test --ui",
     "units:check": "node scripts/check-units.mjs",
-    "check": "npm run flow:check && npm run flow:lint && npm run units:check && npm run test && npm run build",
+    "types:check": "node scripts/check-declarations.mjs",
+    "size:check": "node scripts/check-size.mjs",
+    "docs:build": "node scripts/build-docs.mjs",
+    "docs:check": "node scripts/build-docs.mjs --check",
+    "gallery:build": "vite build --config example/gallery/vite.config.js",
+    "check": "npm run flow:check && npm run flow:lint && npm run flow:doctor && npm run units:check && npm run test && npm run build && npm run types:check && npm run size:check && npm run docs:check && npm run motion:validate && npm run motion:doctor && npm run mcp:check",
     "pack:check": "npm pack --dry-run"
   },
   "keywords": [
@@ -50,19 +123,40 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "gsap": ">=3.13.0"
+    "@gsap/react": ">=2.1.0",
+    "gsap": ">=3.13.0",
+    "react": ">=18.0.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@gsap/react": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
   },
   "dependencies": {
-    "lenis": "^1.3.25"
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "lenis": "^1.3.25",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@gsap/react": "^2.1.2",
+    "@playwright/test": "^1.62.0",
     "@syncedco/flow": "^0.3.2",
+    "axe-core": "^4.12.1",
     "gsap": "^3.15.0",
     "jsdom": "^29.1.1",
+    "react": "^19.2.7",
     "tsup": "^8.5.1",
     "typescript": "5.7.3",
     "vite": "^8.1.4",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "vue": "^3.5.40"
   },
   "engines": {
     "node": ">=20"
