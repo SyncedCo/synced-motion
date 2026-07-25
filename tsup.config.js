@@ -21,6 +21,11 @@ export default defineConfig({
   dts: false,
   clean: true,
   sourcemap: true,
+  // Keep the mappings so stack traces resolve, but drop the embedded copy of
+  // every source file: it was roughly half the published tarball.
+  esbuildOptions(options) {
+    options.sourcesContent = false
+  },
   external: [
     'gsap',
     'gsap/ScrollTrigger',
