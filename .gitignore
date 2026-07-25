@@ -18,3 +18,7 @@ output/
 *.png
 !docs/**/*.png
 !example/**/*.png
+
+# Claude Code local state; .claude/launch.json is shared and tracked
+.claude/*
+!.claude/launch.json
