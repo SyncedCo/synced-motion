@@ -4,13 +4,13 @@
   "description": "Accessible, framework-neutral scroll and interaction animation for the web. Sixty validated GSAP recipes with reduced-motion, no-JS and cleanup behaviour built into the contract.",
   "type": "module",
   "author": "Scott Mackey",
-  "homepage": "https://github.com/syncedco/synced-motion#readme",
+  "homepage": "https://github.com/SyncedCo/synced-motion#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/syncedco/synced-motion.git"
+    "url": "git+https://github.com/SyncedCo/synced-motion.git"
   },
   "bugs": {
-    "url": "https://github.com/syncedco/synced-motion/issues"
+    "url": "https://github.com/SyncedCo/synced-motion/issues"
   },
   "publishConfig": {
     "access": "public"
@@ -25,6 +25,10 @@
     "README.md",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "TRADEMARKS.md",
     "LICENSE"
   ],
   "main": "./dist/index.js",

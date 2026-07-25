@@ -261,11 +261,18 @@ npm run check          # design system, units, tests, build, types, budgets, doc
 npm run test:browser   # Playwright; run npx playwright install chromium first
 ```
 
-`npm run check` is the same gate CI runs. See [CONTRIBUTING.md](CONTRIBUTING.md).
+`npm run check` is the same gate CI runs. See [CONTRIBUTING.md](CONTRIBUTING.md)
+and the [code of conduct](CODE_OF_CONDUCT.md).
+
+- [Support](SUPPORT.md) — where to ask, and what to include
+- [Security policy](SECURITY.md) — please don't file vulnerabilities publicly
+- [Trademarks](TRADEMARKS.md) — the licence covers the code, not the branding
 
 ## Scope
 
 This recreates the published-page capabilities an expressive marketing site
 needs. It is not a hosted visual editor, a CMS, or a hosting product.
 
-MIT licensed.
+## Licence
+
+MIT © SyncedCo Limited. Maintained by [SyncedCo](https://syncedco.com).

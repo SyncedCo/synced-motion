@@ -1,5 +1,10 @@
 # Contributing
 
+Thanks for considering a contribution. By taking part you agree to the
+[code of conduct](CODE_OF_CONDUCT.md). For vulnerabilities, follow the
+[security policy](SECURITY.md) rather than opening an issue. For questions and
+bug reports, see [support](SUPPORT.md).
+
 ## Setup
 
 ```bash
