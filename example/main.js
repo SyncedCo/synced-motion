@@ -1,7 +1,7 @@
 import '../src/synced-flow.css'
 import '../src/styles.css'
 import './showcase.css'
-import { createSyncedMotion } from '../src/index.js'
+import { createSyncedMotion } from '../src/full.js'
 
 const motion = createSyncedMotion({ smoothScroll: true })
 

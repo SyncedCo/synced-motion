@@ -1,5 +1,6 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { normalizeMotionAliases } from './core/aliases.js'
 import { compileMotionRecipe } from './recipes/compiler.js'
 import { createMotionRegistry } from './recipes/registry.js'
 
@@ -145,6 +146,9 @@ export function createMotionRuntime(options = {}) {
     const recipe = registry.get(id)
     if (!recipe) throw new Error(`Unknown motion recipe "${id}".`)
     const compiled = compileMotionRecipe(recipe)
+    // A caller-supplied root may be markup added after mount(), so give it the
+    // same data-motion-* to data-sf-* normalisation the initial pass performs.
+    if (mountRoot) cleanup.add(normalizeMotionAliases(mountRoot))
     if (mountRoot) {
       const contained = root.nodeType === 9
         ? root.documentElement.contains(mountRoot)
@@ -172,6 +176,7 @@ export function createMotionRuntime(options = {}) {
         reduced = options.reducedMotion === 'reduce' || Boolean(context.conditions.reduce)
         rootElement?.toggleAttribute('data-sf-reduced-motion', reduced)
         try {
+          cleanup.add(normalizeMotionAliases(root))
           for (const recipe of registry.list()) mountRecipe(recipe.id, undefined, options.parameterOverrides?.[recipe.id])
         } catch (error) {
           teardownMounted()

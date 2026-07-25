@@ -96,6 +96,8 @@
     "flow:watch": "synced-flow watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:browser": "playwright test",
+    "test:browser:ui": "playwright test --ui",
     "units:check": "node scripts/check-units.mjs",
     "types:check": "node scripts/check-declarations.mjs",
     "size:check": "node scripts/check-size.mjs",
@@ -136,6 +138,7 @@
   },
   "devDependencies": {
     "@gsap/react": "^2.1.2",
+    "@playwright/test": "^1.62.0",
     "@syncedco/flow": "^0.3.2",
     "axe-core": "^4.12.1",
     "gsap": "^3.15.0",

@@ -2,6 +2,7 @@ import '../../src/synced-flow.css'
 import '../../src/styles.css'
 import './preview.css'
 import { createBuiltinMotionRegistry, createMotionRuntime } from '../../src/index.js'
+import { motionPlugins } from '../../src/plugins.js'
 import { renderPreviewError } from './preview-dom.js'
 
 const query = new URLSearchParams(location.search)
@@ -30,6 +31,8 @@ try {
     recipes: [recipe],
     reducedMotion: query.get('reduced') === '1' ? 'reduce' : 'system',
     parameterOverrides: { [recipe.id]: parameters },
+    // The gallery previews every recipe, so it needs every optional plugin.
+    dependencies: motionPlugins,
   })
   const diagnostics = runtime.inspect()
   const message = diagnostics.errors.length

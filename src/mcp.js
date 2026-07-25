@@ -2,6 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import * as z from 'zod/v4'
 import { createDefaultMotionService } from './default-service.js'
+import { packageVersion } from './version.js'
 
 function response(value, arrayKey = 'items') {
   return {
@@ -27,7 +28,7 @@ export function createMotionToolHandlers(service = createDefaultMotionService())
 }
 
 export function createMotionMcpServer({ service = createDefaultMotionService() } = {}) {
-  const server = new McpServer({ name: 'synced-motion', version: '1.0.0' })
+  const server = new McpServer({ name: 'synced-motion', version: packageVersion })
   const handlers = createMotionToolHandlers(service)
 
   server.registerTool('motion_catalog', {

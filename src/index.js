@@ -19,6 +19,12 @@ export { createMotionService } from './services/motion-service.js'
 export { createDefaultMotionService } from './default-service.js'
 export { coerceMotionParameter, createMotionInspector, filterMotionCatalog } from './inspector.js'
 export { clampIndex, defaults } from './core/options.js'
+export {
+  CANONICAL_ATTRIBUTE_PREFIX,
+  LEGACY_ATTRIBUTE_PREFIX,
+  canonicalSelector,
+  normalizeMotionAliases,
+} from './core/aliases.js'
 export { setActiveState } from './core/state.js'
 export { createExpandPanels } from './patterns/expand-panels.js'
 export { createFounderScenes } from './patterns/founder-scene.js'

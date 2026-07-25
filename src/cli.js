@@ -1,5 +1,7 @@
 import { createDefaultMotionService } from './default-service.js'
 import { readFileSync } from 'node:fs'
+import { canonicalSelector } from './core/aliases.js'
+import { packageVersion } from './version.js'
 import {
   applyMotionProjectSetup,
   doctorMotionProject,
@@ -26,22 +28,115 @@ function parseArguments(args) {
   return { positional, options }
 }
 
-function help() {
-  return `Synced Motion
+const COMMANDS = {
+  add: {
+    usage: 'synced-motion add <id...> [--legacy-prefix] [--json]',
+    summary: 'Print ready-to-paste markup for one or more recipes.',
+    detail: `Emits the semantic markup a recipe needs, including every required
+slot, using the documented data-motion-* attributes.
+
+  synced-motion add reveal-rise
+  synced-motion add pinned-steps marquee > partials/motion.html
+  synced-motion add reveal-rise --legacy-prefix   # emit data-sf-* instead`,
+  },
+  catalog: {
+    usage: 'synced-motion catalog [--json]',
+    summary: 'List every registered recipe.',
+  },
+  recipe: {
+    usage: 'synced-motion recipe <id> [--json]',
+    summary: 'Show one recipe manifest: slots, parameters, fallbacks, performance.',
+  },
+  suggest: {
+    usage: 'synced-motion suggest "<brief>" [--limit <number>] [--json]',
+    summary: 'Rank recipes against a natural-language brief.',
+  },
+  plan: {
+    usage: 'synced-motion plan <id...> [--json]',
+    summary: 'Produce a deterministic integration plan for chosen recipes.',
+  },
+  scan: {
+    usage: 'synced-motion scan --file <path> [--json]',
+    summary: 'Find recipe roots in existing markup and report missing slots.',
+  },
+  compose: {
+    usage: 'synced-motion compose "<brief>" [--file <path>] [--json]',
+    summary: 'Combine suggest, plan and scan into one constrained proposal.',
+  },
+  validate: {
+    usage: 'synced-motion validate [--file <recipe.json>] [--json]',
+    summary: 'Validate the built-in registry or one custom recipe.',
+  },
+  doctor: {
+    usage: 'synced-motion doctor [--json]',
+    summary: 'Check project wiring and agent guidance.',
+  },
+  init: {
+    usage: 'synced-motion init [--agents] [--dry-run] [--json]',
+    summary: 'Set up Synced Motion in the current project.',
+  },
+  agents: {
+    usage: 'synced-motion agents install|status [--dry-run] [--json]',
+    summary: 'Install or inspect agent guidance in AGENTS.md.',
+  },
+  mcp: {
+    usage: 'synced-motion mcp',
+    summary: 'Start the local stdio MCP server.',
+  },
+}
+
+function help(command) {
+  const entry = COMMANDS[command]
+  if (entry) {
+    return `${entry.summary}\n\nUsage:\n  ${entry.usage}\n${entry.detail ? `\n${entry.detail}\n` : ''}`
+  }
+
+  const width = Math.max(...Object.keys(COMMANDS).map((name) => name.length))
+  const lines = Object.entries(COMMANDS)
+    .map(([name, meta]) => `  ${name.padEnd(width)}  ${meta.summary}`)
+    .join('\n')
+  return `Synced Motion ${packageVersion}
+
+Usage:
+  synced-motion <command> [options]
 
 Commands:
-  synced-motion catalog [--json]
-  synced-motion recipe <id> [--json]
-  synced-motion suggest "<brief>" [--limit <number>] [--json]
-  synced-motion plan <id...> [--json]
-  synced-motion scan --file <path> [--json]
-  synced-motion compose "<brief>" [--file <path>] [--json]
-  synced-motion validate [--file <recipe.json>] [--json]
-  synced-motion doctor [--json]
-  synced-motion init [--agents] [--dry-run] [--json]
-  synced-motion agents install|status [--dry-run] [--json]
-  synced-motion mcp
+${lines}
+
+Options:
+  --json        Machine-readable output.
+  --help, -h    Show help. Follows a command for detailed help.
+  --version, -v Print the package version.
+
+Run "synced-motion <command> --help" for details on a single command.
 `
+}
+
+/** Indent-aware markup emitter for `synced-motion add`. */
+function markupForRecipe(recipe, { legacyPrefix = false } = {}) {
+  const attribute = (selector) => {
+    const canonical = legacyPrefix ? selector : canonicalSelector(selector)
+    return canonical.replace(/^\[/, '').replace(/\]$/, '')
+  }
+  const slots = recipe.slots.filter((slot) => slot.name !== 'root')
+  const children = slots.flatMap((slot) => {
+    const count = slot.multiple ? 2 : 1
+    return Array.from({ length: count }, (_, index) => {
+      const label = slot.multiple ? `${slot.name} ${index + 1}` : slot.name
+      const optional = slot.required === false ? '  <!-- optional -->' : ''
+      return `  <div ${attribute(slot.selector)}>${label}</div>${optional}`
+    })
+  })
+
+  const header = [
+    `<!-- ${recipe.id}: ${recipe.intent} -->`,
+    `<!-- reduced motion: ${recipe.reducedMotion.strategy} | without JavaScript: ${recipe.noJs.behavior} -->`,
+  ]
+  const open = `<section ${attribute(recipe.root.selector)}>`
+  // A recipe with no child slots animates its root, so give it readable content
+  // rather than emitting an empty element the author has to guess at.
+  const body = children.length ? children : ['  Replace this with the content you want to animate.']
+  return [...header, open, ...body, '</section>'].join('\n')
 }
 
 function formatText(command, result) {
@@ -62,7 +157,15 @@ export async function runMotionCli(args = process.argv.slice(2), io = console, s
   let result
 
   if (command === 'help' || command === '--help' || command === '-h') {
-    io.log(help())
+    io.log(help(positional[0]))
+    return { code: 0 }
+  }
+  if (command === '--version' || command === '-v' || command === 'version') {
+    io.log(packageVersion)
+    return { code: 0 }
+  }
+  if (options.help === true || options.h === true) {
+    io.log(help(command))
     return { code: 0 }
   }
   const readFile = (path) => {
@@ -71,6 +174,40 @@ export async function runMotionCli(args = process.argv.slice(2), io = console, s
       io.error(`Unable to read "${path}": ${error.message}`)
       return undefined
     }
+  }
+
+  if (command === 'add') {
+    if (!positional.length) {
+      io.error('Pass one or more recipe ids, for example: synced-motion add reveal-rise')
+      return { code: 1 }
+    }
+    const recipes = []
+    for (const id of positional) {
+      const recipe = service.recipe(id)
+      if (!recipe) {
+        io.error(`Unknown motion recipe "${id}". Run "synced-motion catalog" to list every id.`)
+        return { code: 1 }
+      }
+      recipes.push(recipe)
+    }
+    const legacyPrefix = Boolean(options['legacy-prefix'])
+    const blocks = recipes.map((recipe) => ({
+      id: recipe.id,
+      dependencies: recipe.dependencies,
+      markup: markupForRecipe(recipe, { legacyPrefix }),
+    }))
+    if (options.json) {
+      io.log(JSON.stringify({ schemaVersion: '1', recipes: blocks }, null, 2))
+    } else {
+      io.log(blocks.map((block) => block.markup).join('\n\n'))
+      const plugins = [...new Set(blocks.flatMap((block) => block.dependencies))]
+        .filter((name) => name !== 'gsap' && name !== 'ScrollTrigger')
+      if (plugins.length) {
+        io.error(`\nNeeds optional GSAP plugins: ${plugins.join(', ')}.`)
+        io.error('Import from "@syncedco/motion/full", or pass them via { dependencies }.')
+      }
+    }
+    return { code: 0 }
   }
 
   if (command === 'catalog') result = service.catalog()

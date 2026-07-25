@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Synced Motion browser harness</title>
+    <style>
+      body { margin: 0; font-family: system-ui, sans-serif; }
+      /* Tall spacers so scroll-driven and pinned recipes have somewhere to go. */
+      .spacer { height: 150vh; }
+      #stage { min-height: 100vh; }
+    </style>
+  </head>
+  <body>
+    <div class="spacer" aria-hidden="true"></div>
+    <main id="stage"></main>
+    <div class="spacer" aria-hidden="true"></div>
+    <script type="module" src="./harness.js"></script>
+  </body>
+</html>

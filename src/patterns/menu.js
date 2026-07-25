@@ -3,7 +3,6 @@ import { getFocusable } from '../core/state.js'
 export function createMenus({ gsap, root, reduced }) {
   return [...root.querySelectorAll('[data-sf-menu]')].map((menu) => {
     const ownerDocument = menu.ownerDocument
-    const view = ownerDocument.defaultView
     const trigger = menu.querySelector('[data-sf-menu-trigger]')
     const panel = menu.querySelector('[data-sf-menu-panel]')
     const items = [...menu.querySelectorAll('[data-sf-menu-item]')]
@@ -18,7 +17,6 @@ export function createMenus({ gsap, root, reduced }) {
     }
 
     let open = false
-    let focusTimer
     const timeline = gsap.timeline({ paused: true })
       .fromTo(panel, { autoAlpha: 0, yPercent: -4 }, {
         autoAlpha: 1,
@@ -45,11 +43,15 @@ export function createMenus({ gsap, root, reduced }) {
       if (open) {
         panel.hidden = false
         menu.dataset.state = 'open'
+        // Focus once the entrance has finished. The items animate from
+        // autoAlpha 0, which is visibility:hidden, and a hidden element cannot
+        // take focus -- focusing on a timer silently did nothing.
+        timeline.eventCallback('onComplete', () => {
+          if (!open) return
+          getFocusable(panel)[0]?.focus({ preventScroll: true })
+        })
         timeline.play(0)
-        focusTimer = view?.setTimeout(() => getFocusable(panel)[0]?.focus({ preventScroll: true }), reduced ? 0 : 180)
       } else {
-        if (focusTimer) view?.clearTimeout(focusTimer)
-        focusTimer = undefined
         menu.dataset.state = 'closing'
         timeline.eventCallback('onReverseComplete', () => {
           panel.hidden = true
@@ -96,7 +98,6 @@ export function createMenus({ gsap, root, reduced }) {
     panel.setAttribute('aria-hidden', 'true')
 
     return () => {
-      if (focusTimer) view?.clearTimeout(focusTimer)
       trigger.removeEventListener('click', onClick)
       closeControls.forEach((control) => control.removeEventListener('click', onClose))
       ownerDocument.removeEventListener('keydown', onKeydown)
