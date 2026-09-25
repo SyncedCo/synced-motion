@@ -7,7 +7,12 @@ behaviour, no-JavaScript fallbacks and deterministic cleanup are part of the
 contract instead of something you remember to add later.
 
 Framework-neutral. No jQuery, no page builder runtime, no generated class
-names. Works in plain HTML, React, Vue, Svelte, Astro and WordPress.
+names. Works in plain HTML, React, Vue, Svelte, Astro and WordPress, with any
+CSS, and [pairs naturally with Synced Flow](#pairs-well-with-synced-flow).
+
+**[See it live](https://syncedco.github.io/synced-motion/)** ·
+[Browse all sixty recipes](https://syncedco.github.io/synced-motion/gallery/) ·
+[Full-page examples](https://syncedco.github.io/synced-motion/examples/)
 
 ```bash
 npm install @syncedco/motion gsap
@@ -43,6 +48,34 @@ Don't know the attribute you need? Ask for it:
 ```bash
 npx synced-motion add reveal-rise
 ```
+
+### No build step
+
+For Webflow, a WordPress theme or a plain HTML page, load it from a CDN with an
+import map. Nothing to install.
+
+<!-- x-release-please-start-version -->
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/styles.css">
+<script type="importmap">
+  {
+    "imports": {
+      "@syncedco/motion": "https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/index.js",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3/index.js",
+      "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3/ScrollTrigger.js",
+      "lenis": "https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs"
+    }
+  }
+</script>
+<script type="module">
+  import { createSyncedMotion } from '@syncedco/motion'
+  createSyncedMotion()
+</script>
+```
+<!-- x-release-please-end -->
+
+Recipes that need an optional GSAP plugin are covered in
+[Framework and CMS integrations](docs/INTEGRATIONS.md#plain-html-webflow-and-no-build-sites).
 
 ## What makes it different
 
@@ -104,14 +137,13 @@ package as a consumer installs it.
 
 ## Browse the recipes
 
-```bash
-npm run gallery
-```
-
-Search all sixty, inspect their slots and fallbacks, tune bounded parameters,
-simulate reduced motion, and copy the markup. Or read
+**[Open the recipe gallery](https://syncedco.github.io/synced-motion/gallery/)**
+to search all sixty, inspect their slots and fallbacks, tune bounded
+parameters, simulate reduced motion, and copy the markup. Or read
 [the generated reference](docs/RECIPE-REFERENCE.md), which is produced from the
 registry so it cannot drift from the code.
+
+Working on this repository? `npm run gallery` runs the same gallery locally.
 
 ## Command line and agents
 
@@ -126,10 +158,13 @@ npx synced-motion scan --file src/page.html # find roots, report missing slots
 npx synced-motion compose "restrained but cinematic" --file src/page.html
 npx synced-motion doctor
 npx synced-motion mcp                       # local stdio MCP server
+npx synced-motion agents install --target all # AGENTS.md, CLAUDE.md, skill
 ```
 
 The MCP server is local and provider-agnostic. It uploads nothing and needs no
-account. See [CLI and MCP tools](docs/TOOLING.md).
+account. The package also ships an agent skill,
+`skills/synced-motion/SKILL.md`, that teaches an AI agent the recipes, the
+commands and the accessibility contract. See [CLI and MCP tools](docs/TOOLING.md).
 
 ## Frameworks and CMSs
 
@@ -148,7 +183,8 @@ small lifecycle adapters that keep their runtimes out of the core bundle. See
 ## Pairs well with Synced Flow
 
 Synced Motion works with any CSS — Tailwind, vanilla, CSS modules, your own
-design system. It has no dependency on Synced Flow and never will.
+design system. It has no dependency on [Synced Flow](https://docs.syncedflow.dev)
+and never will.
 
 That said, the two were built to the same rule, and it shows when you use them
 together: **Flow decides what things look like, Motion decides how they
@@ -178,8 +214,14 @@ know exactly which package is responsible for what. Motion toggles semantic
 state — `data-active`, `aria-current`, `aria-expanded` — and your CSS decides
 how that state looks, which is the same seam whether or not the CSS is Flow's.
 
-Keep brand tokens in `synced-flow.config.mjs`. This repository's showcase is a
-worked example of the pairing; run `npm run dev` to see it.
+Both packages ship the same kind of AI tooling — a CLI with `--json` output, a
+packaged agent skill and project guidance for `AGENTS.md` — so an agent that
+knows one already knows how to drive the other. Run `synced-flow` commands for
+layout and styling, `synced-motion` commands for animation.
+
+Keep brand tokens in `synced-flow.config.mjs`. The
+[live showcase](https://syncedco.github.io/synced-motion/) is built with both,
+and so are the [full-page examples](https://syncedco.github.io/synced-motion/examples/).
 
 ## Writing your own recipe
 

@@ -90,3 +90,72 @@ document.dispatchEvent(new Event('motion:refresh'))
 
 Calling `motion.destroy()` removes these event listeners and destroys the
 active scoped runtime.
+
+## Plain HTML, Webflow and no-build sites
+
+No bundler is needed. An import map tells the browser where `gsap`, its
+plugins and `lenis` live, and the package loads straight from a CDN. This
+works in a Webflow custom-code embed, a WordPress theme `<head>`, or a static
+HTML page.
+
+The core covers every recipe that needs only ScrollTrigger:
+
+<!-- x-release-please-start-version -->
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/styles.css">
+<script type="importmap">
+  {
+    "imports": {
+      "@syncedco/motion": "https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/index.js",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3/index.js",
+      "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3/ScrollTrigger.js",
+      "lenis": "https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs"
+    }
+  }
+</script>
+<script type="module">
+  import { createSyncedMotion } from '@syncedco/motion'
+  createSyncedMotion()
+</script>
+```
+<!-- x-release-please-end -->
+
+For all sixty recipes, including split text, FLIP and SVG, use the `full`
+entry and map the optional GSAP plugins as well:
+
+<!-- x-release-please-start-version -->
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/styles.css">
+<script type="importmap">
+  {
+    "imports": {
+      "@syncedco/motion/full": "https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/full.js",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3/index.js",
+      "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3/ScrollTrigger.js",
+      "gsap/SplitText": "https://cdn.jsdelivr.net/npm/gsap@3/SplitText.js",
+      "gsap/Flip": "https://cdn.jsdelivr.net/npm/gsap@3/Flip.js",
+      "gsap/DrawSVGPlugin": "https://cdn.jsdelivr.net/npm/gsap@3/DrawSVGPlugin.js",
+      "gsap/MorphSVGPlugin": "https://cdn.jsdelivr.net/npm/gsap@3/MorphSVGPlugin.js",
+      "gsap/MotionPathPlugin": "https://cdn.jsdelivr.net/npm/gsap@3/MotionPathPlugin.js",
+      "lenis": "https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs"
+    }
+  }
+</script>
+<script type="module">
+  import { createSyncedMotion } from '@syncedco/motion/full'
+  createSyncedMotion()
+</script>
+```
+<!-- x-release-please-end -->
+
+Module scripts run after the document is parsed, so the snippet can sit in the
+`<head>`. A page may have only one import map, and it must come before the
+first module script. Keep an exact version in production URLs so an upgrade
+is always a deliberate change.
+
+Using Synced Flow too? Add its stylesheet before the Synced Motion one, then
+use `sf-*` classes and `data-motion-*` attributes on the same elements:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@syncedco/flow/styles.css">
+```
