@@ -36,6 +36,7 @@ Read the Synced Flow skill before generating UI:
 <!-- synced-motion:agent-guidance:start -->
 ## Synced Motion
 
+- Read the packaged skill first: node_modules/@syncedco/motion/skills/synced-motion/SKILL.md
 - Run `synced-motion catalog --json` before choosing motion recipes.
 - Use `synced-motion suggest "<brief>" --json` and `synced-motion plan <id...> --json` before writing animation code.
 - Prefer registered recipes and root-scoped semantic hooks over global selectors.

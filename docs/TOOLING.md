@@ -34,10 +34,33 @@ npx synced-motion --version
 - `validate` validates the active registry; pass `--file <recipe.json>` to validate a custom declarative recipe.
 - `doctor` checks that the registry and service are usable.
 - `init --agents` installs project config, scripts, and managed AI guidance.
-- `agents install|status` manages only the marked Synced Motion guidance block.
+- `agents install|status [--target <name>]` manages only the marked Synced
+  Motion guidance block, plus the agent skill where the target supports one.
+  Targets are `universal` (`AGENTS.md`, the default), `claude` (`CLAUDE.md`
+  and `.claude/skills/synced-motion/SKILL.md`) and `all`.
+- `skill` prints where the packaged agent skill lives and the core agent
+  commands.
 - `mcp` starts the project-local stdio MCP server.
 
-The 1.0 catalog contains sixty implemented and verified recipes: five recipes
+## Agent skill
+
+The package ships an agent skill at
+`node_modules/@syncedco/motion/skills/synced-motion/SKILL.md`. It tells an AI
+agent how to choose recipes, which commands to run, and the rules every recipe
+follows: reduced motion, no-JavaScript fallbacks, accessibility and cleanup.
+
+```bash
+npx synced-motion agents install                 # AGENTS.md guidance
+npx synced-motion agents install --target claude # Claude Code skill + CLAUDE.md
+npx synced-motion agents install --target all
+```
+
+The guidance block is marked, so running the command again updates it in place
+and leaves the rest of the file alone. It follows the same layout as Synced
+Flow's `synced-flow agents install`, so a project using both gets one section
+for each.
+
+The catalog contains sixty implemented and verified recipes: five recipes
 in each of twelve families. Placeholder or no-op entries are rejected from the
 launch catalog. The CLI, MCP server, public service, gallery, and inspector all
 read the same source registry.

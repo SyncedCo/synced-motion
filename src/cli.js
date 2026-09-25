@@ -1,11 +1,14 @@
 import { createDefaultMotionService } from './default-service.js'
 import { readFileSync } from 'node:fs'
+import { relative } from 'node:path'
 import { packageVersion } from './version.js'
 import {
   applyMotionProjectSetup,
   doctorMotionProject,
   motionAgentStatus,
+  packagedMotionSkillPath,
   planMotionProjectSetup,
+  resolveMotionAgentTargets,
 } from './project/setup.js'
 
 function parseArguments(args) {
@@ -70,12 +73,23 @@ slot, using the documented data-motion-* attributes.
     summary: 'Check project wiring and agent guidance.',
   },
   init: {
-    usage: 'synced-motion init [--agents] [--dry-run] [--json]',
+    usage: 'synced-motion init [--agents] [--target <name>] [--dry-run] [--json]',
     summary: 'Set up Synced Motion in the current project.',
   },
   agents: {
-    usage: 'synced-motion agents install|status [--dry-run] [--json]',
-    summary: 'Install or inspect agent guidance in AGENTS.md.',
+    usage: 'synced-motion agents install|status [--target <name>] [--dry-run] [--json]',
+    summary: 'Install or inspect AI agent guidance and the packaged skill.',
+    detail: `Targets:
+  universal  AGENTS.md (default; read by Codex, Cursor, Copilot and most agents)
+  claude     CLAUDE.md and .claude/skills/synced-motion/SKILL.md
+  all        every target
+
+  synced-motion agents install --target claude
+  synced-motion agents install --target all`,
+  },
+  skill: {
+    usage: 'synced-motion skill [--json]',
+    summary: 'Show the packaged AI agent skill and the core agent commands.',
   },
   mcp: {
     usage: 'synced-motion mcp',
@@ -142,6 +156,18 @@ function formatText(command, result) {
   if (command === 'scan') return result.recipes.length ? result.recipes.map((recipe) => `- ${recipe.id}: ${recipe.ready ? 'ready' : `missing ${recipe.missingSlots.join(', ')}`}`).join('\n') : 'No registered recipe hooks found.'
   if (command === 'compose') return `Motion composition\n${result.suggestions.map((entry) => `- ${entry.id}: ${entry.intent}`).join('\n')}${result.warnings.length ? `\nWarnings:\n${result.warnings.map((warning) => `- ${warning}`).join('\n')}` : ''}`
   if (command === 'validate') return result.ok ? 'pass recipe registry is valid.' : `fail ${JSON.stringify(result.issues)}`
+  if (command === 'agents') return Object.entries(result.targets).map(([name, ok]) => `${ok ? 'pass' : 'warn'} ${name}${ok ? '' : `: run synced-motion agents install --target ${name}`}`).join('\n')
+  if (command === 'skill') return `Synced Motion AI skill
+
+Skill file: ${result.path ? relative(process.cwd(), result.path) : 'missing from this install'}
+Use it to guide AI agents toward registered recipes, data-motion-* hooks, and the reduced-motion, no-JavaScript and cleanup contract.
+
+Project setup:
+  synced-motion agents install
+  synced-motion agents install --target all
+
+Core agent commands:
+${result.commands.map((entry) => `  ${entry}`).join('\n')}`
   if (command === 'doctor') return result.checks.map((check) => `${check.ok ? 'pass' : 'warn'} ${check.id}${check.fix ? `: ${check.fix}` : ''}`).join('\n')
   return String(result)
 }
@@ -265,16 +291,34 @@ export async function runMotionCli(args = process.argv.slice(2), io = console, s
     }
   } else if (command === 'doctor') {
     result = doctorMotionProject({ cwd: process.cwd(), service })
-  } else if (command === 'init') {
-    result = applyMotionProjectSetup(planMotionProjectSetup({ cwd: process.cwd(), agents: Boolean(options.agents) }), { dryRun: Boolean(options['dry-run']) })
-  } else if (command === 'agents') {
-    const action = positional[0] ?? 'status'
+  } else if (command === 'init' || command === 'agents') {
+    const { targets, unknown } = resolveMotionAgentTargets(options.target === undefined || options.target === true ? 'universal' : options.target)
+    if (unknown.length || !targets.length) {
+      io.error(`Unknown agent target "${unknown.join(', ') || options.target}". Use universal, claude or all.`)
+      return { code: 1 }
+    }
+    const action = command === 'init' ? 'install' : positional[0] ?? 'status'
+    const agents = command === 'agents' || Boolean(options.agents) || options.target !== undefined
     if (action === 'status') result = motionAgentStatus({ cwd: process.cwd() })
     else if (action === 'install') {
-      result = applyMotionProjectSetup(planMotionProjectSetup({ cwd: process.cwd(), agents: true }), { dryRun: Boolean(options['dry-run']) })
+      result = applyMotionProjectSetup(planMotionProjectSetup({ cwd: process.cwd(), agents, targets }), { dryRun: Boolean(options['dry-run']) })
     } else {
       io.error(`Unknown agents action "${action}". Use install or status.`)
       return { code: 1 }
+    }
+  } else if (command === 'skill') {
+    result = {
+      path: packagedMotionSkillPath(),
+      commands: [
+        'synced-motion catalog --json',
+        'synced-motion suggest "<brief>" --json',
+        'synced-motion plan <id...> --json',
+        'synced-motion add <id...>',
+        'synced-motion scan --file <path> --json',
+        'synced-motion validate',
+        'synced-motion doctor',
+        'synced-motion mcp',
+      ],
     }
   } else if (command === 'mcp') {
     const { startMotionMcpServer } = await import('./mcp.js')
@@ -285,7 +329,7 @@ export async function runMotionCli(args = process.argv.slice(2), io = console, s
     return { code: 1 }
   }
 
-  io.log(options.json ? JSON.stringify(result, null, 2) : (command === 'init' || command === 'agents')
+  io.log(options.json ? JSON.stringify(result, null, 2) : (command === 'init' || (command === 'agents' && positional[0] === 'install'))
     ? `${result.changed === false ? 'pass no changes required.' : `${result.dryRun ? 'planned' : 'updated'} ${result.writes?.length ?? 0} project files.`}`
     : formatText(command, result))
   return { code: result?.ok === false ? 1 : 0, result }

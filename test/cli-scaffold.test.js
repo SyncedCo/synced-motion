@@ -29,7 +29,7 @@ describe('synced-motion help', () => {
     await runMotionCli(['--help'], io)
     const text = out.join('\n')
 
-    for (const command of ['add', 'catalog', 'recipe', 'suggest', 'plan', 'scan', 'compose', 'validate', 'doctor', 'mcp']) {
+    for (const command of ['add', 'catalog', 'recipe', 'suggest', 'plan', 'scan', 'compose', 'validate', 'doctor', 'init', 'agents', 'skill', 'mcp']) {
       expect(text, command).toContain(command)
     }
   })

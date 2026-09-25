@@ -1,10 +1,10 @@
 {
   "name": "@syncedco/motion",
   "version": "0.1.0",
-  "description": "Accessible, framework-neutral scroll and interaction animation for the web. Sixty validated GSAP recipes with reduced-motion, no-JS and cleanup behaviour built into the contract.",
+  "description": "Accessible, framework-neutral scroll and interaction animation for the web. Sixty validated GSAP recipes with reduced-motion, no-JS and cleanup behaviour built into the contract, plus a CLI, MCP server and agent skill. Pairs with Synced Flow; works with any CSS.",
   "type": "module",
   "author": "Scott Mackey",
-  "homepage": "https://github.com/SyncedCo/synced-motion#readme",
+  "homepage": "https://syncedco.github.io/synced-motion/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SyncedCo/synced-motion.git"
@@ -22,6 +22,7 @@
     "bin",
     "dist",
     "docs",
+    "skills",
     "README.md",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
@@ -114,12 +115,25 @@
   },
   "keywords": [
     "animation",
+    "scroll-animation",
     "gsap",
     "scrolltrigger",
     "lenis",
-    "synced-flow",
     "motion",
-    "scroll-animation"
+    "accessibility",
+    "a11y",
+    "reduced-motion",
+    "no-js",
+    "ai",
+    "mcp",
+    "agents",
+    "react",
+    "vue",
+    "svelte",
+    "astro",
+    "wordpress",
+    "webflow",
+    "synced-flow"
   ],
   "license": "MIT",
   "peerDependencies": {

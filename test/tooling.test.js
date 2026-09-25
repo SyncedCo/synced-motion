@@ -11,7 +11,9 @@ import {
   applyMotionProjectSetup,
   doctorMotionProject,
   motionAgentStatus,
+  packagedMotionSkillPath,
   planMotionProjectSetup,
+  resolveMotionAgentTargets,
 } from '../src/project/setup.js'
 
 function capture() {
@@ -220,5 +222,54 @@ describe('project setup and agent guidance', () => {
     const result = applyMotionProjectSetup(plan, { dryRun: true })
     expect(result.changed).toBe(true)
     expect(() => readFileSync(join(cwd, 'synced-motion.config.mjs'))).toThrow()
+  })
+
+  it('resolves agent targets, expanding all and reporting unknown names', () => {
+    expect(resolveMotionAgentTargets()).toEqual({ targets: ['universal'], unknown: [] })
+    expect(resolveMotionAgentTargets('all')).toEqual({ targets: ['universal', 'claude'], unknown: [] })
+    expect(resolveMotionAgentTargets('claude, nope')).toEqual({ targets: ['claude'], unknown: ['nope'] })
+  })
+
+  it('installs the packaged skill and CLAUDE.md guidance for the claude target', () => {
+    const cwd = mkdtempSync(join(tmpdir(), 'synced-motion-'))
+    writeFileSync(join(cwd, 'package.json'), '{"name":"fixture"}\n')
+    writeFileSync(join(cwd, 'CLAUDE.md'), '# Existing Claude rules\n')
+
+    const plan = planMotionProjectSetup({ cwd, agents: true, targets: ['claude'] })
+    expect(plan.writes.map((write) => write.kind)).toEqual(expect.arrayContaining(['agents', 'skill']))
+    applyMotionProjectSetup(plan)
+
+    const skillPath = join(cwd, '.claude/skills/synced-motion/SKILL.md')
+    expect(readFileSync(skillPath, 'utf8')).toBe(readFileSync(packagedMotionSkillPath(), 'utf8'))
+    expect(readFileSync(join(cwd, 'CLAUDE.md'), 'utf8')).toContain('# Existing Claude rules')
+    expect(readFileSync(join(cwd, 'CLAUDE.md'), 'utf8')).toContain('skills/synced-motion/SKILL.md')
+    expect(motionAgentStatus({ cwd }).targets).toEqual({ universal: false, claude: true })
+    expect(doctorMotionProject({ cwd, service: createDefaultMotionService() }).ok).toBe(true)
+
+    // A second install is a no-op, so it is safe to run on every setup.
+    expect(planMotionProjectSetup({ cwd, agents: true, targets: ['claude'] }).writes).toEqual([])
+  })
+})
+
+describe('packaged agent skill', () => {
+  it('ships a skill with frontmatter that names the package', () => {
+    const skill = readFileSync(packagedMotionSkillPath(), 'utf8')
+    expect(skill).toMatch(/^---\nname: synced-motion\ndescription: .+\n---\n/)
+    expect(skill).toContain('synced-motion catalog --json')
+    expect(skill).toContain('Synced Flow')
+  })
+
+  it('is reported by the skill command', async () => {
+    const io = capture()
+    const result = await runMotionCli(['skill', '--json'], io)
+    expect(result.code).toBe(0)
+    expect(JSON.parse(io.log.mock.calls[0][0]).path).toBe(packagedMotionSkillPath())
+  })
+
+  it('rejects an unknown agent target', async () => {
+    const io = capture()
+    const result = await runMotionCli(['agents', 'install', '--target', 'nope'], io)
+    expect(result.code).toBe(1)
+    expect(io.error.mock.calls[0][0]).toContain('universal, claude or all')
   })
 })

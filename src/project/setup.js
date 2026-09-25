@@ -1,8 +1,36 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const AGENT_START = '<!-- synced-motion:agent-guidance:start -->'
 const AGENT_END = '<!-- synced-motion:agent-guidance:end -->'
+
+/** Where each agent target keeps its guidance, relative to the project. */
+export const MOTION_AGENT_TARGETS = {
+  universal: { guidance: 'AGENTS.md' },
+  claude: { guidance: 'CLAUDE.md', skill: '.claude/skills/synced-motion/SKILL.md' },
+}
+
+/** Expands `all` and comma-separated lists; returns unknown names separately. */
+export function resolveMotionAgentTargets(value = 'universal') {
+  const requested = String(value).split(',').map((entry) => entry.trim()).filter(Boolean)
+  const expanded = requested.flatMap((entry) => (entry === 'all' ? Object.keys(MOTION_AGENT_TARGETS) : [entry]))
+  const unique = [...new Set(expanded)]
+  return {
+    targets: unique.filter((entry) => entry in MOTION_AGENT_TARGETS),
+    unknown: unique.filter((entry) => !(entry in MOTION_AGENT_TARGETS)),
+  }
+}
+
+/** The agent skill shipped in the package, or undefined when it is missing. */
+export function packagedMotionSkillPath() {
+  // Resolves from both ./src/project (development) and ./dist (published).
+  for (const candidate of ['../skills/synced-motion/SKILL.md', '../../skills/synced-motion/SKILL.md']) {
+    const path = fileURLToPath(new URL(candidate, import.meta.url))
+    if (existsSync(path)) return path
+  }
+  return undefined
+}
 
 export const motionConfigTemplate = `export default {
   scan: ['src', 'app', 'pages', 'components', 'templates', 'parts'],
@@ -19,6 +47,7 @@ export const motionConfigTemplate = `export default {
 export const motionAgentGuidance = `${AGENT_START}
 ## Synced Motion
 
+- Read the packaged skill first: node_modules/@syncedco/motion/skills/synced-motion/SKILL.md
 - Run \`synced-motion catalog --json\` before choosing motion recipes.
 - Use \`synced-motion suggest "<brief>" --json\` and \`synced-motion plan <id...> --json\` before writing animation code.
 - Prefer registered recipes and root-scoped semantic hooks over global selectors.
@@ -46,7 +75,7 @@ function packageUpdate(existing) {
   return `${JSON.stringify(pkg, null, 2)}\n`
 }
 
-export function planMotionProjectSetup({ cwd = process.cwd(), agents = false } = {}) {
+export function planMotionProjectSetup({ cwd = process.cwd(), agents = false, targets = ['universal'] } = {}) {
   const writes = []
   const configPath = resolve(cwd, 'synced-motion.config.mjs')
   if (!existsSync(configPath)) writes.push({ path: configPath, content: motionConfigTemplate, kind: 'config' })
@@ -59,24 +88,51 @@ export function planMotionProjectSetup({ cwd = process.cwd(), agents = false } =
   }
 
   if (agents) {
-    const agentsPath = resolve(cwd, 'AGENTS.md')
-    const current = existsSync(agentsPath) ? readFileSync(agentsPath, 'utf8') : ''
-    const content = updateManagedSection(current, motionAgentGuidance)
-    if (content !== current) writes.push({ path: agentsPath, content, kind: 'agents' })
+    for (const target of targets) {
+      const { guidance, skill } = MOTION_AGENT_TARGETS[target]
+      const guidancePath = resolve(cwd, guidance)
+      const current = existsSync(guidancePath) ? readFileSync(guidancePath, 'utf8') : ''
+      const content = updateManagedSection(current, motionAgentGuidance)
+      if (content !== current) writes.push({ path: guidancePath, content, kind: 'agents' })
+
+      const source = skill && packagedMotionSkillPath()
+      if (source) {
+        const skillPath = resolve(cwd, skill)
+        const skillContent = readFileSync(source, 'utf8')
+        const existing = existsSync(skillPath) ? readFileSync(skillPath, 'utf8') : undefined
+        if (skillContent !== existing) writes.push({ path: skillPath, content: skillContent, kind: 'skill' })
+      }
+    }
   }
 
   return { cwd, writes }
 }
 
 export function applyMotionProjectSetup(plan, { dryRun = false } = {}) {
-  if (!dryRun) for (const write of plan.writes) writeFileSync(write.path, write.content)
+  if (!dryRun) {
+    for (const write of plan.writes) {
+      mkdirSync(dirname(write.path), { recursive: true })
+      writeFileSync(write.path, write.content)
+    }
+  }
   return { ...plan, dryRun, changed: plan.writes.length > 0 }
 }
 
 export function motionAgentStatus({ cwd = process.cwd() } = {}) {
-  const path = resolve(cwd, 'AGENTS.md')
-  const installed = existsSync(path) && readFileSync(path, 'utf8').includes(AGENT_START)
-  return { installed, path }
+  const hasGuidance = (file) => {
+    const path = resolve(cwd, file)
+    return existsSync(path) && readFileSync(path, 'utf8').includes(AGENT_START)
+  }
+  const targets = Object.fromEntries(Object.entries(MOTION_AGENT_TARGETS).map(([name, { guidance, skill }]) => [
+    name,
+    hasGuidance(guidance) && (!skill || existsSync(resolve(cwd, skill))),
+  ]))
+  return {
+    installed: Object.values(targets).some(Boolean),
+    path: resolve(cwd, 'AGENTS.md'),
+    targets,
+    skill: packagedMotionSkillPath(),
+  }
 }
 
 export function doctorMotionProject({ cwd = process.cwd(), service } = {}) {
