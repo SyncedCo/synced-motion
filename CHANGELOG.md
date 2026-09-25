@@ -15,6 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Bundle budgets** in `scripts/check-size.mjs` are part of the contract. They
   are raised deliberately, never quietly.
 
+## [0.2.0](https://github.com/SyncedCo/synced-motion/compare/v0.1.0...v0.2.0) (2026-09-25)
+
+
+### Features
+
+* ship an agent skill and install it per agent target ([48a5fcf](https://github.com/SyncedCo/synced-motion/commit/48a5fcf221ca8eb411c57f72db9ae54453da12ac))
+
+
+### Bug Fixes
+
+* **site:** publish every page and use relative links on GitHub Pages ([c1151ba](https://github.com/SyncedCo/synced-motion/commit/c1151bab0f15edc63397267059dee697e438d28d))
+
 ## [0.1.0] - 2026-09-25
 
 Initial release: the recipe schema, compiler, registry and runtime; sixty

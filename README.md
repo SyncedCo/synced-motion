@@ -56,11 +56,11 @@ import map. Nothing to install.
 
 <!-- x-release-please-start-version -->
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@syncedco/motion@0.2.0/dist/styles.css">
 <script type="importmap">
   {
     "imports": {
-      "@syncedco/motion": "https://cdn.jsdelivr.net/npm/@syncedco/motion@0.1.0/dist/index.js",
+      "@syncedco/motion": "https://cdn.jsdelivr.net/npm/@syncedco/motion@0.2.0/dist/index.js",
       "gsap": "https://cdn.jsdelivr.net/npm/gsap@3/index.js",
       "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3/ScrollTrigger.js",
       "lenis": "https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs"
