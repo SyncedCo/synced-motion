@@ -87,9 +87,10 @@ named exports. Comments explain why, not what.
 
 Do not commit, push, publish or deploy without approval. Releases are
 automated from [Conventional Commits](https://www.conventionalcommits.org/):
-`fix:` is a patch, `feat:` is a minor, and `feat!:` or a `BREAKING CHANGE:`
-footer is a major. Do not bump `package.json` or edit released `CHANGELOG.md`
-entries by hand.
+`fix:` is a patch and `feat:` is a minor. While the version is below 1.0.0, a
+breaking change (`feat!:` or a `BREAKING CHANGE:` footer) is also a minor; from
+1.0.0 it is a major. Do not bump `package.json` or edit released
+`CHANGELOG.md` entries by hand.
 
 Every push to `main` updates a release pull request with the next version and
 changelog. Merging it tags `vX.Y.Z`, creates the GitHub release, runs the full

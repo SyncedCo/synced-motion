@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Bundle budgets** in `scripts/check-size.mjs` are part of the contract. They
   are raised deliberately, never quietly.
 
-## [1.0.0] - 2026-09-25
+## [0.1.0] - 2026-09-25
 
 Initial release: the recipe schema, compiler, registry and runtime; sixty
 recipes across twelve families; the CLI and local MCP server; React, Vue,
