@@ -1,6 +1,6 @@
 {
   "name": "@syncedco/motion",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Accessible, framework-neutral scroll and interaction animation for the web. Sixty validated GSAP recipes with reduced-motion, no-JS and cleanup behaviour built into the contract, plus a CLI, MCP server and agent skill. Pairs with Synced Flow; works with any CSS.",
   "type": "module",
   "author": "Scott Mackey",
