@@ -1,39 +1,88 @@
 name: Release
 
+# Fully automated releases.
+#
+# 1. Every push to main updates a "chore(main): release X.Y.Z" pull request.
+#    release-please reads the Conventional Commit messages since the last
+#    release, picks the next semver version, bumps package.json and
+#    package-lock.json, and writes the CHANGELOG entry.
+# 2. Merging that pull request tags vX.Y.Z and creates the GitHub release.
+# 3. The publish job then runs the full gate and publishes to npm through
+#    trusted publishing (OIDC). There is no npm token anywhere.
+#
+# Tags pushed with GITHUB_TOKEN do not trigger other workflows, so publishing
+# must live in this workflow rather than behind a separate tag trigger.
+
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
-  id-token: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
-  publish:
+  release-please:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
 
+      # Trusted publishing needs npm 11.5.1 or later, which ships with Node 24.
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
           registry-url: https://registry.npmjs.org
 
       - run: npm ci
 
-      - run: npm run check
-
       - name: Verify the tag matches package.json
+        env:
+          TAG: ${{ needs.release-please.outputs.tag_name }}
         run: |
-          tag="${GITHUB_REF_NAME#v}"
+          tag="${TAG#v}"
           pkg="$(node -p "require('./package.json').version")"
           if [ "$tag" != "$pkg" ]; then
             echo "Tag $tag does not match package.json version $pkg" >&2
             exit 1
           fi
 
-      - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm run check
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - run: npm run test:browser
+
+      - name: Verify the published tarball
+        run: npm pack --dry-run
+
+      # Provenance is attached automatically under trusted publishing.
+      - run: npm publish --access public

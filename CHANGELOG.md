@@ -15,7 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Bundle budgets** in `scripts/check-size.mjs` are part of the contract. They
   are raised deliberately, never quietly.
 
-## [Unreleased]
+## [1.0.0] - 2026-09-25
+
+Initial release: the recipe schema, compiler, registry and runtime; sixty
+recipes across twelve families; the CLI and local MCP server; React, Vue,
+Svelte, Astro and WordPress adapters; and the recipe gallery.
+
+The notes below record what changed during pre-release hardening.
 
 ### Removed — breaking
 
@@ -98,9 +104,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Three recipes | 16.2 kB gzip | 5.8 kB gzip |
 | All sixty recipes | 25.4 kB gzip | 16.9 kB gzip |
 | GSAP plugins forced on consumers | 6 | 1 (ScrollTrigger) |
-
-## [1.0.0]
-
-Initial release: the recipe schema, compiler, registry and runtime; sixty
-recipes across twelve families; the CLI and local MCP server; React, Vue,
-Svelte, Astro and WordPress adapters; and the recipe gallery.
