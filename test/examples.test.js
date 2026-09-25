@@ -31,8 +31,8 @@ describe('full-page examples', () => {
     expect(page.querySelectorAll('h1')).toHaveLength(1)
     expect(page.querySelectorAll('main section').length).toBeGreaterThanOrEqual(4)
     expect(page.querySelector('a[href="../"]')?.textContent).toMatch(/examples/i)
-    expect(page.querySelector('a[href="/gallery/"]')).not.toBeNull()
-    expect(page.querySelector('a[href="/"]')).not.toBeNull()
+    expect(page.querySelector('a[href="../../gallery/"]')).not.toBeNull()
+    expect(page.querySelector('a[href="../../"]')).not.toBeNull()
     for (const recipe of recipes) expect(page.querySelector(`[${recipe}]`), recipe).not.toBeNull()
   })
 
@@ -68,8 +68,18 @@ describe('full-page examples', () => {
   it('makes complete examples prominent from the showcase and catalog', () => {
     const showcase = parse('example/index.html')
     const gallery = parse('example/gallery/index.html')
-    expect(showcase.querySelectorAll('a[href="/examples/"]').length).toBeGreaterThanOrEqual(2)
-    expect(gallery.querySelectorAll('a[href="/examples/"]').length).toBeGreaterThanOrEqual(2)
+    expect(showcase.querySelectorAll('a[href="examples/"]').length).toBeGreaterThanOrEqual(2)
+    expect(gallery.querySelectorAll('a[href="../examples/"]').length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('links between pages with relative paths so the hosted site works under any base', () => {
+    // The site is published under /synced-motion/ on GitHub Pages; a
+    // root-absolute href would point outside it and 404.
+    const pages = ['example/index.html', 'example/gallery/index.html', 'example/examples/index.html', ...exampleRoutes.map(({ file }) => file)]
+    for (const file of pages) {
+      const absolute = [...parse(file).querySelectorAll('a[href^="/"]')].map((link) => link.getAttribute('href'))
+      expect(absolute, file).toEqual([])
+    }
   })
 
   it('keeps the examples readable without script-authored content', () => {

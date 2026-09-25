@@ -1,9 +1,8 @@
 name: Gallery
 
-# Publishes the recipe gallery to GitHub Pages so the sixty recipes are
+# Publishes the showcase, the full-page examples and the recipe gallery to
+# GitHub Pages at https://syncedco.github.io/synced-motion/ so they are
 # browsable without cloning the repository.
-#
-# Enable once under Settings -> Pages -> Source: GitHub Actions.
 
 on:
   push:
